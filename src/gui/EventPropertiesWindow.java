@@ -55,15 +55,6 @@ public class EventPropertiesWindow extends JFrame {
 	private JTextField endDate; // TODO Replace with JCalendar date-picker.
 
 	/**
-	 * The event category field label.
-	 */
-	private JLabel categoryLabel;
-	/**
-	 * The event category field.
-	 */
-	private JTextField category;
-
-	/**
 	 * The comments field label.
 	 */
 	private JLabel commentLabel;
@@ -93,9 +84,9 @@ public class EventPropertiesWindow extends JFrame {
 	public EventPropertiesWindow(final TimelineMaker model) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Add Event");
-		
+
 		initComponents();
-		
+
 		// Define action for adding a new event.
 		okButton.addActionListener(new ActionListener() {
 			/**
@@ -106,7 +97,7 @@ public class EventPropertiesWindow extends JFrame {
 				final String type = EventPropertiesWindow.this.type.getSelectedItem().toString();
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
-				final String category = EventPropertiesWindow.this.category.getText();
+				final String category = ""; // TODO Update event creation.
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
@@ -118,10 +109,10 @@ public class EventPropertiesWindow extends JFrame {
 				dispose();
 			}
 		});
-		
+
 		initLayout();	
 	}
-	
+
 	/**
 	 * Constructor.
 	 * Constructor for editing an existing event.
@@ -131,9 +122,9 @@ public class EventPropertiesWindow extends JFrame {
 	public EventPropertiesWindow(final TimelineMaker model, final TLEvent event) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Edit Event Properties");
-		
+
 		initComponents();
-		
+
 		new Thread(new Runnable() {
 			/**
 			 * Load information from the event to be edited into the window.
@@ -175,7 +166,7 @@ public class EventPropertiesWindow extends JFrame {
 				final String type = EventPropertiesWindow.this.type.getSelectedItem().toString();
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
-				final String category = EventPropertiesWindow.this.category.getText();
+				final String category = ""; // TODO Update event editing.
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
@@ -187,7 +178,7 @@ public class EventPropertiesWindow extends JFrame {
 				dispose();
 			}
 		});
-		
+
 		initLayout();
 	}
 
@@ -206,9 +197,6 @@ public class EventPropertiesWindow extends JFrame {
 		startDate = new JTextField(10);
 		toLabel = new JLabel();
 		endDate = new JTextField(10);
-
-		categoryLabel = new JLabel();
-		category = new JTextField();
 
 		commentLabel = new JLabel();
 		comments = new JScrollPane();
@@ -242,8 +230,6 @@ public class EventPropertiesWindow extends JFrame {
 		toLabel.setText("to");
 		endDate.setText("yyyy-mm-dd");
 
-		categoryLabel.setText("Category");
-
 		commentLabel.setText("Comments");
 		commentsArea.setColumns(20);
 		commentsArea.setRows(5);
@@ -270,71 +256,63 @@ public class EventPropertiesWindow extends JFrame {
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(
-				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 								.addGroup(layout.createSequentialGroup()
-										.addComponent(typeLabel)
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addGroup(layout.createSequentialGroup()
-												.addComponent(dateLabel)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(toLabel)
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-												.addComponent(comments)
-												.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-														.addGap(0, 0, Short.MAX_VALUE)
-														.addComponent(okButton)
-														.addGap(18, 18, 18)
-														.addComponent(cancelButton))
+										.addComponent(dateLabel)
+										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
+										.addComponent(startDate, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(toLabel)
+										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+										.addComponent(endDate, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE))
+										.addComponent(comments)
+										.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+												.addGap(0, 0, Short.MAX_VALUE)
+												.addComponent(okButton)
+												.addGap(18, 18, 18)
+												.addComponent(cancelButton))
+												.addGroup(layout.createSequentialGroup()
+														.addComponent(typeLabel)
+														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addComponent(type, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 														.addGroup(layout.createSequentialGroup()
-																.addComponent(categoryLabel)
-																.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																.addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+																.addComponent(commentLabel)
+																.addGap(0, 0, Short.MAX_VALUE))
 																.addGroup(layout.createSequentialGroup()
-																		.addComponent(commentLabel)
-																		.addGap(0, 0, Short.MAX_VALUE))
-																		.addGroup(layout.createSequentialGroup()
-																				.addComponent(titleLabel)
-																				.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																				.addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-																				.addContainerGap())
+																		.addComponent(titleLabel)
+																		.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																		.addComponent(title, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)))
+																		.addContainerGap())
 				);
 		layout.setVerticalGroup(
-				layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(titleLabel)
-								.addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-								.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-										.addComponent(type, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+								.addComponent(title, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+										.addComponent(type, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 										.addComponent(typeLabel))
-										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-										.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-												.addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+										.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+												.addComponent(endDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 												.addComponent(dateLabel)
 												.addComponent(toLabel)
-												.addComponent(startDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-												.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-														.addComponent(categoryLabel)
-														.addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-														.addComponent(commentLabel)
-														.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-														.addComponent(comments, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-														.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-																.addComponent(cancelButton)
-																.addComponent(okButton))
-																.addContainerGap())
+												.addComponent(startDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+												.addComponent(commentLabel)
+												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+												.addComponent(comments, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+												.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+														.addComponent(cancelButton)
+														.addComponent(okButton))
+														.addContainerGap())
 				);
 		pack();
 	}

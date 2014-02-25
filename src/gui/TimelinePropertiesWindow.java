@@ -4,7 +4,6 @@ import model.*;
 import entities.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 
 /**
@@ -20,11 +19,6 @@ public class TimelinePropertiesWindow extends JFrame {
 
 	// Window components.
 	/**
-	 * Data section label of the window.
-	 */
-	private JLabel dataSectionLabel;
-
-	/**
 	 * The timeline title field label.
 	 */
 	private JLabel titleLabel;
@@ -32,34 +26,6 @@ public class TimelinePropertiesWindow extends JFrame {
 	 * The timeline title field.
 	 */
 	private JTextField title;
-	
-	/**
-	 * A separator.
-	 */
-	private JSeparator separator1;
-	
-	/**
-	 * Appearance section label of the window.
-	 */
-	private JLabel appearanceSectionLabel;
-	
-	/**
-	 * The timeline color chooser label. Unused.
-	 */
-	private JLabel colorLabel;
-	/**
-	 * The timeline color chooser button. Unused.
-	 */
-	private JButton colorChooserButton;
-
-	/**
-	 * The timeline font field label. Unused.
-	 */
-	private JLabel fontLabel;
-	/**
-	 * The timeline font field. Unused.
-	 */
-	private JTextField font;
 
 	/**
 	 * The timeline axis label dropdown label.
@@ -71,9 +37,13 @@ public class TimelinePropertiesWindow extends JFrame {
 	private JComboBox<String> axisLabel;
 
 	/**
-	 * Another separator for the window.
+	 * The timeline axis label position dropdown label.
 	 */
-	private JSeparator separator2;
+	private JLabel axisPositionLabel;
+	/**
+	 * The timeline axis label position dropdown.
+	 */
+	private JComboBox<String> axisPosition;
 
 	/**
 	 * The ok button.
@@ -83,6 +53,9 @@ public class TimelinePropertiesWindow extends JFrame {
 	 * The cancel button.
 	 */
 	private JButton cancelButton;
+
+
+
 
 
 	/**
@@ -122,7 +95,7 @@ public class TimelinePropertiesWindow extends JFrame {
 	 */
 	public TimelinePropertiesWindow(final TimelineMaker model, final Timeline timeline) {
 		initComponents();
-		
+
 		new Thread(new Runnable() {
 			/**
 			 * Load information from the timeline to be edited into the window.
@@ -157,7 +130,7 @@ public class TimelinePropertiesWindow extends JFrame {
 				dispose();
 			}
 		});
-		
+
 		initLayout();
 	}
 
@@ -165,25 +138,14 @@ public class TimelinePropertiesWindow extends JFrame {
 	 * Initialize window components.
 	 */
 	private void initComponents() {
-		dataSectionLabel = new JLabel();
-
 		titleLabel = new JLabel();
 		title = new JTextField();
-
-		separator1 = new JSeparator();
-
-		appearanceSectionLabel = new JLabel();
 
 		axisLabelLabel = new JLabel();
 		axisLabel = new JComboBox<String>();
 
-		colorLabel = new JLabel();
-		colorChooserButton = new JButton();
-
-		fontLabel = new JLabel();
-		font = new JTextField();
-
-		separator2 = new JSeparator();
+		axisPositionLabel = new JLabel();
+		axisPosition = new JComboBox<String>();
 
 		okButton = new JButton();
 		cancelButton = new JButton();
@@ -191,30 +153,14 @@ public class TimelinePropertiesWindow extends JFrame {
 
 		setTitle("Timeline Properties");
 
-		dataSectionLabel.setFont(new Font("Tahoma", 1, 12));
-		dataSectionLabel.setText("Data:");
-
 		titleLabel.setText("Title");
-
-		appearanceSectionLabel.setFont(new Font("Tahoma", 1, 12));
-		appearanceSectionLabel.setText("Appearance:");
-
-		colorLabel.setText("Color");
-
-		colorChooserButton.setText("Choose color...");
-		colorChooserButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new ColorChooser().setVisible(true);
-			}
-		});
 
 		axisLabelLabel.setText("Axis Label");
 		axisLabel.setModel(new DefaultComboBoxModel<String>(new String[] { "Days", "Weeks", "Months", "Years", "Decades", "Centuries", "Millennia" }));
 		axisLabel.setSelectedItem("Years");
 
-		fontLabel.setText("Font");
-
-		font.setText("Tahoma");
+		axisPositionLabel.setText("Axis Position");
+		axisPosition.setModel(new DefaultComboBoxModel<String>(new String[] { "Top", "Center", "Bottom" }));
 
 		okButton.setText("Ok");
 
@@ -225,7 +171,7 @@ public class TimelinePropertiesWindow extends JFrame {
 			}
 		});
 	}
-	
+
 	/**
 	 * Initialize the layout of this window.
 	 * Note: Generated code.
@@ -238,68 +184,45 @@ public class TimelinePropertiesWindow extends JFrame {
 				.addGroup(layout.createSequentialGroup()
 						.addContainerGap()
 						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(separator1)
-								.addComponent(separator2)
 								.addGroup(layout.createSequentialGroup()
-										.addComponent(colorLabel)
+										.addComponent(axisLabelLabel)
 										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(colorChooserButton))
+										.addComponent(axisLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addGroup(layout.createSequentialGroup()
-												.addComponent(axisLabelLabel)
-												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-												.addComponent(axisLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addGroup(layout.createSequentialGroup()
-														.addComponent(fontLabel)
-														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 208, Short.MAX_VALUE)
-														.addComponent(font, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-														.addGroup(layout.createSequentialGroup()
-																.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-																		.addComponent(dataSectionLabel)
-																		.addComponent(appearanceSectionLabel))
-																		.addGap(0, 0, Short.MAX_VALUE))
-																		.addGroup(layout.createSequentialGroup()
-																				.addComponent(titleLabel)
-																				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-																				.addComponent(title, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
-																				.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-																						.addGap(0, 0, Short.MAX_VALUE)
-																						.addComponent(okButton)
-																						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-																						.addComponent(cancelButton)))
-																						.addContainerGap())
+												.addComponent(titleLabel)
+												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
+												.addComponent(title, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE))
+												.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+														.addComponent(axisPositionLabel)
+														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+														.addComponent(axisPosition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+														.addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+																.addGap(0, 0, Short.MAX_VALUE)
+																.addComponent(okButton)
+																.addGap(18, 18, 18)
+																.addComponent(cancelButton)))
+																.addContainerGap())
 				);
 		layout.setVerticalGroup(
 				layout.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 						.addContainerGap()
-						.addComponent(dataSectionLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 								.addComponent(titleLabel)
 								.addComponent(title, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(separator1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-								.addComponent(appearanceSectionLabel)
-								.addGap(1, 1, 1)
+								.addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
 								.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-										.addComponent(colorLabel)
-										.addComponent(colorChooserButton))
+										.addComponent(axisLabelLabel)
+										.addComponent(axisLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 										.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 										.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-												.addComponent(axisLabelLabel)
-												.addComponent(axisLabel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+												.addComponent(axisPosition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(axisPositionLabel))
+												.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 												.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-														.addComponent(fontLabel)
-														.addComponent(font, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-														.addComponent(separator2, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
-														.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-														.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-																.addComponent(okButton)
-																.addComponent(cancelButton))
-																.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+														.addComponent(cancelButton)
+														.addComponent(okButton))
+														.addContainerGap())
 				);
 
 		pack();
