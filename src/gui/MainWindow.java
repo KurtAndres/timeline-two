@@ -16,8 +16,8 @@ import java.util.*;
  * 
  * @author Andrew Thompson
  * Wheaton College, CS 335, Spring 2014
- * Project Phase 1
- * Feb 15, 2014
+ * Project Phase 2
+ * Mar 7, 2014
  */
 public class MainWindow extends JFrame {
 

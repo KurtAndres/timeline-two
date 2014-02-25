@@ -8,7 +8,11 @@ import java.awt.event.*;
 
 /**
  * TimelinePropertiesWindow.java
+ * 
  * @author Andrew Thompson
+ * Wheaton College, CS 335, Spring 2014
+ * Project Phase 2
+ * Mar 7, 2014
  */
 public class TimelinePropertiesWindow extends JFrame {
 
