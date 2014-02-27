@@ -15,43 +15,43 @@ import entities.Timeline.AxisLabel;
  */
 public interface TimelineAPI {
 	/**
-	 * see if TLEvent event is in the timeline's list of events
+	 * see if Category category is in the timeline's list of categories
 	 * 
-	 * @param event the event to see if the timeline contains
-	 * @return whether the event is in the timeline
+	 * @param category the category to see if the timeline contains
+	 * @return whether the category is in the timeline
 	 */
-	public boolean contains(TLEvent event);
+	public boolean contains(Category category);
 	
 	/**
-	 * add a TLEvent to the timeline
+	 * add a Category to the timeline
 	 * 
-	 * @param event the event to add to the timeline
+	 * @param category the category to add to the timeline
 	 */
-	public void addEvent(TLEvent event);
+	public void addCategory(Category category);
 	
 	/**
-	 * remove a TLEvent to the timeline
+	 * remove a Category to the timeline
 	 * 
-	 * @param event the event to remove
-	 * @return whether the event was removed correctly
+	 * @param category the category to remove
+	 * @return whether the category was removed correctly
 	 */
-	public boolean removeEvent(TLEvent event);
+	public boolean removeCategory(Category category);
 	
 	/**
-	 * Swap an oldEvent out for a newEvent. Useful for updating an event whose data has changed
+	 * Swap an oldCategory out for a newCategory. Useful for updating an category whose data has changed
 	 * 
-	 * @param oldEventName the event to switch out
-	 * @param newEvent the event to switch in
-	 * @return whether the event was swapped successfully (false if oldEvent is not in the timeline)
+	 * @param oldCategoryName the category to switch out
+	 * @param newCategoryName the category to switch in
+	 * @return whether the category was swapped successfully (false if oldCategory is not in the timeline)
 	 */
-	public boolean changeEvent(TLEvent oldEventName, TLEvent newEvent);
+	public boolean changeCategory(Category oldCategoryName, Category newCategoryName);
 	
 	/**
-	 * Returns an array with all the timeline's events, length is exactly the number of events
+	 * Returns an array with all the timeline's categories, length is exactly the number of categories
 	 * 
-	 * @return array of all the timeline's events
+	 * @return array of all the timeline's categories
 	 */
-	public TLEvent[] getEvents();
+	public Category[] getCategories();
 	
 	/**
 	 * Returns true if the timeline has been altered since last database sync. Currently not in use

@@ -9,7 +9,7 @@ import java.util.Arrays;
 /**
  * Timeline.java
  * 
- * Timeline object to keep track of the different timelines in the project. Contains a name, ArrayList of TLEvents, AxisLabel (for rendering), 
+ * Timeline object to keep track of the different timelines in the project. Contains a name, ArrayList of Categorys, AxisLabel (for rendering), 
  * and boolean, dirty, which is updated whenever the Timeline is changed. This can be used for deciding when to sync to the database, but is
  * currently not in use (we sync whenever certain buttons in the GUI are pressed). 
  * 
@@ -21,9 +21,9 @@ import java.util.Arrays;
 public class Timeline implements TimelineAPI{
 	
 	/**
-	 * ArrayList to keep track of the events in the timeline
+	 * ArrayList to keep track of the categories in the timeline
 	 */
-	private ArrayList<TLEvent> events;
+	private ArrayList<Category> categories;
 	
 	/**
 	 * Name of the timeline
@@ -60,21 +60,21 @@ public class Timeline implements TimelineAPI{
 	 */
 	public Timeline(String name){
 		this.name = name;
-		events = new ArrayList<TLEvent>();
+		categories = new ArrayList<Category>();
 		axisLabel = AxisLabel.YEARS;
 		setDirty(true);
 	}
 	
 	/**
-	 * Constructor for name and events
+	 * Constructor for name and categories
 	 * Sets axisLabel to YEARS by default
 	 * 
 	 * @param name Timeline name
-	 * @param events Events in timeline
+	 * @param categories Categories in timeline
 	 */
-	public Timeline(String name, TLEvent[] events){
+	public Timeline(String name, Category[] categories){
 		this.name = name;
-		this.events = new ArrayList<TLEvent>(Arrays.asList(events));
+		this.categories = new ArrayList<Category>(Arrays.asList(categories));
 		axisLabel = AxisLabel.YEARS;
 		setDirty(true);
 	}
@@ -87,47 +87,47 @@ public class Timeline implements TimelineAPI{
 	 */
 	public Timeline(String name, int axisLabel) {
 		this.name = name;
-		events = new ArrayList<TLEvent>();
+		categories = new ArrayList<Category>();
 		this.axisLabel = AXIS_LABELS[axisLabel];
-		this.events = new ArrayList<TLEvent>();
+		this.categories = new ArrayList<Category>();
 		dirty = true;
 	}
 	
 	/**
-	 * Constructor for name, events, and axisLabel
+	 * Constructor for name, categories, and axisLabel
 	 * 
 	 * @param name Timeline name
-	 * @param events Events in timeline
+	 * @param categories Categories in timeline
 	 * @param axisLabel Unit to render timeline in
 	 */
-	public Timeline(String name, TLEvent[] events, int axisLabel) {
+	public Timeline(String name, Category[] categories, int axisLabel) {
 		this.name = name;
-		if(events != null)
-			this.events = new ArrayList<TLEvent>(Arrays.asList(events));
+		if(categories != null)
+			this.categories = new ArrayList<Category>(Arrays.asList(categories));
 		else
-			this.events = new ArrayList<TLEvent>();
+			this.categories = new ArrayList<Category>();
 		this.axisLabel = AXIS_LABELS[axisLabel];
 		dirty = true;
 	}
 	
 	@Override
-	public boolean contains(TLEvent event) {
-		for (TLEvent e : events)
-			if (e.equals(event))
+	public boolean contains(Category category) {
+		for (Category e : categories)
+			if (e.equals(category))
 				return true;
 		return false;
 	}
 
 	@Override
-	public void addEvent(TLEvent event) {
+	public void addCategory(Category category) {
 		setDirty(true);
-		events.add(event);
+		categories.add(category);
 	}
 
 	@Override
-	public boolean removeEvent(TLEvent event) {
-		if(events.contains(event)){
-			events.remove(event);
+	public boolean removeCategory(Category category) {
+		if(categories.contains(category)){
+			categories.remove(category);
 			setDirty(true);
 			return true;
 		}else{
@@ -136,10 +136,10 @@ public class Timeline implements TimelineAPI{
 	}
 
 	@Override
-	public boolean changeEvent(TLEvent oldEvent, TLEvent newEvent) {
-		if(events.contains(oldEvent)){
-			events.remove(oldEvent);
-			events.add(newEvent);
+	public boolean changeCategory(Category oldCategory, Category newCategory) {
+		if(categories.contains(oldCategory)){
+			categories.remove(oldCategory);
+			categories.add(newCategory);
 			setDirty(true);
 			return true;
 		}else{
@@ -148,9 +148,9 @@ public class Timeline implements TimelineAPI{
 	}
 
 	@Override
-	public TLEvent[] getEvents() {
-		if(events.isEmpty()) return null;
-		return (TLEvent[])events.toArray(new TLEvent[events.size()]);
+	public Category[] getCategories() {
+		if(categories.isEmpty()) return null;
+		return (Category[])categories.toArray(new Category[categories.size()]);
 	}
 	
 	@Override
