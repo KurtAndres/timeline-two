@@ -5,6 +5,8 @@
 package entities;
 
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
+import java.util.ArrayList;
 
 /**
  * API for the Category class. Useful for keeping track of the public methods.
@@ -12,84 +14,96 @@ import javafx.scene.image.Image;
  * @author Daniel
  */
 public interface CategoryAPI {
+    
     /**
-     * see if TLEvent event is in the category's list of events
+     * Check whether the category contains an event.
      * 
-     * @param event the event to see if the category contains
-     * @return whether the event is in the category
+     * @param event the event for which to search
+     * @return true if found, false otherwise
      */
     public boolean contains(TLEvent event);
     
     /**
-     * add a TLEvent to the category
+     * Add an event to this categories known list of events.
      * 
-     * @param event the event to add to the category
+     * @param event the event to add
+     * @return true if successful, false otherwise
      */
-    public void addEvent(TLEvent event);
+    public boolean addEvent(TLEvent event);
     
     /**
-     * remove a TLEvent to the category
+     * Removes an event from this categories known list of events.
      * 
      * @param event the event to remove
-     * @return whether the event was removed correctly
+     * @return true if successful, false otherwise
      */
     public boolean removeEvent(TLEvent event);
     
     /**
-     * Swap an oldEvent out for a newEvent. Useful for updating an event whose data has changed
+     * Access a copy of the list of events known to belong to this category.
      * 
-     * @param oldEventName the event to switch out
-     * @param newEvent the event to switch in
-     * @return whether the event was swapped successfully (false if oldEvent is not in the category)
+     * @return a copy of the ArrayList of events
      */
-    public boolean changeEvent(TLEvent oldEventName, TLEvent newEvent);
-
-    /**
-     * Returns an array with all the category's events, length is exactly the number of events
-     * 
-     * @return array of all the category's events
-     */
-    public TLEvent[] getEvents();
-
-    /**
-     * Returns true if the category has been altered since last database sync. Currently not in use
-     * 
-     * @return if the category is dirty
-     */
-    public boolean isDirty();
-
-    /**
-     * Sets the dirty value
-     * 
-     * @param dirty value to set
-     */
-    public void setDirty(boolean dirty);
-
-    /**
-     * getter method for the category's name
-     * 
-     * @return category name
-     */
-    public String getName();
-
-    /**
-     * Returns an int representing the index of the axisLabel
-     * 
-     * @return axisLabel index
-     */
-    public int getAxisLabelIndex();
-
-    /**
-     * Returns the actual axisLabel
-     * 
-     * @return axisLabel
-     */
-    public Category.AxisLabel getAxisLabel();
+    public ArrayList<TLEvent> getEvents();
     
     /**
-     * Sets the image of for the Category
+     * Get a copy of the name of the category.
      * 
-     * @param icon image to set
+     * @return a copy of the String representing the name of the category
      */
-    public void setIcon(Image icon);
+    public String getName();
+    
+    /**
+     * Get a copy of the selectColor of the category.
+     * 
+     * @return a copy of the selectColor of this category
+     */
+    public Color getSelectColor();
+    
+    /**
+     * Get a copy of the deselectColor of the category.
+     * 
+     * @return a copy of the deselectColor of this category
+     */
+    public Color getDeselectColor();
+    
+    /**
+     * Get the icon of this category.
+     * 
+     * @return the icon of this category
+     */
+    public Image getIcon();
+    
+    /**
+     * Change the name of the Category.
+     * 
+     * @param name The new name for the category
+     * @return true if successful, false otherwise
+     */
+    public boolean setName(String name);
+    
+    /**
+     * Change the selectColor of the Category.
+     * 
+     * @param selectColor The new selectColor for the category
+     * @return true if successful, false otherwise
+     */
+    public boolean setSelectColor(Color selectColor);
+    
+    /**
+     * Change the deselectColor of the Category.
+     * 
+     * @param deselectColor The new deselectColor for the category
+     * @return true if successful, false otherwise
+     */
+    public boolean setDeselectColor(Color deselectColor);
+    
+    /**
+     * Change the icon of the Category.
+     * 
+     * @param icon The new icon for the category
+     * @return true if successful, false otherwise
+     */
+    public boolean setIcon(Image icon);
+    
 }

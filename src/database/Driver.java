@@ -6,6 +6,7 @@ package database;
 import java.sql.Date;
 
 import entities.Atomic;
+import entities.Category;
 import entities.Duration;
 import entities.TLEvent;
 import entities.Timeline;
@@ -26,8 +27,10 @@ public class Driver {
 
 	public static void main(String[] args) {
 		DBHelper helper = new DBHelper("databases/timeline.db");
-		TLEvent event1 = new Atomic("one", "", new Date(((long)1000)*60*60*24));
-		TLEvent event2 = new Duration("two", "", new Date(((long)1000)*60*60*24),new Date(((long)1000)*60*60*24*2));
+                Category cat1 = new Category("category1");
+                Category cat2 = new Category("category2");
+		TLEvent event1 = new Atomic("one", cat1, new Date(((long)1000)*60*60*24));
+		TLEvent event2 = new Duration("two", cat2, new Date(((long)1000)*60*60*24),new Date(((long)1000)*60*60*24*2));
 		Timeline test1 = new Timeline("Test1", 0);
 		Timeline test2 = new Timeline("Test2", 2);
 		test1.addEvent(event1);

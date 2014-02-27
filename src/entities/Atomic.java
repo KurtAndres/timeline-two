@@ -25,7 +25,7 @@ public class Atomic extends TLEvent {
 	 * @param category the event's category
 	 * @param date the date of the event
 	 */
-	public Atomic(String name, String category, Date date){
+	public Atomic(String name, Category category, Date date){
 		super(name, category);
 		this.setDate(date);
 	}

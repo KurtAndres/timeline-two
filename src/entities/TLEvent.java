@@ -24,7 +24,7 @@ public abstract class TLEvent {
 	/**
 	 * The category of the event
 	 */
-	private String category;
+	private Category category;
 	
 	/**
 	 * A super constructor for all TLEvents, setting the name and category 
@@ -32,9 +32,10 @@ public abstract class TLEvent {
 	 * @param name the name of the event
 	 * @param category the category of the event
 	 */
-	TLEvent(String name, String category){
+	TLEvent(String name, Category category){
 		this.name = name;
 		this.category = category;
+                category.addEvent(this);
 	}
 	/**
 	 * Get the name
@@ -50,7 +51,7 @@ public abstract class TLEvent {
 	 * 
 	 * @return the category
 	 */
-	public String getCategory() {
+	public Category getCategory() {
 		return category;
 	}
 	
