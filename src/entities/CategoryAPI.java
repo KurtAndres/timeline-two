@@ -4,6 +4,8 @@
  */
 package entities;
 
+import javafx.scene.image.Image;
+
 /**
  * API for the Category class. Useful for keeping track of the public methods.
  * 
@@ -83,4 +85,11 @@ public interface CategoryAPI {
      * @return axisLabel
      */
     public Category.AxisLabel getAxisLabel();
+    
+    /**
+     * Sets the image of for the Category
+     * 
+     * @param icon image to set
+     */
+    public void setIcon(Image icon);
 }
