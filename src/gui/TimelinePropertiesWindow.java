@@ -38,7 +38,7 @@ public class TimelinePropertiesWindow extends JFrame {
 	/**
 	 * The timeline axis label dropdown.
 	 */
-	private JComboBox<String> axisLabel;
+	private JComboBox<String> axisLabel; 
 
 	/**
 	 * The timeline axis label position dropdown label.
