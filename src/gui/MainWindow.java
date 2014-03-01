@@ -576,7 +576,7 @@ public class MainWindow extends JFrame {
 		});
 	}
 	
-	public void updateCategories(final ArrayList<String> categoryNames, final String selectedCategoryName) {
-		
+	public void updateCategories(final ArrayList<String> categoryNames, final ArrayList<String> selectedCategoryName) {
+		// TODO Update categoryList.
 	}
 }

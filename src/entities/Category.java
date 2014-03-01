@@ -105,7 +105,7 @@ public class Category implements CategoryAPI{
      * @param icon
      * @param events 
      */
-    public Category(String name, Color sColor, Color dsColor, Image icon, ArrayList<TLEvent> events){
+    public Category(String name, Color sColor, Color dsColor, Image icon, ArrayList<TLEvent> events) {
         this.name = name;
         this.selectColor = sColor;
         this.deselectColor = dsColor;

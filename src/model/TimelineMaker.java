@@ -32,6 +32,10 @@ public class TimelineMaker {
 	 */
 	private Timeline selectedTimeline;
 	/**
+	 * The categories selected for display in this application.
+	 */
+	private ArrayList<Category> selectedCategories;
+	/**
 	 * The event selected in this application.
 	 */
 	private TLEvent selectedEvent;

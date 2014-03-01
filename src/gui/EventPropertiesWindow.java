@@ -58,6 +58,9 @@ public class EventPropertiesWindow extends JFrame {
 	 */
 	private JTextField endDate; // TODO Replace with JCalendar date-picker.
 
+	private JLabel categoryLabel;
+	private JComboBox<String> category;
+	
 	/**
 	 * The comments field label.
 	 */
