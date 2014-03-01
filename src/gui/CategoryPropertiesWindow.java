@@ -13,8 +13,6 @@ import javafx.scene.paint.Color;
 
 import entities.Category;
 
-// TODO Refactor.
-
 /**
  * CategoryPropertiesWindow.java
  *
@@ -65,11 +63,14 @@ public class CategoryPropertiesWindow extends JFrame {
 			 */
 			public void actionPerformed(ActionEvent e) {
 				final String title = CategoryPropertiesWindow.this.title.getText();
-				final Color color = new javafx.scene.paint.Color(Double.parseDouble(redSpinner.getValue().toString()), 
-						Double.parseDouble(greenSpinner.getValue().toString()), Double.parseDouble(blueSpinner.getValue().toString()),1);
-				
-				model.addCategory(new Category(title, color, color));
-				
+				final Color color = new Color(Double.parseDouble(redSpinner.getValue().toString())/255, 
+						Double.parseDouble(greenSpinner.getValue().toString())/255, Double.parseDouble(blueSpinner.getValue().toString())/255,1);
+				new Thread(new Runnable() {
+					public void run() {
+						model.addCategory(new Category(title, color, color));
+					}
+				}).start();
+				dispose();
 			}
 		});
 		

@@ -95,6 +95,7 @@ public class TimelineMaker {
 				new Thread(new Runnable() {
 					public void run() {
 						gui.updateTimelines(getTimelineTitles(), null);
+						gui.updateCategories(null, null);
 					}
 				}).start();
 			}
@@ -199,6 +200,12 @@ public class TimelineMaker {
 		if (newName)
 			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
+	}
+	
+	public ArrayList<String> getCategoryTitles() {
+		ArrayList<String> toReturn = new ArrayList<String>();
+		// TODO Populate toReturn with categories from selectedTimeline. Use an Iterator maybe?
+		return toReturn;
 	}
 	
 	public ArrayList<Category> getSelectedCategories() {

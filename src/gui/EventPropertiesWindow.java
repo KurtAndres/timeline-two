@@ -93,6 +93,16 @@ public class EventPropertiesWindow extends JFrame {
 		setTitle("Add Event");
 
 		initComponents();
+		
+		new Thread(new Runnable() {
+			/**
+			 * Load information from the event to be edited into the window.
+			 */
+			public void run() {
+				for (Category c : model.getSelectedCategories())
+					category.addItem(c.getName());
+			}
+		}).start();
 
 		// Define action for adding a new event.
 		okButton.addActionListener(new ActionListener() {
@@ -136,6 +146,8 @@ public class EventPropertiesWindow extends JFrame {
 			 * Load information from the event to be edited into the window.
 			 */
 			public void run() {
+				for (Category c : model.getSelectedCategories())
+					category.addItem(c.getName());
 				final String eventName = event.getName();
 				if (event instanceof Atomic) {
 					final String date = ((Atomic)event).getDate().toString();
