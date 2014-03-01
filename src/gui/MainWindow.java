@@ -2,9 +2,11 @@ package gui;
 
 import model.*;
 import entities.*;
+import entities.Event;
 import graphics.TimelineGraphics;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -411,7 +413,111 @@ public class MainWindow extends JFrame {
 	 * Initialize action listeners for all interactive buttons and shortcuts.
 	 */
 	private void initActionListeners() {
+		// Set up timeline-selection dropdown listener.
+		timelineSelector.addActionListener(new ActionListener() {
+			/**
+			 * Update the selected event in the model.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				final String selectedTimeline = (String)timelineSelector.getSelectedItem();
+				new Thread(new Runnable() {
+					public void run(){
+						model.selectTimeline(selectedTimeline);
+					}
+				}).start();
+			}
+		});
+
+		// Set up timeline toolbar listeners.
+		addTimelineButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new TimelinePropertiesWindow for timeline addition.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new TimelinePropertiesWindow(model).setVisible(true);
+			}
+		});
+		editTimelineButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new TimelinePropertiesWindow for timeline editing.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						final Timeline selectedTimeline = model.getSelectedTimeline();
+						if (selectedTimeline != null)
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									new TimelinePropertiesWindow(model, selectedTimeline).setVisible(true);
+								}
+							});
+					}
+				}).start();
+			}
+		});
+		deleteTimelineButton.addActionListener(new ActionListener() {
+			/**
+			 * Delete the selected timeline in the model.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						model.deleteTimeline();
+					}
+				}).start();
+			}
+		});
+
 		//TODO Define action listeners for category tools.
+		
+		addCategoryButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new CategoryPropertiesWindow for category additon.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						if (model.getSelectedTimeline() != null)
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									new CategoryPropertiesWindow(MainWindow.this.model).setVisible(true);
+								}
+							});
+					}
+				}).start();
+			}
+		});
+		editCategoryButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new CategoryPropertiesWindow for category editing.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						final Category selectedCategory = model.getSelectedCategories();
+						if (selectedEvent != null && model.getSelectedTimeline() != null)
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									new EventPropertiesWindow(MainWindow.this.model, selectedCategory).setVisible(true);
+								}
+							});
+					}
+				}).start();
+			}
+		});
+		deleteCategoryButton.addActionListener(new ActionListener() {
+			/**
+			 * Delete the selected category(ies) in the model.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						model.deleteCategory();
+					}
+				}).start();
+			}
+		});
+
 		// Set up event toolbar listeners.
 		addEventButton.addActionListener(new ActionListener() {
 			/**
@@ -461,60 +567,6 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		// Set up timeline toolbar listeners.
-		addTimelineButton.addActionListener(new ActionListener() {
-			/**
-			 * Create a new TimelinePropertiesWindow for timeline addition.
-			 */
-			public void actionPerformed(ActionEvent e) {
-				new TimelinePropertiesWindow(model).setVisible(true);
-			}
-		});
-		editTimelineButton.addActionListener(new ActionListener() {
-			/**
-			 * Create a new TimelinePropertiesWindow for timeline editing.
-			 */
-			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
-					public void run() {
-						final Timeline selectedTimeline = model.getSelectedTimeline();
-						if (selectedTimeline != null)
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									new TimelinePropertiesWindow(model, selectedTimeline).setVisible(true);
-								}
-							});
-					}
-				}).start();
-			}
-		});
-		deleteTimelineButton.addActionListener(new ActionListener() {
-			/**
-			 * Delete the selected timeline in the model.
-			 */
-			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
-					public void run() {
-						model.deleteTimeline();
-					}
-				}).start();
-			}
-		});
-
-		// Set up timeline-selection dropdown listener.
-		timelineSelector.addActionListener(new ActionListener() {
-			/**
-			 * Update the selected event in the model.
-			 */
-			public void actionPerformed(ActionEvent e) {
-				final String selectedTimeline = (String)timelineSelector.getSelectedItem();
-				new Thread(new Runnable() {
-					public void run(){
-						model.selectTimeline(selectedTimeline);
-					}
-				}).start();
-			}
-		});
 
 		// Set up menu item listeners.
 		newEventMenuItem.addActionListener(new ActionListener() {
@@ -575,7 +627,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
-	
+
 	public void updateCategories(final ArrayList<String> categoryTitles, final ArrayList<String> selectedCategoryTitles) {
 		// TODO Update categoryList.
 	}
