@@ -437,7 +437,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
-						final TLEvent selectedEvent = model.getSelectedEvent();
+						final Event selectedEvent = model.getSelectedEvent();
 						if (selectedEvent != null && model.getSelectedTimeline() != null)
 							SwingUtilities.invokeLater(new Runnable() {
 								public void run() {

@@ -14,7 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import entities.Atomic;
 import entities.Duration;
-import entities.TLEvent;
+import entities.Event;
 import entities.Timeline;
 import entities.Timeline.AxisLabel;
 
@@ -172,7 +172,7 @@ public class TimelineRender implements Runnable {
 	private void init(){
 		unitWidth = 150;
 		pushDown = 60;
-		for(TLEvent event : timeline.getEvents()){
+		for(Event event : timeline.getEvents()){
 			if(event instanceof Duration){
 				durations.add((Duration)event);
 				long start = ((Duration) event).getStartDate().getTime();

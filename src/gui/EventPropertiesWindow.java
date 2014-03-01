@@ -125,7 +125,7 @@ public class EventPropertiesWindow extends JFrame {
 	 * @param model the TimelineMaker application model
 	 * @param event the event to edit
 	 */
-	public EventPropertiesWindow(final TimelineMaker model, final TLEvent event) {
+	public EventPropertiesWindow(final TimelineMaker model, final Event event) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Edit Event Properties");
 

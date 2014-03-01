@@ -5,7 +5,7 @@ package storage;
 
 import entities.Atomic;
 import entities.Duration;
-import entities.TLEvent;
+import entities.Event;
 import entities.Timeline;
 import entities.Timeline.AxisLabel;
 
@@ -124,7 +124,7 @@ public class DBHelper implements DBHelperAPI{
 		}
 		if(timeline.getEvents() == null)
 			return false;
-		for(TLEvent event : timeline.getEvents()){
+		for(Event event : timeline.getEvents()){
 			try {
 				if(event instanceof Atomic){
 					writeEvent((Atomic)event, tlName);
@@ -264,13 +264,13 @@ public class DBHelper implements DBHelperAPI{
 			Timeline[] timelines = new Timeline[numTimelines];
 			for(int j = 0; j < numTimelines; j++){ // Get all timelines event arrays
 				resultSet = statement.executeQuery("select * from "+timelineNames.get(j)+";");
-				ArrayList<TLEvent> events = new ArrayList<TLEvent>();
+				ArrayList<Event> events = new ArrayList<Event>();
 				int numEvents = 0;
 				while(resultSet.next()){ // Get all events for the event
 					numEvents++;
 					String name = resultSet.getString("eventName");
 					String type = resultSet.getString("type");
-					TLEvent event = null;
+					Event event = null;
 					if(type.equals("atomic")){
 						String category = resultSet.getString("Category");
 						Date startDate = resultSet.getDate("startDate");
@@ -286,7 +286,7 @@ public class DBHelper implements DBHelperAPI{
 					events.add(event);
 				}
 				int label = getAxisLabel(timelineNames.get(j));
-				Timeline timeline = new Timeline(timelineNames.get(j), events.toArray(new TLEvent[numEvents]), label);
+				Timeline timeline = new Timeline(timelineNames.get(j), events.toArray(new Event[numEvents]), label);
 				timelines[j] = timeline;
 			}
 			close();

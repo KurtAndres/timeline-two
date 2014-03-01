@@ -8,7 +8,7 @@ import java.sql.Date;
 import entities.Atomic;
 import entities.Category;
 import entities.Duration;
-import entities.TLEvent;
+import entities.Event;
 import entities.Timeline;
 
 /**
@@ -29,8 +29,8 @@ public class Driver {
 		DBHelper helper = new DBHelper("databases/timeline.db");
                 Category cat1 = new Category("category1");
                 Category cat2 = new Category("category2");
-		TLEvent event1 = new Atomic("one", cat1, new Date(((long)1000)*60*60*24));
-		TLEvent event2 = new Duration("two", cat2, new Date(((long)1000)*60*60*24),new Date(((long)1000)*60*60*24*2));
+		Event event1 = new Atomic("one", cat1, new Date(((long)1000)*60*60*24));
+		Event event2 = new Duration("two", cat2, new Date(((long)1000)*60*60*24),new Date(((long)1000)*60*60*24*2));
 		Timeline test1 = new Timeline("Test1", 0);
 		Timeline test2 = new Timeline("Test2", 2);
 		test1.addEvent(event1);
@@ -44,8 +44,8 @@ public class Driver {
 		Timeline[] timelines = helper.getTimelines();
 		for(Timeline timeline : timelines){
 			System.out.println("-----"+timeline.getName()+"-----");
-			TLEvent[] events = timeline.getEvents();
-			for(TLEvent event : events){
+			Event[] events = timeline.getEvents();
+			for(Event event : events){
 				System.out.println(event.getName());
 			}
 		}

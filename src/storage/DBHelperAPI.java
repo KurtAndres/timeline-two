@@ -16,7 +16,7 @@ import entities.Timeline;
  * Created: Jan 29, 2014
  * Package: backend
  *
- * Note: could be updated to have _id as parameters, it will make editing and adding stuff a lot easier (add _id to Timeline and TLEvent).
+ * Note: could be updated to have _id as parameters, it will make editing and adding stuff a lot easier (add _id to Timeline and Event).
  *
  */
 public interface DBHelperAPI {
