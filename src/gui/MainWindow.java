@@ -163,7 +163,8 @@ public class MainWindow extends JFrame {
 
 
 	private JLabel categoriesEditLabel;
-	private JComboBox<String> categorySelector;
+	private JScrollPane categoriesPane;
+	private JList<String> categoriesList;
 	private JButton addCategoryButton;
 	private JButton editCategoryButton;
 	private JButton deleteCategoryButton;
@@ -204,7 +205,8 @@ public class MainWindow extends JFrame {
 		toolbarSeparator2 = new JSeparator();
 
 		categoriesEditLabel = new JLabel();
-		categorySelector = new JComboBox<String>();
+		categoriesPane = new JScrollPane();
+		categoriesList = new JList<String>();
 		addCategoryButton = new JButton();
 		editCategoryButton = new JButton();
 		deleteCategoryButton = new JButton();
@@ -267,72 +269,72 @@ public class MainWindow extends JFrame {
 		GroupLayout toolbarLayout = new GroupLayout(toolbar);
 		toolbar.setLayout(toolbarLayout);
 		toolbarLayout.setHorizontalGroup(
-				toolbarLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addComponent(toolbarSeparator1)
 				.addComponent(toolbarSeparator2)
 				.addComponent(toolbarSeparator3)
-				.addGroup(toolbarLayout.createSequentialGroup()
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, toolbarLayout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(toolbarLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(categoriesEditLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(toolbarLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editTimelineButton, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteTimelineButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addTimelineButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelineSelector, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelinesEditLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(categorySelector, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addCategoryButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editCategoryButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteCategoryButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addEventButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editEventButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(toolbarLayout.createSequentialGroup()
+						.addGroup(toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+								.addComponent(categoriesPane)
+								.addComponent(categoriesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(toolbarLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(addTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(timelineSelector, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(timelinesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(addCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+								.addComponent(addEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(javax.swing.GroupLayout.Alignment.LEADING, toolbarLayout.createSequentialGroup()
 										.addComponent(eventsEditLabel)
-										.addGap(0, 0, Short.MAX_VALUE))
-										.addComponent(deleteEventButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+										.addGap(0, 0, Short.MAX_VALUE)))
 										.addContainerGap())
 				);
 		toolbarLayout.setVerticalGroup(
-				toolbarLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(toolbarLayout.createSequentialGroup()
 						.addContainerGap()
 						.addComponent(toolbarLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(toolbarSeparator1, GroupLayout.PREFERRED_SIZE, 5, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(timelinesEditLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(toolbarSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(timelinesEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(4, 4, 4)
-						.addComponent(timelineSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(timelineSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(addTimelineButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(editTimelineButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteTimelineButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(toolbarSeparator2, GroupLayout.PREFERRED_SIZE, 5, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(categoriesEditLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(categorySelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(toolbarSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(categoriesEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(categoriesPane, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(addCategoryButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(editCategoryButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteCategoryButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(toolbarSeparator3, GroupLayout.PREFERRED_SIZE, 5, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(toolbarSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(eventsEditLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(addEventButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(editEventButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteEventButton)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addContainerGap())
 				);
 
 		mainSplitPane.setLeftComponent(toolbar);
@@ -562,16 +564,19 @@ public class MainWindow extends JFrame {
 	 * Update the timelineSelector from TimelineMaker model into GUI window.
 	 * Get a list of timeline titles from model. Then populate a default list model for the JList of timelineSelector with those titles.
 	 */
-	public void updateTimelines(final ArrayList<String> timelineTitles, final String selectedTimelineName) {
+	public void updateTimelines(final ArrayList<String> timelineNames, final String selectedTimelineName) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				timelineSelector.removeAllItems();
-				for (String s : timelineTitles)
+				for (String s : timelineNames)
 					timelineSelector.addItem(s);
 				if (selectedTimelineName != null && !selectedTimelineName.isEmpty())
 					timelineSelector.setSelectedItem(selectedTimelineName);
 			}
 		});
-
+	}
+	
+	public void updateCategories(final ArrayList<String> categoryNames, final String selectedCategoryName) {
+		
 	}
 }

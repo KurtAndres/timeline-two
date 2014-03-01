@@ -101,13 +101,12 @@ public class EventPropertiesWindow extends JFrame {
 				final String type = EventPropertiesWindow.this.type.getSelectedItem().toString();
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
-				final String category = ""; // TODO Update event creation.
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
-							model.addEvent(new Atomic(title, category, Date.valueOf(startDate)));
+							model.addEvent(new Atomic(title, null, Date.valueOf(startDate)));
 						else if (type.equals("Duration"))
-							model.addEvent(new Duration(title, category, Date.valueOf(startDate), Date.valueOf(endDate)));
+							model.addEvent(new Duration(title, null, Date.valueOf(startDate), Date.valueOf(endDate)));
 					}
 				}).start();
 				dispose();
@@ -170,13 +169,12 @@ public class EventPropertiesWindow extends JFrame {
 				final String type = EventPropertiesWindow.this.type.getSelectedItem().toString();
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
-				final String category = ""; // TODO Update event editing.
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
-							model.editEvent(new Atomic(title, category, Date.valueOf(startDate)));
+							model.editEvent(new Atomic(title, null, Date.valueOf(startDate)));
 						else if (type.equals("Duration"))
-							model.editEvent(new Duration(title, category, Date.valueOf(startDate), Date.valueOf(endDate)));
+							model.editEvent(new Duration(title, null, Date.valueOf(startDate), Date.valueOf(endDate)));
 					}
 				}).start();
 				dispose();
@@ -319,5 +317,9 @@ public class EventPropertiesWindow extends JFrame {
 														.addContainerGap())
 				);
 		pack();
+	}
+	
+	public static void main(String[] args) {
+		new EventPropertiesWindow(null).setVisible(true);
 	}
 }
