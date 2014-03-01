@@ -124,34 +124,27 @@ public class Category implements CategoryAPI{
     }
     
     /**
-     * Add an event to this categories known list of events.
+     * Add an event to this categories known list of events. Sets the event's category to this.
      * 
      * @param event the event to add
      * @return true if successful, false otherwise
      */
     public boolean addEvent(TLEvent event){
-        try{
-            events.add(event);
-        }catch(Exception e){
-            return false;
-        }
-        return true;
+        event.setCategory(this);
+        return events.add(event);
     }
     
     /**
-     * Removes an event from this categories known list of events.
+     * Removes an event from this categories known list of events. If the event has a reference to this category,
+     * its category field is set to null.
      * 
      * @param event the event to remove
      * @return true if successful, false otherwise
      */
     public boolean removeEvent(TLEvent event){
-        try{
-            if(events.contains(event))
-                events.remove(event);
-        }catch(Exception e){
-            return false;
-        }
-        return true;
+        if(this.equals(event.getCategory()))
+            event.setCategory(null);
+        return events.remove(event);
     }
     
     /**

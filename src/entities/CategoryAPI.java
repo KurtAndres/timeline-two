@@ -24,7 +24,7 @@ public interface CategoryAPI {
     public boolean contains(TLEvent event);
     
     /**
-     * Add an event to this categories known list of events.
+     * Add an event to this categories known list of events. Sets the event's category to this.
      * 
      * @param event the event to add
      * @return true if successful, false otherwise
@@ -32,7 +32,8 @@ public interface CategoryAPI {
     public boolean addEvent(TLEvent event);
     
     /**
-     * Removes an event from this categories known list of events.
+     * Removes an event from this categories known list of events. If the event has a reference to this category,
+     * its category field is set to null.
      * 
      * @param event the event to remove
      * @return true if successful, false otherwise

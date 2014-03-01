@@ -5,6 +5,7 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Timeline.java
@@ -19,6 +20,11 @@ import java.util.Arrays;
  * Feb 15, 2014
  */
 public class Timeline implements TimelineAPI{
+        
+        /**
+         * ArrayList to keep track of the categories in the timeline
+         */
+        private HashSet<Category> categories;
 	
 	/**
 	 * ArrayList to keep track of the events in the timeline
@@ -109,6 +115,43 @@ public class Timeline implements TimelineAPI{
 		this.axisLabel = AXIS_LABELS[axisLabel];
 		dirty = true;
 	}
+        
+        /**
+         * add a Category to the timeline
+         * 
+         * @param category 
+         */
+        @Override
+        public void addCategory(Category category){
+            categories.add(category);
+        }
+        
+        /**
+         * see if a Category is in the timeline's list of categories
+         * 
+         * @param category the category for which to search
+         * @return true if found, else false
+         */
+        @Override
+        public boolean contains(Category category){
+            return categories.contains(category);
+        }
+        
+        /**
+         * remove a Category from the timeline. Assigns the category of all associated events to null.
+         * 
+         * @param category The category to remove
+         * @return 
+         */
+        @Override
+        public boolean removeCategory(Category category){
+            for(TLEvent event : events){
+                if(category.equals(event.getCategory())){
+                    event.setCategory(null);
+                }
+            }
+            return categories.remove(category);
+        }
 	
 	@Override
 	public boolean contains(TLEvent event) {

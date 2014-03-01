@@ -37,6 +37,7 @@ public abstract class TLEvent {
 		this.category = category;
                 category.addEvent(this);
 	}
+        
 	/**
 	 * Get the name
 	 * 
@@ -45,6 +46,19 @@ public abstract class TLEvent {
 	public String getName() {
 		return name;
 	}
+        
+        /**
+         * Sets the category of this event to the category provided. Also adds this event to the Category.
+         * If this event was previously a member of a different category, this event is removed from that category.
+         * 
+         * @param category the category to be set
+         */
+        public void setCategory(Category category){
+                if(this.category!=null)
+                    this.category.removeEvent(this);
+                category.addEvent(this);
+                this.category = category;
+        }
 	
 	/**
 	 * Get the category

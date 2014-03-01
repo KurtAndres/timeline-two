@@ -14,6 +14,30 @@ import entities.Timeline.AxisLabel;
  *
  */
 public interface TimelineAPI {
+        
+        /**
+         * remove a Category from the timeline. Assigns the category of all associated events to null.
+         * 
+         * @param category The category to remove
+         * @return 
+         */
+        public boolean removeCategory(Category category);
+        
+        /**
+         * add a Category to the timeline
+         * 
+         * @param category 
+         */
+        public void addCategory(Category category);
+        
+        /**
+         * see if a Category is in the timeline's list of categories
+         * 
+         * @param category the category for which to search
+         * @return true if found, else false
+         */
+        public boolean contains(Category category);
+    
 	/**
 	 * see if TLEvent event is in the timeline's list of events
 	 * 
