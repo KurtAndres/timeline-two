@@ -6,7 +6,8 @@ import java.sql.Date;
 
 import org.junit.Test;
 
-import database.DBHelper;
+import storage.DBHelper;
+
 import entities.*;
 
 /**
