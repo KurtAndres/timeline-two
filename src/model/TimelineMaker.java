@@ -232,6 +232,18 @@ public class TimelineMaker {
 			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
 	}
+	
+	public void addCategory(Category c) {
+		// TODO Implement.
+	}
+	
+	public void deleteCategory() {
+		// TODO Implement.
+	}
+	
+	public void editCategory(Category c) {
+		// TODO Implement.
+	}
 
 	/**
 	 * Retrieve the currently selected event.

@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import entities.Category;
+
 // TODO Refactor.
 
 /**
@@ -45,13 +47,31 @@ public class CategoryPropertiesWindow extends JFrame {
 	private JButton cancelButton;
 
 	/**
-	 * Creates new form CategoryPropertiesWindow
+	 * Constructor.
+	 * Constructor for adding a new category.
+	 * @param model the TimelineMaker application model
 	 */
 	public CategoryPropertiesWindow(final TimelineMaker model) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setTitle("Add Category");
 		
 		initComponents();
+		
+		okButton.addActionListener(new ActionListener() {
+			/**
+			 * Get information from data fields and create new category. Add category to model.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				final String title = CategoryPropertiesWindow.this.title.getText();
+				final Color color = new Color(Integer.valueOf(redSpinner.getValue().toString()), 
+						Integer.valueOf(greenSpinner.getValue().toString()), Integer.valueOf(blueSpinner.getValue().toString()));
+				
+				model.addCategory(new Category(title, color, color));
+				
+			}
+		});
+		
+		initLayout();
 	}
 
 	/**
@@ -89,7 +109,8 @@ public class CategoryPropertiesWindow extends JFrame {
 		
 		ChangeListener spinnerListener = new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				colorPreview.setBackground(new Color(Integer.valueOf(redSpinner.getValue().toString()), Integer.valueOf(greenSpinner.getValue().toString()), Integer.valueOf(blueSpinner.getValue().toString())));
+				colorPreview.setBackground(new Color(Integer.valueOf(redSpinner.getValue().toString()), 
+						Integer.valueOf(greenSpinner.getValue().toString()), Integer.valueOf(blueSpinner.getValue().toString())));
 			}
 		};
 		
@@ -98,8 +119,24 @@ public class CategoryPropertiesWindow extends JFrame {
 		blueSpinner.addChangeListener(spinnerListener);
 
 		okButton.setText("Ok");
+		
 		cancelButton.setText("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			/**
+			 * Dispose this window.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+			}
+		});
 
+	}        
+	
+	/**
+	 * Initialize the layout of the window.
+	 * Note: Generated code.
+	 */
+	private void initLayout() {
 		GroupLayout layout = new GroupLayout(getContentPane());
 		getContentPane().setLayout(layout);
 		layout.setHorizontalGroup(
@@ -165,7 +202,7 @@ public class CategoryPropertiesWindow extends JFrame {
 				);
 
 		pack();
-	}                       
+	}
 
 	/**
 	 * @param args the command line arguments

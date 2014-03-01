@@ -564,19 +564,19 @@ public class MainWindow extends JFrame {
 	 * Update the timelineSelector from TimelineMaker model into GUI window.
 	 * Get a list of timeline titles from model. Then populate a default list model for the JList of timelineSelector with those titles.
 	 */
-	public void updateTimelines(final ArrayList<String> timelineNames, final String selectedTimelineName) {
+	public void updateTimelines(final ArrayList<String> timelineTitles, final String selectedTimelineTitle) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				timelineSelector.removeAllItems();
-				for (String s : timelineNames)
+				for (String s : timelineTitles)
 					timelineSelector.addItem(s);
-				if (selectedTimelineName != null && !selectedTimelineName.isEmpty())
-					timelineSelector.setSelectedItem(selectedTimelineName);
+				if (selectedTimelineTitle != null && !selectedTimelineTitle.isEmpty())
+					timelineSelector.setSelectedItem(selectedTimelineTitle);
 			}
 		});
 	}
 	
-	public void updateCategories(final ArrayList<String> categoryNames, final ArrayList<String> selectedCategoryName) {
+	public void updateCategories(final ArrayList<String> categoryTitles, final ArrayList<String> selectedCategoryTitles) {
 		// TODO Update categoryList.
 	}
 }
