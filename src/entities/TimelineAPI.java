@@ -39,27 +39,27 @@ public interface TimelineAPI {
         public boolean contains(Category category);
     
 	/**
-	 * see if TLEvent event is in the timeline's list of events
+	 * see if Event event is in the timeline's list of events
 	 * 
 	 * @param event the event to see if the timeline contains
 	 * @return whether the event is in the timeline
 	 */
-	public boolean contains(TLEvent event);
+	public boolean contains(Event event);
 	
 	/**
-	 * add a TLEvent to the timeline
+	 * add a Event to the timeline
 	 * 
 	 * @param event the event to add to the timeline
 	 */
-	public void addEvent(TLEvent event);
+	public void addEvent(Event event);
 	
 	/**
-	 * remove a TLEvent to the timeline
+	 * remove a Event to the timeline
 	 * 
 	 * @param event the event to remove
 	 * @return whether the event was removed correctly
 	 */
-	public boolean removeEvent(TLEvent event);
+	public boolean removeEvent(Event event);
 	
 	/**
 	 * Swap an oldTLEvent out for a newTLEvent. Useful for updating an event whose data has changed
@@ -68,14 +68,14 @@ public interface TimelineAPI {
 	 * @param newTLEventName the event to switch in
 	 * @return whether the event was swapped successfully (false if oldTLEvent is not in the timeline)
 	 */
-	public boolean changeEvent(TLEvent oldTLEventName, TLEvent newTLEventName);
+	public boolean changeEvent(Event oldTLEventName, Event newTLEventName);
 	
 	/**
 	 * Returns an array with all the timeline's events, length is exactly the number of events
 	 * 
 	 * @return array of all the timeline's events
 	 */
-	public TLEvent[] getEvents();
+	public Event[] getEvents();
 	
 	/**
 	 * Returns true if the timeline has been altered since last database sync. Currently not in use

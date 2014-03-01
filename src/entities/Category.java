@@ -26,7 +26,7 @@ public class Category implements CategoryAPI{
     /**
      * ArrayList to keep track of the events in the Category
      */
-    private ArrayList<TLEvent> events;
+    private ArrayList<Event> events;
 
     /**
      * Name of the Category
@@ -105,7 +105,7 @@ public class Category implements CategoryAPI{
      * @param icon
      * @param events 
      */
-    public Category(String name, Color sColor, Color dsColor, Image icon, ArrayList<TLEvent> events){
+    public Category(String name, Color sColor, Color dsColor, Image icon, ArrayList<Event> events) {
         this.name = name;
         this.selectColor = sColor;
         this.deselectColor = dsColor;
@@ -119,7 +119,7 @@ public class Category implements CategoryAPI{
      * @param event the event for which to search
      * @return true if found, false otherwise
      */
-    public boolean contains(TLEvent event){
+    public boolean contains(Event event){
         return events.contains(event);
     }
     
@@ -129,7 +129,7 @@ public class Category implements CategoryAPI{
      * @param event the event to add
      * @return true if successful, false otherwise
      */
-    public boolean addEvent(TLEvent event){
+    public boolean addEvent(Event event){
         event.setCategory(this);
         return events.add(event);
     }
@@ -141,7 +141,7 @@ public class Category implements CategoryAPI{
      * @param event the event to remove
      * @return true if successful, false otherwise
      */
-    public boolean removeEvent(TLEvent event){
+    public boolean removeEvent(Event event){
         if(this.equals(event.getCategory()))
             event.setCategory(null);
         return events.remove(event);
@@ -152,8 +152,8 @@ public class Category implements CategoryAPI{
      * 
      * @return a copy of the ArrayList of events
      */
-    public ArrayList<TLEvent> getEvents(){
-        ArrayList<TLEvent> toReturn = new ArrayList<TLEvent>();
+    public ArrayList<Event> getEvents(){
+        ArrayList<Event> toReturn = new ArrayList<Event>();
         toReturn.addAll(events);
         return toReturn;
     }

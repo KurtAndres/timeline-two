@@ -32,9 +32,13 @@ public class TimelineMaker {
 	 */
 	private Timeline selectedTimeline;
 	/**
+	 * The categories selected for display in this application.
+	 */
+	private ArrayList<Category> selectedCategories;
+	/**
 	 * The event selected in this application.
 	 */
-	private TLEvent selectedEvent;
+	private Event selectedEvent;
 	/**
 	 * The database for storing timelines of this application.
 	 */
@@ -228,12 +232,24 @@ public class TimelineMaker {
 			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
 	}
+	
+	public void addCategory(Category c) {
+		// TODO Implement.
+	}
+	
+	public void deleteCategory() {
+		// TODO Implement.
+	}
+	
+	public void editCategory(Category c) {
+		// TODO Implement.
+	}
 
 	/**
 	 * Retrieve the currently selected event.
 	 * @return selectedEvent
 	 */
-	public TLEvent getSelectedEvent() { 
+	public Event getSelectedEvent() { 
 		return selectedEvent; 
 	}
 
@@ -241,7 +257,7 @@ public class TimelineMaker {
 	 * Set the selected event.
 	 * @param e The event to be selected
 	 */
-	public void selectEvent(TLEvent e) {
+	public void selectEvent(Event e) {
 		if (e != null)
 			selectedEvent = e;
 	}
@@ -251,7 +267,7 @@ public class TimelineMaker {
 	 * Update selectedTimeline, selectedEvent, graphics, and database.
 	 * @param e the new event
 	 */
-	public void addEvent(TLEvent e) {
+	public void addEvent(Event e) {
 		if (selectedTimeline != null) {
 			selectedTimeline.addEvent(e);
 			selectedEvent = e;
@@ -285,7 +301,7 @@ public class TimelineMaker {
 	 * Update selectedTimeline, selectedEvent, graphics, and database.
 	 * @param e the new event
 	 */
-	public void editEvent(TLEvent e) {
+	public void editEvent(Event e) {
 		if (selectedEvent != null && selectedTimeline != null && selectedTimeline.contains(selectedEvent)) {
 			selectedTimeline.removeEvent(selectedEvent);
 			selectedEvent = e;

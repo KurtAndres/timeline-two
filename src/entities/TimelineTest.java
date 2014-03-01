@@ -23,7 +23,7 @@ public class TimelineTest {
 		String name = "Test";
                 Category cat1 = new Category("category1");
                 Category cat2 = new Category("category2");
-		TLEvent[] events = new TLEvent[2];
+		Event[] events = new Event[2];
 		events[0] = new Atomic("event1", cat1, new Date(0));
 		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
 		Timeline.AxisLabel axisLabel = Timeline.AxisLabel.YEARS;
@@ -39,7 +39,7 @@ public class TimelineTest {
 		String name = "Test";
                 Category cat1 = new Category("category1");
                 Category cat2 = new Category("category2");
-		TLEvent[] events = new TLEvent[2];
+		Event[] events = new Event[2];
 		events[0] = new Atomic("event1", cat1, new Date(0));
 		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
 		Timeline test = new Timeline(name, events, 3);
@@ -54,7 +54,7 @@ public class TimelineTest {
 		String name = "Test";
                 Category cat1 = new Category("category1");
                 Category cat2 = new Category("category2");
-		TLEvent[] events = new TLEvent[2];
+		Event[] events = new Event[2];
 		events[0] = new Atomic("event1", cat1, new Date(0));
 		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
 		Timeline test = new Timeline(name, events, 3);

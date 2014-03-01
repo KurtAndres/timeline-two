@@ -6,7 +6,7 @@ package entities;
 /**
  * This abstract class is used to define some methods and variables needed by all events.
  * It is currently extended by the Duration and Atomic classes. Both use java.sql.Date for their dates
- * to make database writing easier.
+ * to make database writing easier. Events also have reference to a Category to which they belong.
  * 
  * @author Josh Wright
  * Created: Jan 29, 2014
@@ -14,7 +14,7 @@ package entities;
  *
  */
 
-public abstract class TLEvent {
+public abstract class Event {
 	
 	/**
 	 * The name of the event
@@ -32,7 +32,7 @@ public abstract class TLEvent {
 	 * @param name the name of the event
 	 * @param category the category of the event
 	 */
-	TLEvent(String name, Category category){
+	Event(String name, Category category) {
 		this.name = name;
 		this.category = category;
                 category.addEvent(this);
@@ -61,7 +61,8 @@ public abstract class TLEvent {
         }
 	
 	/**
-	 * Get the category
+	 * Get the category.
+         * WARNING: Main return null.
 	 * 
 	 * @return the category
 	 */

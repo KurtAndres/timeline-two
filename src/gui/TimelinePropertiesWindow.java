@@ -127,7 +127,7 @@ public class TimelinePropertiesWindow extends JFrame {
 				final int axisLabelIndex = axisLabel.getSelectedIndex();
 				new Thread(new Runnable() {
 					public void run() {
-						TLEvent[] events = timeline.getEvents();
+						Event[] events = timeline.getEvents();
 						model.editTimeline(new Timeline(titleString, events, axisLabelIndex));
 					}
 				}).start();
