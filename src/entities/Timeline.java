@@ -70,7 +70,7 @@ public class Timeline implements TimelineAPI{
 	 * Sets axisLabel to YEARS by default
 	 * 
 	 * @param name Timeline name
-	 * @param events Events in timeline
+	 * @param events Categories in timeline
 	 */
 	public Timeline(String name, TLEvent[] events){
 		this.name = name;
@@ -97,7 +97,7 @@ public class Timeline implements TimelineAPI{
 	 * Constructor for name, events, and axisLabel
 	 * 
 	 * @param name Timeline name
-	 * @param events Events in timeline
+	 * @param events Categories in timeline
 	 * @param axisLabel Unit to render timeline in
 	 */
 	public Timeline(String name, TLEvent[] events, int axisLabel) {
@@ -136,10 +136,10 @@ public class Timeline implements TimelineAPI{
 	}
 
 	@Override
-	public boolean changeEvent(TLEvent oldEvent, TLEvent newEvent) {
-		if(events.contains(oldEvent)){
-			events.remove(oldEvent);
-			events.add(newEvent);
+	public boolean changeEvent(TLEvent oldTLEvent, TLEvent newTLEvent) {
+		if(events.contains(oldTLEvent)){
+			events.remove(oldTLEvent);
+			events.add(newTLEvent);
 			setDirty(true);
 			return true;
 		}else{

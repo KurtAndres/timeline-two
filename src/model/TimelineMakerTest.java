@@ -102,8 +102,10 @@ public class TimelineMakerTest {
 	public void testEventAddition() {
 		TimelineMaker app = new TimelineMaker(new DBHelper("databases/timelinemakertest.db"));
 		Timeline test = new Timeline("Test");
-		Atomic event1 = new Atomic("event1", "category1", new Date(0));
-		Duration event2 = new Duration("event2", "category2", new Date(0), new Date(100000));
+                Category cat1 = new Category("category1");
+                Category cat2 = new Category("category2");
+		Atomic event1 = new Atomic("event1", cat1, new Date(0));
+		Duration event2 = new Duration("event2", cat2, new Date(0), new Date(100000));
 		app.addTimeline(test);
 		assertFalse(app.getSelectedTimeline().contains(event1));
 		assertFalse(app.getSelectedTimeline().contains(event2));
@@ -123,7 +125,8 @@ public class TimelineMakerTest {
 	public void testEventDeletion() {
 		TimelineMaker app = new TimelineMaker(new DBHelper("databases/timelinemakertest.db"));
 		Timeline test = new Timeline("Test");
-		Atomic event = new Atomic("event1", "category1", new Date(0));
+                Category cat1 = new Category("category1");
+		Atomic event = new Atomic("event1", cat1, new Date(0));
 		app.addTimeline(test);
 		app.addEvent(event);
 		assertTrue(app.getSelectedTimeline().contains(event));
@@ -140,7 +143,8 @@ public class TimelineMakerTest {
 	public void testEventSelection() {
 		TimelineMaker app = new TimelineMaker(new DBHelper("databases/timelinemakertest.db"));
 		Timeline test = new Timeline("Test");
-		Atomic event = new Atomic("event1", "category1", new Date(0));
+                Category cat1 = new Category("category1");
+		Atomic event = new Atomic("event1", cat1, new Date(0));
 		app.addTimeline(test);
 		app.addEvent(event);
 		app.selectEvent(event);
@@ -154,11 +158,13 @@ public class TimelineMakerTest {
 	public void testEventEditing() {
 		TimelineMaker app = new TimelineMaker(new DBHelper("databases/timelinemakertest.db"));
 		Timeline test = new Timeline("Test");
-		Atomic event1 = new Atomic("event1", "category1", new Date(0));
+                Category cat1 = new Category("category1");
+                Category cat2 = new Category("category2");
+		Atomic event1 = new Atomic("event1", cat1, new Date(0));
 		app.addTimeline(test);
 		app.addEvent(event1);
 		app.selectEvent(event1);
-		Duration event2 = new Duration("event2", "category2", new Date(0), new Date(100));
+		Duration event2 = new Duration("event2", cat2, new Date(0), new Date(100));
 		app.editEvent(event2);
 		assertTrue(app.getSelectedTimeline().contains(event2));
 		assertTrue(app.getSelectedEvent().equals(event2));
