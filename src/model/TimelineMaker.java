@@ -233,12 +233,22 @@ public class TimelineMaker {
 		updateGraphics();
 	}
 	
+	public ArrayList<Category> getSelectedCategories() {
+		return selectedCategories;
+	}
+	
+	public void selectCategories(ArrayList<Category> c) {
+		selectedCategories = c;
+		// TODO Update graphics.
+	}
+	
 	public void addCategory(Category c) {
 		// TODO Implement.
 	}
 	
 	public void deleteCategory() {
 		// TODO Implement.
+		// Loop through the selected categories and remove them from the timeline.
 	}
 	
 	public void editCategory(Category c) {
