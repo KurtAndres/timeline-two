@@ -4,14 +4,14 @@
 package entities;
 import java.sql.Date;
 /**
- * Extension of class TLEvent to represent atomic (single date) events
+ * Extension of class Event to represent atomic (single date) events
  * 
  * @author Josh Wright
  * Created: Jan 29, 2014
  * Package: backend
  *
  */
-public class Atomic extends TLEvent {
+public class Atomic extends Event {
 	
 	/**
 	 * The date of the event

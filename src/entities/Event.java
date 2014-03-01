@@ -14,7 +14,7 @@ package entities;
  *
  */
 
-public abstract class TLEvent {
+public abstract class Event {
 	
 	/**
 	 * The name of the event
@@ -32,7 +32,7 @@ public abstract class TLEvent {
 	 * @param name the name of the event
 	 * @param category the category of the event
 	 */
-	TLEvent(String name, Category category){
+	Event(String name, Category category) {
 		this.name = name;
 		this.category = category;
                 category.addEvent(this);

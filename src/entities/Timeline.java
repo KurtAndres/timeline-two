@@ -23,7 +23,7 @@ public class Timeline implements TimelineAPI{
 	/**
 	 * ArrayList to keep track of the events in the timeline
 	 */
-	private ArrayList<TLEvent> events;
+	private ArrayList<Event> events;
 	
 	/**
 	 * Name of the timeline
@@ -60,7 +60,7 @@ public class Timeline implements TimelineAPI{
 	 */
 	public Timeline(String name){
 		this.name = name;
-		events = new ArrayList<TLEvent>();
+		events = new ArrayList<Event>();
 		axisLabel = AxisLabel.YEARS;
 		setDirty(true);
 	}
@@ -72,9 +72,9 @@ public class Timeline implements TimelineAPI{
 	 * @param name Timeline name
 	 * @param events Categories in timeline
 	 */
-	public Timeline(String name, TLEvent[] events){
+	public Timeline(String name, Event[] events){
 		this.name = name;
-		this.events = new ArrayList<TLEvent>(Arrays.asList(events));
+		this.events = new ArrayList<Event>(Arrays.asList(events));
 		axisLabel = AxisLabel.YEARS;
 		setDirty(true);
 	}
@@ -87,9 +87,9 @@ public class Timeline implements TimelineAPI{
 	 */
 	public Timeline(String name, int axisLabel) {
 		this.name = name;
-		events = new ArrayList<TLEvent>();
+		events = new ArrayList<Event>();
 		this.axisLabel = AXIS_LABELS[axisLabel];
-		this.events = new ArrayList<TLEvent>();
+		this.events = new ArrayList<Event>();
 		dirty = true;
 	}
 	
@@ -100,32 +100,32 @@ public class Timeline implements TimelineAPI{
 	 * @param events Categories in timeline
 	 * @param axisLabel Unit to render timeline in
 	 */
-	public Timeline(String name, TLEvent[] events, int axisLabel) {
+	public Timeline(String name, Event[] events, int axisLabel) {
 		this.name = name;
 		if(events != null)
-			this.events = new ArrayList<TLEvent>(Arrays.asList(events));
+			this.events = new ArrayList<Event>(Arrays.asList(events));
 		else
-			this.events = new ArrayList<TLEvent>();
+			this.events = new ArrayList<Event>();
 		this.axisLabel = AXIS_LABELS[axisLabel];
 		dirty = true;
 	}
 	
 	@Override
-	public boolean contains(TLEvent event) {
-		for (TLEvent e : events)
+	public boolean contains(Event event) {
+		for (Event e : events)
 			if (e.equals(event))
 				return true;
 		return false;
 	}
 
 	@Override
-	public void addEvent(TLEvent event) {
+	public void addEvent(Event event) {
 		setDirty(true);
 		events.add(event);
 	}
 
 	@Override
-	public boolean removeEvent(TLEvent event) {
+	public boolean removeEvent(Event event) {
 		if(events.contains(event)){
 			events.remove(event);
 			setDirty(true);
@@ -136,7 +136,7 @@ public class Timeline implements TimelineAPI{
 	}
 
 	@Override
-	public boolean changeEvent(TLEvent oldTLEvent, TLEvent newTLEvent) {
+	public boolean changeEvent(Event oldTLEvent, Event newTLEvent) {
 		if(events.contains(oldTLEvent)){
 			events.remove(oldTLEvent);
 			events.add(newTLEvent);
@@ -148,9 +148,9 @@ public class Timeline implements TimelineAPI{
 	}
 
 	@Override
-	public TLEvent[] getEvents() {
+	public Event[] getEvents() {
 		if(events.isEmpty()) return null;
-		return (TLEvent[])events.toArray(new TLEvent[events.size()]);
+		return (Event[])events.toArray(new Event[events.size()]);
 	}
 	
 	@Override
