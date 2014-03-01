@@ -42,7 +42,8 @@ public class TimelineMaker {
 	/**
 	 * The database for storing timelines of this application.
 	 */
-	private DBHelper database;
+	// TODO Add storage object.
+	
 	/**
 	 * The main GUI window for this application.
 	 */
@@ -57,46 +58,13 @@ public class TimelineMaker {
 	 * Create a new TimelineMaker application model with database, graphics, and GUI components.
 	 */
 	public TimelineMaker() {
-		database = new DBHelper("databases/timeline.db");
+		// TODO Instantiate storage helper object.
 		graphics = new TimelineGraphics(this);
 		timelines = new ArrayList<Timeline>();
 
-		try {
-			for (Timeline t : database.getTimelines())
-				timelines.add(t);
-			selectedTimeline = timelines.get(0);
-			selectedEvent = selectedTimeline.getEvents()[0];
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Your database is empty.");
-		} catch (Exception e){
-			System.out.println("Error loading from Database.");
-		}
+		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
-	}
-
-	/**
-	 * Constructor.
-	 * Only for testing purposes.
-	 * @param db
-	 */
-	public TimelineMaker(DBHelper db) {
-		database = db;
-		timelines = new ArrayList<Timeline>();
-		try {
-			for (Timeline t : database.getTimelines())
-				timelines.add(t);
-			selectedTimeline = timelines.get(0);
-			selectedEvent = selectedTimeline.getEvents()[0];
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Your database is empty.");
-		} catch (Exception e){
-			System.out.println("Error loading from Database.");
-		}		
-		graphics = new TimelineGraphics(this);
-		gui = new MainWindow(this, graphics);
-		while (!timelines.isEmpty())
-			deleteTimeline();
 	}
 
 	/**
@@ -188,7 +156,7 @@ public class TimelineMaker {
 		selectedEvent = null;
 		timelines.add(selectedTimeline);
 
-		database.writeTimeline(selectedTimeline);
+		// TODO Add selectedTimeline to the storage helper.
 		gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
 	}
@@ -201,7 +169,7 @@ public class TimelineMaker {
 	public void deleteTimeline() {
 		if (selectedTimeline != null) {
 			timelines.remove(selectedTimeline);
-			database.removeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
 			selectedTimeline = null;
 			selectedEvent = null;
 			graphics.clearScreen();
@@ -217,7 +185,7 @@ public class TimelineMaker {
 	 */
 	public void editTimeline(Timeline t) {
 		timelines.remove(selectedTimeline);
-		database.removeTimeline(selectedTimeline);
+		// TODO Remove selectedTimeline from the storage helper.
 
 		boolean newName;
 		try {
@@ -227,7 +195,7 @@ public class TimelineMaker {
 		}
 		selectedTimeline = t;
 		timelines.add(selectedTimeline);
-		database.writeTimeline(selectedTimeline);
+		// TODO Add selectedTimeline to the storage helper.
 		if (newName)
 			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
@@ -284,8 +252,8 @@ public class TimelineMaker {
 
 			updateGraphics();
 
-			database.removeTimeline(selectedTimeline);
-			database.writeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
+			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
 
@@ -300,8 +268,8 @@ public class TimelineMaker {
 
 			updateGraphics();
 
-			database.removeTimeline(selectedTimeline);
-			database.writeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
+			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
 
@@ -319,8 +287,8 @@ public class TimelineMaker {
 
 			updateGraphics();
 
-			database.removeTimeline(selectedTimeline);
-			database.writeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
+			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
 	

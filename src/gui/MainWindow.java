@@ -494,11 +494,11 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
-						final Category selectedCategory = model.getSelectedCategories();
-						if (selectedEvent != null && model.getSelectedTimeline() != null)
+						final Category selectedCategory = model.getSelectedCategories().get(0);
+						if (selectedCategory != null && model.getSelectedTimeline() != null)
 							SwingUtilities.invokeLater(new Runnable() {
 								public void run() {
-									new EventPropertiesWindow(MainWindow.this.model, selectedCategory).setVisible(true);
+									new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
 								}
 							});
 					}
