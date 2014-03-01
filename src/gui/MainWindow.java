@@ -494,6 +494,7 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
+                                            try{
 						final Category selectedCategory = model.getSelectedCategories().get(0);
 						if (selectedCategory != null && model.getSelectedTimeline() != null)
 							SwingUtilities.invokeLater(new Runnable() {
@@ -501,6 +502,9 @@ public class MainWindow extends JFrame {
 									new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
 								}
 							});
+                                            }catch(NullPointerException npe){
+                                                System.out.println("No categories, null pointer");
+                                            }
 					}
 				}).start();
 			}

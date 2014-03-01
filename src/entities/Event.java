@@ -34,8 +34,12 @@ public abstract class Event {
 	 */
 	Event(String name, Category category) {
 		this.name = name;
-		this.category = category;
-                category.addEvent(this);
+                try{
+                    this.category = category;
+                    category.addEvent(this);
+                }catch(NullPointerException npe){
+                    System.out.println("no category added, null pointer");
+                }
 	}
         
 	/**

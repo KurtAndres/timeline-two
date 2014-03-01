@@ -99,8 +99,12 @@ public class EventPropertiesWindow extends JFrame {
 			 * Load information from the event to be edited into the window.
 			 */
 			public void run() {
+                            try{
 				for (Category c : model.getSelectedCategories())
 					category.addItem(c.getName());
+                            }catch(NullPointerException npe){
+                                System.out.println("No categories added, null pointer");
+                            }
 			}
 		}).start();
 
