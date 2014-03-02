@@ -61,7 +61,7 @@ public class TimelineMaker {
 		// TODO Instantiate storage helper object.
 		graphics = new TimelineGraphics(this);
 		timelines = new ArrayList<Timeline>();
-
+                selectedCategories = new ArrayList<Category>();
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
@@ -95,7 +95,7 @@ public class TimelineMaker {
 				new Thread(new Runnable() {
 					public void run() {
 						gui.updateTimelines(getTimelineTitles(), null);
-						gui.updateCategories(null, null);
+						gui.updateCategories(selectedTimeline.getCategoryNames(), new ArrayList<String>());
 					}
 				}).start();
 			}
@@ -202,12 +202,6 @@ public class TimelineMaker {
 		updateGraphics();
 	}
 	
-	public ArrayList<String> getCategoryTitles() {
-		ArrayList<String> toReturn = new ArrayList<String>();
-		// TODO Populate toReturn with categories from selectedTimeline. Use an Iterator maybe?
-		return toReturn;
-	}
-	
 	public ArrayList<Category> getSelectedCategories() {
 		return selectedCategories;
 	}
@@ -219,6 +213,9 @@ public class TimelineMaker {
 	
 	public void addCategory(Category c) {
 		// TODO Implement.
+                selectedTimeline.addCategory(c);
+                selectedCategories.add(c);
+                updateGraphics();
 	}
 	
 	public void deleteCategory() {

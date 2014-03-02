@@ -4,6 +4,8 @@
 package entities;
 
 import entities.Timeline.AxisLabel;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * API for the Timeline class. Useful for keeping track of the public methods.
@@ -37,6 +39,20 @@ public interface TimelineAPI {
          * @return true if found, else false
          */
         public boolean contains(Category category);
+        
+        /**
+         * return the HashSet of categories belonging to this timeline
+         * 
+         * @return The HashSet of categories
+         */
+        public HashSet<Category> getCategories();
+        
+        /**
+         * return an ArrayList of the category names.
+         * 
+         * @return The arraylist of names
+         */
+        public ArrayList<String> getCategoryNames();
     
 	/**
 	 * see if Event event is in the timeline's list of events

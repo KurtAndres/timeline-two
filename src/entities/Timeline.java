@@ -156,6 +156,29 @@ public class Timeline implements TimelineAPI{
             }
             return categories.remove(category);
         }
+        
+        /**
+         * return the HashSet of categories belonging to this timeline
+         * 
+         * @return The HashSet of categories
+         */
+        @Override
+        public HashSet<Category> getCategories(){
+            return categories;
+        }
+        
+        /**
+         * return an ArrayList of the category names.
+         * 
+         * @return The arraylist of names
+         */
+        @Override
+        public ArrayList<String> getCategoryNames(){
+            ArrayList<String> toReturn = new ArrayList<String>();
+            for(Category c : categories)
+                toReturn.add(c.getName());
+            return toReturn;
+        }
 	
 	@Override
 	public boolean contains(Event event) {
