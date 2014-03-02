@@ -49,6 +49,11 @@ public class Category implements CategoryAPI{
     private Image icon;
     
     /**
+     * Default Category to hand to Timelines and Events if no categories yet exist.
+     */
+    public static final Category defaultCategory = new Category("Default Category");
+    
+    /**
      * Constructor for name.
      * 
      * @param name 

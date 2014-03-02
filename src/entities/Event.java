@@ -38,6 +38,7 @@ public abstract class Event {
                     this.category = category;
                     category.addEvent(this);
                 }catch(NullPointerException npe){
+                    category = Category.defaultCategory;
                     System.out.println("no category added, null pointer");
                 }
 	}

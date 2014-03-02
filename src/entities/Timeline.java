@@ -24,7 +24,7 @@ public class Timeline implements TimelineAPI{
         /**
          * ArrayList to keep track of the categories in the timeline
          */
-        private HashSet<Category> categories;
+        private HashSet<Category> categories = new HashSet<Category>();
 	
 	/**
 	 * ArrayList to keep track of the events in the timeline
@@ -69,6 +69,7 @@ public class Timeline implements TimelineAPI{
 		events = new ArrayList<Event>();
 		axisLabel = AxisLabel.YEARS;
 		setDirty(true);
+                categories.add(Category.defaultCategory);
 	}
 	
 	/**
@@ -83,6 +84,7 @@ public class Timeline implements TimelineAPI{
 		this.events = new ArrayList<Event>(Arrays.asList(events));
 		axisLabel = AxisLabel.YEARS;
 		setDirty(true);
+                categories.add(Category.defaultCategory);
 	}
 	
 	/**
@@ -97,6 +99,7 @@ public class Timeline implements TimelineAPI{
 		this.axisLabel = AXIS_LABELS[axisLabel];
 		this.events = new ArrayList<Event>();
 		dirty = true;
+                categories.add(Category.defaultCategory);
 	}
 	
 	/**
@@ -114,6 +117,7 @@ public class Timeline implements TimelineAPI{
 			this.events = new ArrayList<Event>();
 		this.axisLabel = AXIS_LABELS[axisLabel];
 		dirty = true;
+                categories.add(Category.defaultCategory);
 	}
         
         /**
