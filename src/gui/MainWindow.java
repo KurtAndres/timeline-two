@@ -633,6 +633,17 @@ public class MainWindow extends JFrame {
 	}
 
 	public void updateCategories(final ArrayList<String> categoryTitles, final ArrayList<String> selectedCategoryTitles) {
-		// TODO Update categoryList.
+		SwingUtilities.invokeLater(new Runnable() {
+                        public void run() {
+                            DefaultListModel listModel = new DefaultListModel();
+                            categoriesList.removeAll();
+                            for (String s : categoryTitles)
+                                listModel.addElement(s);
+                            categoriesList.setModel(listModel);
+                            for (String s : selectedCategoryTitles){
+                                categoriesList.setSelectedIndex(categoryTitles.indexOf(s));
+                            }
+                        }
+                });
 	}
 }
