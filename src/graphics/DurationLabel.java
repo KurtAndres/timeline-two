@@ -9,6 +9,7 @@ import model.TimelineMaker;
 import entities.Duration;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 /**
@@ -49,6 +50,11 @@ public class DurationLabel extends TLEventLabel {
 	private int width;
 	
 	/**
+	 * The tooltip hoverover text for the label
+	 */
+	private String tooltipText;
+	
+	/**
 	 * Constructor calls the super constructor with the event name, assigns instance variables,
 	 * and then calls init
 	 * 
@@ -68,8 +74,11 @@ public class DurationLabel extends TLEventLabel {
 		this.label = this;
 		this.width = width;
 		this.model = model;
+		this.tooltipText = setDurationTooltip(event);
 		init();
 	}
+	
+	
 	
 	/**
 	 * Calls two other init helper methods for cleanliness
@@ -88,6 +97,8 @@ public class DurationLabel extends TLEventLabel {
 		label.setLayoutX(xPos);
 		label.setLayoutY(yPos);
 		label.setStyle("-fx-border-color: blue");
+		label.setStyle("-fx-background-color: blue");
+		label.setTooltip(new Tooltip(tooltipText));
 	}
 	
 	/**
@@ -107,14 +118,51 @@ public class DurationLabel extends TLEventLabel {
 				}).start();
 			}
 		});
+		label.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				for(TLEventLabel label : eventLabels){
+					label.setHovered(false);
+				}
+				setHovered(true);
+				new Thread(new Runnable() {
+					public void run() {
+						model.selectEvent(event);
+					}
+				}).start();
+			}
+		});
+		label.setOnMouseExited(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				for(TLEventLabel label : eventLabels){
+					label.setHovered(false);
+				}
+				setHovered(false);
+				new Thread(new Runnable() {
+					public void run() {
+						model.selectEvent(event);
+					}
+				}).start();
+			}
+		});
 	}
 
 	@Override
 	public void updateDesign() {
+			
 		if (isSelected()) {
 			label.setStyle("-fx-border-color: black");
+			label.setStyle("-fx-background-color: green");
 		}else{	
-			label.setStyle("-fx-border-color: blue");
+			if (isHovered()){
+				label.setStyle("-fx-border-color: green");
+				label.setStyle("-fx-background-color: red");
+			}else{
+				label.setStyle("-fx-border-color: blue");
+				label.setStyle("-fx-background-color: blue");
+			}
 		}
+		
+		
+		
 	}
 }

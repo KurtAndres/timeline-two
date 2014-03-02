@@ -10,8 +10,13 @@ import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineBuilder;
+import javafx.scene.text.TextAlignment;
 import entities.Atomic;
 import entities.Duration;
 import entities.Event;
@@ -226,9 +231,13 @@ public class TimelineRender implements Runnable {
 	}
 	
 	/**
-	 * Renders each 'Unit' on the axis as label with width unitWidth (uses unitLabel method). 
+	 * Renders each 'Unit' on the axis as a label with width unitWidth (uses unitLabel method). 
 	 * Adds the label to the group, and when finished puts the group in a scene and displays the 
 	 * scene in the fxPanel.
+	 * 
+	 * currently uses a second label to make each hash mark on the timeline simply a |
+	 * 
+	 * then lineBuilder to draw a black constant line for the timeline depending on length
 	 */
 
 	private void renderTime() {
@@ -236,10 +245,37 @@ public class TimelineRender implements Runnable {
 		int xPos2 = 0;
 		for(int i = 0; i < diffUnit ; i++){
 			Label label = unitLabel(i,xPos2);
+			Label lineLabel;
+			
+		
+			
+			lineLabel = new Label("|");
+			lineLabel.setLayoutX(xPos2);
+			lineLabel.setLayoutY(pushDown+22);
+			lineLabel.setPrefWidth(unitWidth);
+			lineLabel.setTextAlignment(TextAlignment.CENTER);
+			lineLabel.setAlignment(Pos.CENTER);
+			
+			
+
 			group.getChildren().add(label);
+			group.getChildren().add(lineLabel);
 			xPos2+=unitWidth;
 		}
-		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.WHITE);
+		//adds the actual black timeline
+		Line blackLine = LineBuilder.create()
+	            .startX(15)
+	            .startY(pushDown+10)
+	            .endX(xPos2-15)
+	            .endY(pushDown+10)
+	            .fill(Color.BLACK)
+	            .strokeWidth(4.0f)
+	            .translateY(20)
+	            .build();
+		
+		group.getChildren().add(blackLine);
+		
+		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.GHOSTWHITE);
 		fxPanel.setScene(toShow);
 	}
 	
@@ -278,7 +314,8 @@ public class TimelineRender implements Runnable {
 		label.setPrefWidth(unitWidth);
 		label.setPrefHeight(40);
 		label.setAlignment(Pos.CENTER);
-		label.setStyle("-fx-border-color: black;");
+		//label.setStyle("-fx-border-color: black;");
+		
 		return label;
 	}
 
@@ -378,6 +415,7 @@ public class TimelineRender implements Runnable {
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);
 			eventLabels.add(label);
+			
 			group.getChildren().add(label);
 			counter += 20;
 		}

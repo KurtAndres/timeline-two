@@ -3,6 +3,7 @@ package graphics;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import model.TimelineMaker;
 import entities.Atomic;
@@ -37,6 +38,12 @@ public class AtomicLabel extends TLEventLabel {
 	private AtomicLabel label;
 	
 	/**
+	 * The tooltip hoverover text for the label
+	 */
+	private String tooltipText;
+	
+	
+	/**
 	 * ArrayList of all other eventLabels, used for clearing previous selection
 	 */
 	private ArrayList<TLEventLabel> eventLabels;
@@ -59,6 +66,7 @@ public class AtomicLabel extends TLEventLabel {
 		this.eventLabels = eventLabels;
 		this.label = this;
 		this.model = model;
+		this.tooltipText = setAtomicTooltip(event);
 		init();
 	}
 	
@@ -77,6 +85,7 @@ public class AtomicLabel extends TLEventLabel {
 		label.setLayoutX(xPos);
 		label.setLayoutY(yPos);
 		label.setStyle("-fx-border-color: green");
+		label.setTooltip(new Tooltip(tooltipText));
 	}
 	
 	/**
