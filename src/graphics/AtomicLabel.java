@@ -11,7 +11,7 @@ import entities.Atomic;
 /**
  * Atomic version of TLEventLabel
  * 
- * @author Josh Wright
+ * @author Kurt Andres & Josh Wright
  * February 15, 2014
  */
 public class AtomicLabel extends TLEventLabel {

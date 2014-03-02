@@ -10,8 +10,6 @@ import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -46,7 +44,7 @@ import entities.Timeline.AxisLabel;
  * the axisLabel of the timeline before it renders properly, (EditTimeline -> AxisLabel). It won't
  * crash the program, it just won't render.
  * 
- * @author Josh Wright
+ * @author Kurt Andres & Josh Wright
  * Created: Feb 10, 2014
  * Package: graphics
  * 
@@ -97,6 +95,21 @@ public class TimelineRender implements Runnable {
 	 */
 
 	private AxisLabel axisLabel;
+	
+	/**
+	 * ArrayList of all the atomic event x positions
+	 */
+	private ArrayList<Integer> atomicXPositions = new ArrayList<Integer>();
+	
+	/**
+	 * ArrayList of all the atomic event y positions
+	 */
+	private ArrayList<Integer> atomicYPositions = new ArrayList<Integer>();
+	
+	/**
+	 * Int value of timeline loaction after drawing timeline before making atomic connections
+	 */
+	private int timelineYLocation = 0;
 	
 	/**
 	 * Use in rendering with an AxisLabel of months
@@ -228,6 +241,7 @@ public class TimelineRender implements Runnable {
 		renderAtomics();
 		renderTime();
 		renderDurations();
+		renderConnections();
 	}
 	
 	/**
@@ -247,17 +261,14 @@ public class TimelineRender implements Runnable {
 			Label label = unitLabel(i,xPos2);
 			Label lineLabel;
 			
-		
-			
+			//adds the dashes (|) on the timeline
 			lineLabel = new Label("|");
 			lineLabel.setLayoutX(xPos2);
-			lineLabel.setLayoutY(pushDown+22);
+			lineLabel.setLayoutY(pushDown+23);
 			lineLabel.setPrefWidth(unitWidth);
 			lineLabel.setTextAlignment(TextAlignment.CENTER);
 			lineLabel.setAlignment(Pos.CENTER);
 			
-			
-
 			group.getChildren().add(label);
 			group.getChildren().add(lineLabel);
 			xPos2+=unitWidth;
@@ -266,14 +277,16 @@ public class TimelineRender implements Runnable {
 		Line blackLine = LineBuilder.create()
 	            .startX(15)
 	            .startY(pushDown+10)
-	            .endX(xPos2-15)
+	            .endX(xPos2-10)
 	            .endY(pushDown+10)
 	            .fill(Color.BLACK)
-	            .strokeWidth(4.0f)
+	            .strokeWidth(3.5f)
 	            .translateY(20)
 	            .build();
 		
 		group.getChildren().add(blackLine);
+		
+		timelineYLocation = pushDown+10;
 		
 		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.GHOSTWHITE);
 		fxPanel.setScene(toShow);
@@ -389,13 +402,16 @@ public class TimelineRender implements Runnable {
 	 * Uses custom Label class
 	 */
 	private void renderAtomics() {
-		pushDown = 60; //where to put the event ( y - axis )
+		pushDown = 30; //where to put the event ( y - axis )
 		for(Atomic e : atomics){
 			int xPosition = getXPos(e.getDate());
 			AtomicLabel label = new AtomicLabel(e, xPosition, pushDown, model, eventLabels);
 			eventLabels.add(label);
 			group.getChildren().add(label);
+			atomicXPositions.add(xPosition);
+			atomicYPositions.add(pushDown);
 			pushDown += 20;
+			
 		}
 
 	}
@@ -419,6 +435,23 @@ public class TimelineRender implements Runnable {
 			group.getChildren().add(label);
 			counter += 20;
 		}
+	}
+	
+	private void renderConnections() {
+		for(int i =0; i<atomicXPositions.size(); i++){
+			Line blackConnector = LineBuilder.create()
+		            .startX(atomicXPositions.get(i))
+		            .startY(timelineYLocation)
+		            .endX(atomicXPositions.get(i))
+		            .endY(atomicYPositions.get(i))
+		            .fill(Color.BLACK)
+		            .strokeWidth(3.5f)
+		            .translateY(20)
+		            .build();
+			
+			group.getChildren().add(blackConnector);
+		}
+
 	}
 
 

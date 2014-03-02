@@ -13,7 +13,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 
 /**
- * @author josh
+ * @author Kurt Andres
  *
  */
 public class DurationLabel extends TLEventLabel {
@@ -147,6 +147,9 @@ public class DurationLabel extends TLEventLabel {
 	}
 
 	@Override
+	
+	//when we get the category picker working for RGB colors, we can use the folowing to give colors
+	// Color.hsb(270,1.0,1.0);
 	public void updateDesign() {
 			
 		if (isSelected()) {
@@ -158,7 +161,7 @@ public class DurationLabel extends TLEventLabel {
 				label.setStyle("-fx-background-color: red");
 			}else{
 				label.setStyle("-fx-border-color: blue");
-				label.setStyle("-fx-background-color: blue");
+				label.setStyle("-fx-background-color: Color.web(0x0000FF)");
 			}
 		}
 		

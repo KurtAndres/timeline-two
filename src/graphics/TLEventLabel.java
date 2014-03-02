@@ -2,7 +2,6 @@ package graphics;
 
 import entities.Atomic;
 import entities.Duration;
-import entities.Event;
 import javafx.scene.control.Label;
 
 /**
