@@ -119,12 +119,13 @@ public class EventPropertiesWindow extends JFrame {
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
                                 final String comments = EventPropertiesWindow.this.commentsArea.getText();
+                                final String category = (String) EventPropertiesWindow.this.category.getSelectedItem();
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
-							model.addEvent(new Atomic(title, null, Date.valueOf(startDate)));
+							model.addEvent(new Atomic(title, model.getCategory(category), Date.valueOf(startDate)));
 						else if (type.equals("Duration"))
-							model.addEvent(new Duration(title, null, Date.valueOf(startDate), Date.valueOf(endDate)));
+							model.addEvent(new Duration(title, model.getCategory(category), Date.valueOf(startDate), Date.valueOf(endDate)));
 					}
 				}).start();
 				dispose();

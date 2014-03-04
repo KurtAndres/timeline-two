@@ -152,7 +152,8 @@ public class Category implements CategoryAPI{
      * @return true if successful, false otherwise
      */
     public boolean addEvent(Event event){
-        event.setCategory(this);
+        if(!event.getCategory().equals(this))
+            event.setCategory(this);
         return events.add(event);
     }
     

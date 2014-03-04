@@ -217,6 +217,21 @@ public class TimelineMaker {
                 selectedCategories.add(c);
                 updateGraphics();
 	}
+        
+        /**
+         * Retrieves a category with a particular name. If it can't find the category,
+         * it returns the Category.defaultCategory.
+         * 
+         * @param name The name of the Category to be returned
+         * @return The found Category of the Category.defaultCategory
+         */
+        public Category getCategory(String name){
+            for(Category cat : selectedCategories){
+                if(cat.getName().equals(name))
+                    return cat;
+            }
+            return Category.defaultCategory;
+        }
 	
 	public void deleteCategory() {
 		// TODO Implement.
