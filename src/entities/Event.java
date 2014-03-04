@@ -15,6 +15,11 @@ package entities;
  */
 
 public abstract class Event {
+    
+        /**
+         * The comments on this event
+         */
+        private String comments;
 	
 	/**
 	 * The name of the event
@@ -74,6 +79,24 @@ public abstract class Event {
 	public Category getCategory() {
 		return category;
 	}
+        
+        /**
+         * Set the comments of this event.
+         * 
+         * @param comments The string to which to set comments.
+         */
+        public void setComments(String comments){
+            this.comments=comments;
+        }
+        
+        /**
+         * Retrieve the comments of this event.
+         * 
+         * @return The comments returned.
+         */
+        public String getComments(){
+            return comments;
+        }
 	
 	/**
 	 * Set the name

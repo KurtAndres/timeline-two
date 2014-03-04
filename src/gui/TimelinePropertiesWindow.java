@@ -80,7 +80,7 @@ public class TimelinePropertiesWindow extends JFrame {
 				final int axisLabelIndex = axisLabel.getSelectedIndex();
 				new Thread(new Runnable() {
 					public void run() {
-						model.addTimeline(new Timeline(titleString, axisLabelIndex));
+						model.addTimeline(new Timeline.Builder(titleString).axisLabel(axisLabelIndex).build());
 					}
 				}).start();
 				dispose();

@@ -118,6 +118,7 @@ public class EventPropertiesWindow extends JFrame {
 				final String type = EventPropertiesWindow.this.type.getSelectedItem().toString();
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
+                                final String comments = EventPropertiesWindow.this.commentsArea.getText();
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))

@@ -58,50 +58,7 @@ public class Timeline implements TimelineAPI{
 	 * whether the timeline has been changed since its last database sync
 	 */
 	private boolean dirty;
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param name Timeline name
-	 */
-	public Timeline(String name){
-		this.name = name;
-		events = new ArrayList<Event>();
-		axisLabel = AxisLabel.YEARS;
-		setDirty(true);
-                categories.add(Category.defaultCategory);
-	}
-	
-	/**
-	 * Constructor for name and events
-	 * Sets axisLabel to YEARS by default
-	 * 
-	 * @param name Timeline name
-	 * @param events Categories in timeline
-	 */
-	public Timeline(String name, Event[] events){
-		this.name = name;
-		this.events = new ArrayList<Event>(Arrays.asList(events));
-		axisLabel = AxisLabel.YEARS;
-		setDirty(true);
-                categories.add(Category.defaultCategory);
-	}
-	
-	/**
-	 * Constructor for name and axisLabel
-	 * 
-	 * @param name Timeline name
-	 * @param axisLabel Unit to render timeline in
-	 */
-	public Timeline(String name, int axisLabel) {
-		this.name = name;
-		events = new ArrayList<Event>();
-		this.axisLabel = AXIS_LABELS[axisLabel];
-		this.events = new ArrayList<Event>();
-		dirty = true;
-                categories.add(Category.defaultCategory);
-	}
-	
+        
 	/**
 	 * Constructor for name, events, and axisLabel
 	 * 
@@ -119,6 +76,39 @@ public class Timeline implements TimelineAPI{
 		dirty = true;
                 categories.add(Category.defaultCategory);
 	}
+        
+        public Timeline(Builder builder){
+            this.name = builder.name;
+            this.events = builder.events;
+            this.axisLabel = builder.axisLabel;
+        }
+        
+        public static class Builder {
+            // Required Field
+            private String name;
+            // Optional Fields
+            private ArrayList<Event> events = new ArrayList<Event>();
+            private static final AxisLabel[] AXIS_LABELS = { AxisLabel.DAYS, AxisLabel.WEEKS, AxisLabel.MONTHS, AxisLabel.YEARS, AxisLabel.DECADES, AxisLabel.CENTURIES, AxisLabel.MILLENNIA};
+            private Timeline.AxisLabel axisLabel = AXIS_LABELS[4];
+
+            public Builder(String name){
+                this.name = name;
+            }
+            public Builder events(ArrayList<Event> events){
+                this.events = events; return this;
+            }
+            public Builder events(Event[] events){
+                if(events != null)
+                    this.events = new ArrayList<Event>(Arrays.asList(events));
+                return this;
+            }
+            public Builder axisLabel(int axisLabel){
+                this.axisLabel = AXIS_LABELS[axisLabel]; return this;
+            }
+            public Timeline build(){
+                return new Timeline(this);
+            }
+        }
         
         /**
          * add a Category to the timeline

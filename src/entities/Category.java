@@ -51,71 +51,46 @@ public class Category implements CategoryAPI{
     /**
      * Default Category to hand to Timelines and Events if no categories yet exist.
      */
-    public static final Category defaultCategory = new Category("Default Category");
+    public static final Category defaultCategory = new Category.Builder("Default Category").build();
     
-    /**
-     * Constructor for name.
-     * 
-     * @param name 
-     */
-    public Category(String name){
-        this.name = name;
+    public Category (Builder builder){
+        this.name = builder.name;
+        this.selectColor = builder.sColor;
+        this.deselectColor = builder.dsColor;
+        this.icon = builder.icon;
+        this.events = builder.events;
+        for(Event e : events){
+            e.setCategory(this);
+        }
     }
     
-    /**
-     * Constructor for name, selectColor, and deselectColor.
-     * 
-     * @param name
-     * @param sColor
-     * @param dsColor 
-     */
-    public Category(String name, Color sColor, Color dsColor){
-        this.name = name;
-        this.selectColor = sColor;
-        this.deselectColor = dsColor;
-    }
-    
-    /**
-     * Constructor for name and icon.
-     * 
-     * @param name
-     * @param icon 
-     */
-    public Category(String name, Image icon){
-        this.name = name;
-        this.icon = icon;
-    }
-    
-    /**
-     * Constructor for name, selectColor, deselectColor, and icon.
-     * 
-     * @param name
-     * @param sColor
-     * @param dsColor
-     * @param icon 
-     */
-    public Category(String name, Color sColor, Color dsColor, Image icon){
-        this.name = name;
-        this.selectColor = sColor;
-        this.deselectColor = dsColor;
-        this.icon = icon;
-    }
-    
-    /**
-     * Constructor for name, selectColor, deselectColor, icon, and events.
-     * 
-     * @param name
-     * @param sColor
-     * @param dsColor
-     * @param icon
-     * @param events 
-     */
-    public Category(String name, Color sColor, Color dsColor, Image icon, ArrayList<Event> events) {
-        this.name = name;
-        this.selectColor = sColor;
-        this.deselectColor = dsColor;
-        this.icon = icon;
-        this.events = events;
+    public static class Builder {
+        // Required Field
+        private String name;
+        // Optional Fields
+        private Color sColor = Color.BEIGE;
+        private Color dsColor = Color.DARKGREEN;
+        private Image icon = null;
+        private ArrayList<Event> events = new ArrayList<Event>();
+        
+        public Builder(String name){
+            this.name = name;
+        }
+        public Builder selectColor(Color selectColor){
+            this.sColor = selectColor; return this;
+        }
+        public Builder deselectColor(Color deselectColor){
+            this.dsColor = deselectColor; return this;
+        }
+        public Builder icon(Image icon){
+            this.icon = icon; return this;
+        }
+        public Builder events(ArrayList<Event> events){
+            this.events = events; return this;
+        }
+        public Category build(){
+            return new Category(this);
+        }
     }
     
     /**

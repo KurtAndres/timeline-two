@@ -67,7 +67,7 @@ public class CategoryPropertiesWindow extends JFrame {
 						Double.parseDouble(greenSpinner.getValue().toString())/255, Double.parseDouble(blueSpinner.getValue().toString())/255,1);
 				new Thread(new Runnable() {
 					public void run() {
-						model.addCategory(new Category(title, color, color));
+						model.addCategory(new Category.Builder(title).selectColor(color).deselectColor(color).build());
 					}
 				}).start();
 				dispose();

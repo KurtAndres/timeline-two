@@ -21,8 +21,8 @@ public class TimelineTest {
 	@Test
 	public void testTimelineCreation() {
 		String name = "Test";
-                Category cat1 = new Category("category1");
-                Category cat2 = new Category("category2");
+                Category cat1 = new Category.Builder("category1").build();
+                Category cat2 = new Category.Builder("category2").build();
 		Event[] events = new Event[2];
 		events[0] = new Atomic("event1", cat1, new Date(0));
 		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
@@ -37,8 +37,8 @@ public class TimelineTest {
 	@Test
 	public void testEventAddition() {
 		String name = "Test";
-                Category cat1 = new Category("category1");
-                Category cat2 = new Category("category2");
+                Category cat1 = new Category.Builder("category1").build();
+                Category cat2 = new Category.Builder("category2").build();
 		Event[] events = new Event[2];
 		events[0] = new Atomic("event1", cat1, new Date(0));
 		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
@@ -52,8 +52,8 @@ public class TimelineTest {
 	@Test
 	public void testEventRemoval() {
 		String name = "Test";
-                Category cat1 = new Category("category1");
-                Category cat2 = new Category("category2");
+                Category cat1 = new Category.Builder("category1").build();
+                Category cat2 = new Category.Builder("category2").build();
 		Event[] events = new Event[2];
 		events[0] = new Atomic("event1", cat1, new Date(0));
 		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
