@@ -30,7 +30,7 @@ public class TimelineTest {
 		Timeline test = new Timeline.Builder(name).events(events).axisLabel(3).build();
 		assertNotNull("The test timeline should not be null: ", test);
 		assertTrue("Test the name: ", test.getName().equals(name));
-		assertTrue("Test the events array: ", test.getEvents().length != 0);
+		assertTrue("Test the events array: ", test.getEvents().size() != 0);
 		assertTrue("Test the axis label: ", test.getAxisLabel() == axisLabel && test.getAxisLabelIndex() == 3);
 	}
 	

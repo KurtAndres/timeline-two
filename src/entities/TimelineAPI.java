@@ -78,20 +78,11 @@ public interface TimelineAPI {
 	public boolean removeEvent(Event event);
 	
 	/**
-	 * Swap an oldTLEvent out for a newTLEvent. Useful for updating an event whose data has changed
-	 * 
-	 * @param oldTLEventName the event to switch out
-	 * @param newTLEventName the event to switch in
-	 * @return whether the event was swapped successfully (false if oldTLEvent is not in the timeline)
-	 */
-	public boolean changeEvent(Event oldTLEventName, Event newTLEventName);
-	
-	/**
 	 * Returns an array with all the timeline's events, length is exactly the number of events
 	 * 
 	 * @return array of all the timeline's events
 	 */
-	public Event[] getEvents();
+	public ArrayList<Event> getEvents();
 	
 	/**
 	 * Returns true if the timeline has been altered since last database sync. Currently not in use

@@ -6,6 +6,8 @@ import entities.Event;
 import graphics.TimelineGraphics;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -469,7 +471,17 @@ public class MainWindow extends JFrame {
 		});
 
 		//TODO Define action listeners for category tools.
-		
+		categoriesList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				final ArrayList<String> selectedCategories = new ArrayList<String>(categoriesList.getSelectedValuesList());
+				new Thread(new Runnable() {
+					public void run(){
+						model.selectCategories(selectedCategories);
+					}
+				}).start();
+			}
+		});
+
 		addCategoryButton.addActionListener(new ActionListener() {
 			/**
 			 * Create a new CategoryPropertiesWindow for category additon.
@@ -494,17 +506,17 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
-                                            try{
-						final Category selectedCategory = model.getSelectedCategories().get(0);
-						if (selectedCategory != null && model.getSelectedTimeline() != null)
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
-								}
-							});
-                                            }catch(NullPointerException npe){
-                                                System.out.println("No categories, null pointer");
-                                            }
+						try{
+							final Category selectedCategory = model.getSelectedCategories().get(0);
+							if (selectedCategory != null && model.getSelectedTimeline() != null)
+								SwingUtilities.invokeLater(new Runnable() {
+									public void run() {
+										new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
+									}
+								});
+						}catch(NullPointerException npe){
+							System.out.println("No categories, null pointer");
+						}
 					}
 				}).start();
 			}
@@ -634,16 +646,21 @@ public class MainWindow extends JFrame {
 
 	public void updateCategories(final ArrayList<String> categoryTitles, final ArrayList<String> selectedCategoryTitles) {
 		SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            DefaultListModel listModel = new DefaultListModel();
-                            categoriesList.removeAll();
-                            for (String s : categoryTitles)
-                                listModel.addElement(s);
-                            categoriesList.setModel(listModel);
-                            for (String s : selectedCategoryTitles){
-                                categoriesList.setSelectedIndex(categoryTitles.indexOf(s));
-                            }
-                        }
-                });
+			public void run() {
+				if (categoryTitles != null) {
+					categoriesList.removeAll();
+					DefaultListModel<String> listModel = new DefaultListModel<String>();
+					categoriesList.removeAll();
+					for (String s : categoryTitles)
+						listModel.addElement(s);
+					categoriesList.setModel(listModel);
+					if (selectedCategoryTitles != null && !selectedCategoryTitles.isEmpty())
+						for (String s : selectedCategoryTitles)
+							categoriesList.setSelectedIndex(categoryTitles.indexOf(s));
+					else
+						categoriesList.setSelectedValue(Category.defaultCategory.getName(), true);
+				}
+			}
+		});
 	}
 }
