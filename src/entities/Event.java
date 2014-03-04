@@ -15,22 +15,22 @@ package entities;
  */
 
 public abstract class Event {
-    
-        /**
-         * The comments on this event
-         */
-        private String comments;
-	
+
+	/**
+	 * The comments on this event
+	 */
+	private String comments;
+
 	/**
 	 * The name of the event
 	 */
 	private String name;
-	
+
 	/**
 	 * The category of the event
 	 */
 	private Category category;
-	
+
 	/**
 	 * A super constructor for all TLEvents, setting the name and category 
 	 * 
@@ -39,15 +39,15 @@ public abstract class Event {
 	 */
 	Event(String name, Category category) {
 		this.name = name;
-                try{
-                    this.category = category;
-                    category.addEvent(this);
-                }catch(NullPointerException npe){
-                    category = Category.defaultCategory;
-                    System.out.println("no category added, null pointer");
-                }
+		try{
+			this.category = category;
+			category.addEvent(this);
+		}catch(NullPointerException npe){
+			category = Category.defaultCategory;
+			System.out.println("no category added, null pointer");
+		}
 	}
-        
+
 	/**
 	 * Get the name
 	 * 
@@ -56,48 +56,48 @@ public abstract class Event {
 	public String getName() {
 		return name;
 	}
-        
-        /**
-         * Sets the category of this event to the category provided. Also adds this event to the Category.
-         * If this event was previously a member of a different category, this event is removed from that category.
-         * 
-         * @param category the category to be set
-         */
-        public void setCategory(Category category){
-                if(this.category!=null)
-                    this.category.removeEvent(this);
-                category.addEvent(this);
-                this.category = category;
-        }
-	
+
+	/**
+	 * Sets the category of this event to the category provided. Also adds this event to the Category.
+	 * If this event was previously a member of a different category, this event is removed from that category.
+	 * 
+	 * @param category the category to be set
+	 */
+	public void setCategory(Category category){
+		if(this.category!=null)
+			this.category.removeEvent(this);
+		category.addEvent(this);
+		this.category = category;
+	}
+
 	/**
 	 * Get the category.
-         * WARNING: Main return null.
+	 * WARNING: Main return null.
 	 * 
 	 * @return the category
 	 */
 	public Category getCategory() {
 		return category;
 	}
-        
-        /**
-         * Set the comments of this event.
-         * 
-         * @param comments The string to which to set comments.
-         */
-        public void setComments(String comments){
-            this.comments=comments;
-        }
-        
-        /**
-         * Retrieve the comments of this event.
-         * 
-         * @return The comments returned.
-         */
-        public String getComments(){
-            return comments;
-        }
-	
+
+	/**
+	 * Set the comments of this event.
+	 * 
+	 * @param comments The string to which to set comments.
+	 */
+	public void setComments(String comments){
+		this.comments=comments;
+	}
+
+	/**
+	 * Retrieve the comments of this event.
+	 * 
+	 * @return The comments returned.
+	 */
+	public String getComments(){
+		return comments;
+	}
+
 	/**
 	 * Set the name
 	 * 
@@ -106,7 +106,7 @@ public abstract class Event {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Return the name of the Type (to be used when storing on the database)
 	 * 
