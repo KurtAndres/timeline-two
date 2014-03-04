@@ -17,11 +17,6 @@ package entities;
 public abstract class Event {
 
 	/**
-	 * The comments on this event
-	 */
-	private String comments;
-
-	/**
 	 * The name of the event
 	 */
 	private String name;
@@ -30,21 +25,27 @@ public abstract class Event {
 	 * The category of the event
 	 */
 	private Category category;
+	
+	/**
+	 * The details on this event
+	 */
+	private String details;
 
 	/**
-	 * A super constructor for all TLEvents, setting the name and category 
+	 * A super constructor for all Events, setting the name, category, and details.
 	 * 
 	 * @param name the name of the event
 	 * @param category the category of the event
 	 */
-	Event(String name, Category category) {
+	Event(String name, Category category, String details) {
 		this.name = name;
+		this.details = details;
 		try{
 			this.category = category;
 			category.addEvent(this);
 		}catch(NullPointerException npe){
 			category = Category.defaultCategory;
-			System.out.println("no category added, null pointer");
+			System.out.println("No category added, Null pointer");
 		}
 	}
 
@@ -81,21 +82,21 @@ public abstract class Event {
 	}
 
 	/**
-	 * Set the comments of this event.
+	 * Set the details of this event.
 	 * 
-	 * @param comments The string to which to set comments.
+	 * @param details The string to which to set details.
 	 */
-	public void setComments(String comments){
-		this.comments=comments;
+	public void setDetails(String details){
+		this.details = details;
 	}
 
 	/**
-	 * Retrieve the comments of this event.
+	 * Retrieve the details of this event.
 	 * 
-	 * @return The comments returned.
+	 * @return The details returned.
 	 */
-	public String getComments(){
-		return comments;
+	public String getDetails(){
+		return details;
 	}
 
 	/**

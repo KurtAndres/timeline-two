@@ -58,21 +58,27 @@ public class EventPropertiesWindow extends JFrame {
 	 */
 	private JTextField endDate; // TODO Replace with JCalendar date-picker.
 
+	/**
+	 * The category dropdown label.
+	 */
 	private JLabel categoryLabel;
+	/**
+	 * The category dropdown.
+	 */
 	private JComboBox<String> category;
 
 	/**
-	 * The comments field label.
+	 * The details field label.
 	 */
-	private JLabel commentLabel;
+	private JLabel detailsLabel;
 	/**
-	 * The comments scrollable pane.
+	 * The details scrollable pane.
 	 */
-	private JScrollPane comments;
+	private JScrollPane detailsPane;
 	/**
-	 * The comments text area.
+	 * The details text area.
 	 */
-	private JTextArea commentsArea;
+	private JTextArea detailsArea;
 
 	/**
 	 * The ok button.
@@ -93,18 +99,18 @@ public class EventPropertiesWindow extends JFrame {
 		setTitle("Add Event");
 
 		initComponents();
-		
+
 		new Thread(new Runnable() {
 			/**
 			 * Load information from the event to be edited into the window.
 			 */
 			public void run() {
-                            try{
-				for (Category c : model.getSelectedCategories())
-					category.addItem(c.getName());
-                            }catch(NullPointerException npe){
-                                System.out.println("No categories added, null pointer");
-                            }
+				try{
+					for (Category c : model.getSelectedCategories())
+						category.addItem(c.getName());
+				}catch(NullPointerException npe){
+					System.out.println("No categories added, null pointer");
+				}
 			}
 		}).start();
 
@@ -118,14 +124,14 @@ public class EventPropertiesWindow extends JFrame {
 				final String type = EventPropertiesWindow.this.type.getSelectedItem().toString();
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
-                                final String comments = EventPropertiesWindow.this.commentsArea.getText();
-                                final String category = (String) EventPropertiesWindow.this.category.getSelectedItem();
+				final String category = (String) EventPropertiesWindow.this.category.getSelectedItem();
+				final String details = EventPropertiesWindow.this.detailsArea.getText();
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
-							model.addEvent(new Atomic(title, model.getCategory(category), Date.valueOf(startDate)));
+							model.addEvent(new Atomic(title, model.getCategory(category), details, Date.valueOf(startDate)));
 						else if (type.equals("Duration"))
-							model.addEvent(new Duration(title, model.getCategory(category), Date.valueOf(startDate), Date.valueOf(endDate)));
+							model.addEvent(new Duration(title, model.getCategory(category), details, Date.valueOf(startDate), Date.valueOf(endDate)));
 					}
 				}).start();
 				dispose();
@@ -154,7 +160,9 @@ public class EventPropertiesWindow extends JFrame {
 			public void run() {
 				for (Category c : model.getSelectedCategories())
 					category.addItem(c.getName());
+				final String categoryName = event.getCategory().getName();
 				final String eventName = event.getName();
+				final String details = event.getDetails();
 				if (event instanceof Atomic) {
 					final String date = ((Atomic)event).getDate().toString();
 					SwingUtilities.invokeLater(new Runnable() {
@@ -162,6 +170,8 @@ public class EventPropertiesWindow extends JFrame {
 							title.setText(eventName);
 							type.setSelectedItem("Atomic");
 							startDate.setText(date);
+							category.setSelectedItem(categoryName);
+							detailsArea.setText(details);
 						}
 					});
 				} else if (event instanceof Duration) {
@@ -173,6 +183,8 @@ public class EventPropertiesWindow extends JFrame {
 							type.setSelectedItem("Duration");
 							startDate.setText(startDateString);
 							endDate.setText(endDateString);
+							category.setSelectedItem(categoryName);
+							detailsArea.setText(details);
 						}
 					});
 				}
@@ -190,12 +202,14 @@ public class EventPropertiesWindow extends JFrame {
 				final String type = EventPropertiesWindow.this.type.getSelectedItem().toString();
 				final String startDate = EventPropertiesWindow.this.startDate.getText();
 				final String endDate = EventPropertiesWindow.this.endDate.getText();
+				final String category = (String) EventPropertiesWindow.this.category.getSelectedItem();
+				final String details = EventPropertiesWindow.this.detailsArea.getText();
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
-							model.editEvent(new Atomic(title, null, Date.valueOf(startDate)));
+							model.editEvent(new Atomic(title,  model.getCategory(category), details, Date.valueOf(startDate)));
 						else if (type.equals("Duration"))
-							model.editEvent(new Duration(title, null, Date.valueOf(startDate), Date.valueOf(endDate)));
+							model.editEvent(new Duration(title,  model.getCategory(category), details, Date.valueOf(startDate), Date.valueOf(endDate)));
 					}
 				}).start();
 				dispose();
@@ -224,9 +238,9 @@ public class EventPropertiesWindow extends JFrame {
 		categoryLabel = new JLabel();
 		category = new JComboBox<String>();
 
-		commentLabel = new JLabel();
-		comments = new JScrollPane();
-		commentsArea = new JTextArea();
+		detailsLabel = new JLabel();
+		detailsPane = new JScrollPane();
+		detailsArea = new JTextArea();
 
 		okButton = new JButton();
 		cancelButton = new JButton();
@@ -258,10 +272,10 @@ public class EventPropertiesWindow extends JFrame {
 
 		categoryLabel.setText("Category");
 
-		commentLabel.setText("Comments");
-		commentsArea.setColumns(20);
-		commentsArea.setRows(5);
-		comments.setViewportView(commentsArea);
+		detailsLabel.setText("Comments");
+		detailsArea.setColumns(20);
+		detailsArea.setRows(5);
+		detailsPane.setViewportView(detailsArea);
 
 		okButton.setText("Ok");
 
@@ -296,7 +310,7 @@ public class EventPropertiesWindow extends JFrame {
 										.addComponent(toLabel)
 										.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 										.addComponent(endDate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-										.addComponent(comments)
+										.addComponent(detailsPane)
 										.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
 												.addGap(0, 0, Short.MAX_VALUE)
 												.addComponent(okButton)
@@ -311,7 +325,7 @@ public class EventPropertiesWindow extends JFrame {
 																.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 																.addComponent(title, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
 																.addGroup(layout.createSequentialGroup()
-																		.addComponent(commentLabel)
+																		.addComponent(detailsLabel)
 																		.addGap(0, 0, Short.MAX_VALUE))
 																		.addGroup(layout.createSequentialGroup()
 																				.addComponent(categoryLabel)
@@ -341,9 +355,9 @@ public class EventPropertiesWindow extends JFrame {
 														.addComponent(categoryLabel)
 														.addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
 														.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-														.addComponent(commentLabel)
+														.addComponent(detailsLabel)
 														.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-														.addComponent(comments, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+														.addComponent(detailsPane, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
 														.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 														.addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 																.addComponent(cancelButton)
