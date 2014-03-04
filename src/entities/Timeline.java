@@ -59,30 +59,20 @@ public class Timeline implements TimelineAPI{
 	 */
 	private boolean dirty;
         
-	/**
-	 * Constructor for name, events, and axisLabel
-	 * 
-	 * @param name Timeline name
-	 * @param events Categories in timeline
-	 * @param axisLabel Unit to render timeline in
-	 */
-	public Timeline(String name, Event[] events, int axisLabel) {
-		this.name = name;
-		if(events != null)
-			this.events = new ArrayList<Event>(Arrays.asList(events));
-		else
-			this.events = new ArrayList<Event>();
-		this.axisLabel = AXIS_LABELS[axisLabel];
-		dirty = true;
-                categories.add(Category.defaultCategory);
-	}
-        
-        public Timeline(Builder builder){
+        /**
+         * Constructor
+         * 
+         * @param builder the builder required to build the timeline.
+         */
+        private Timeline(Builder builder){
             this.name = builder.name;
             this.events = builder.events;
             this.axisLabel = builder.axisLabel;
         }
         
+        /**
+         * The Builder class to build a Timeline.
+         */
         public static class Builder {
             // Required Field
             private String name;
@@ -90,21 +80,53 @@ public class Timeline implements TimelineAPI{
             private ArrayList<Event> events = new ArrayList<Event>();
             private static final AxisLabel[] AXIS_LABELS = { AxisLabel.DAYS, AxisLabel.WEEKS, AxisLabel.MONTHS, AxisLabel.YEARS, AxisLabel.DECADES, AxisLabel.CENTURIES, AxisLabel.MILLENNIA};
             private Timeline.AxisLabel axisLabel = AXIS_LABELS[4];
-
+            
+            /**
+             * Constructor for the Timeline.Builder class.
+             * 
+             * @param name The name of the Timeline.
+             */
             public Builder(String name){
                 this.name = name;
             }
+            
+            /**
+             * Add events to the Timeline.
+             * 
+             * @param events The events to be added.
+             * @return The Builder building the Timeline.
+             */
             public Builder events(ArrayList<Event> events){
                 this.events = events; return this;
             }
+            
+            /**
+             * Add events to the TImeline
+             * 
+             * @param events The events to be added
+             * @return The Builder building the Timeline
+             */
             public Builder events(Event[] events){
                 if(events != null)
                     this.events = new ArrayList<Event>(Arrays.asList(events));
                 return this;
             }
+            
+            /**
+             * Add an axis label to the Timeline
+             * 
+             * @param axisLabel The axisLabel to be added
+             * @return The Builder building the Timeline
+             */
             public Builder axisLabel(int axisLabel){
                 this.axisLabel = AXIS_LABELS[axisLabel]; return this;
             }
+            
+            /**
+             * Build the completed Timeline
+             * 
+             * @return The built Timeline
+             */
             public Timeline build(){
                 return new Timeline(this);
             }

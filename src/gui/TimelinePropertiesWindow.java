@@ -128,7 +128,7 @@ public class TimelinePropertiesWindow extends JFrame {
 				new Thread(new Runnable() {
 					public void run() {
 						Event[] events = timeline.getEvents();
-						model.editTimeline(new Timeline(titleString, events, axisLabelIndex));
+						model.editTimeline(new Timeline.Builder(titleString).events(events).axisLabel(axisLabelIndex).build());
 					}
 				}).start();
 				dispose();

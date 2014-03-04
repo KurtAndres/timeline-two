@@ -53,7 +53,7 @@ public class Category implements CategoryAPI{
      */
     public static final Category defaultCategory = new Category.Builder("Default Category").build();
     
-    public Category (Builder builder){
+    private Category (Builder builder){
         this.name = builder.name;
         this.selectColor = builder.sColor;
         this.deselectColor = builder.dsColor;
@@ -64,6 +64,9 @@ public class Category implements CategoryAPI{
         }
     }
     
+    /**
+     * The Builder class to build a Category.
+     */
     public static class Builder {
         // Required Field
         private String name;
@@ -73,21 +76,60 @@ public class Category implements CategoryAPI{
         private Image icon = null;
         private ArrayList<Event> events = new ArrayList<Event>();
         
+        /**
+         * Constructor
+         * 
+         * @param name The name of the Category
+         */
         public Builder(String name){
             this.name = name;
         }
+        
+        /**
+         * set the selectColor of the Category
+         * 
+         * @param selectColor the color to set
+         * @return the Builder
+         */
         public Builder selectColor(Color selectColor){
             this.sColor = selectColor; return this;
         }
+        
+        /**
+         * set the deselectColor of the Category
+         * 
+         * @param deselectColor the color to set
+         * @return the Builder
+         */
         public Builder deselectColor(Color deselectColor){
             this.dsColor = deselectColor; return this;
         }
+        
+        /**
+         * set the icon of the Category
+         * 
+         * @param icon the icon to set
+         * @return the Builder
+         */
         public Builder icon(Image icon){
             this.icon = icon; return this;
         }
+        
+        /**
+         * set the events of the Category
+         * 
+         * @param events the events to set
+         * @return the Builder
+         */
         public Builder events(ArrayList<Event> events){
             this.events = events; return this;
         }
+        
+        /**
+         * Build the Category
+         * 
+         * @return the Category built
+         */
         public Category build(){
             return new Category(this);
         }
