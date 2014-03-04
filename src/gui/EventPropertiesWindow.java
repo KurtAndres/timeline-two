@@ -50,7 +50,7 @@ public class EventPropertiesWindow extends JFrame {
 	/**
 	 * The event start date field.
 	 */
-	private JTextField startDate; // TODO Replace with JCalendar date-picker.
+	private JTextField startDate;
 	/**
 	 * The "to" label.
 	 */
@@ -58,7 +58,7 @@ public class EventPropertiesWindow extends JFrame {
 	/**
 	 * The event end date field.
 	 */
-	private JTextField endDate; // TODO Replace with JCalendar date-picker.
+	private JTextField endDate;
 
 	/**
 	 * The category dropdown label.
