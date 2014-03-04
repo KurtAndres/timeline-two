@@ -276,5 +276,15 @@ public class Category implements CategoryAPI{
         }
         return true;
     }
+    
+    /**
+     * Returns the name of the Category
+     * 
+     * @return The name of the Category
+     */
+    @Override
+    public String toString(){
+        return this.name;
+    }
 
 }
