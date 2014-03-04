@@ -4,6 +4,8 @@ import model.*;
 import entities.*;
 
 import javax.swing.*;
+
+import java.awt.Color;
 import java.awt.event.*;
 import java.sql.Date;
 
@@ -106,7 +108,7 @@ public class EventPropertiesWindow extends JFrame {
 			 */
 			public void run() {
 				try{
-					for (Category c : model.getSelectedCategories())
+					for (Category c : model.getSelectedTimeline().getCategories())
 						category.addItem(c.getName());
 				}catch(NullPointerException npe){
 					System.out.println("No categories added, null pointer");
@@ -158,7 +160,7 @@ public class EventPropertiesWindow extends JFrame {
 			 * Load information from the event to be edited into the window.
 			 */
 			public void run() {
-				for (Category c : model.getSelectedCategories())
+				for (Category c : model.getSelectedTimeline().getCategories())
 					category.addItem(c.getName());
 				final String categoryName = event.getCategory().getName();
 				final String eventName = event.getName();
@@ -264,15 +266,45 @@ public class EventPropertiesWindow extends JFrame {
 				}
 			}
 		});
-
+		
 		dateLabel.setText("Date");
 		startDate.setText("yyyy-mm-dd");
+		startDate.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+				startDate.setForeground(Color.GRAY);
+				startDate.setText("");
+			}
+
+			public void focusLost(FocusEvent e) {
+				try {
+					Date.valueOf(startDate.getText());
+				} catch (Exception nfe) {
+					startDate.setForeground(Color.RED);
+					startDate.setText("yyyy-mm-dd");
+				}
+			}
+		});
 		toLabel.setText("to");
 		endDate.setText("yyyy-mm-dd");
+		endDate.addFocusListener(new FocusListener() {
+			public void focusGained(FocusEvent e) {
+				endDate.setForeground(Color.GRAY);
+				endDate.setText("");
+			}
+
+			public void focusLost(FocusEvent e) {
+				try {
+					Date.valueOf(endDate.getText());
+				} catch (Exception nfe) {
+					endDate.setForeground(Color.RED);
+					endDate.setText("yyyy-mm-dd");
+				}
+			}
+		});
 
 		categoryLabel.setText("Category");
 
-		detailsLabel.setText("Comments");
+		detailsLabel.setText("Event Details:");
 		detailsArea.setColumns(20);
 		detailsArea.setRows(5);
 		detailsPane.setViewportView(detailsArea);
@@ -365,9 +397,5 @@ public class EventPropertiesWindow extends JFrame {
 																.addContainerGap())
 				);
 		pack();
-	}
-
-	public static void main(String[] args) {
-		new EventPropertiesWindow(null).setVisible(true);
 	}
 }
