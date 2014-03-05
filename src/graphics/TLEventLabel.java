@@ -13,17 +13,17 @@ import javafx.scene.control.Label;
  * February 15, 2014
  */
 public abstract class TLEventLabel extends Label {
-	
+
 	/**
 	 * Whether this is the selected event or not
 	 */
 	private boolean selected;
-	
+
 	/**
 	 * Whether this event is hovered over or not
 	 */
 	private boolean hovered;
-	
+
 	/**
 	 * Set the text of the label to text
 	 * 
@@ -59,7 +59,7 @@ public abstract class TLEventLabel extends Label {
 	public boolean isHovered(){
 		return hovered;
 	}
-	
+
 	/**
 	 * Setter for hovered, that updates the label if hovered
 	 * 
@@ -69,7 +69,7 @@ public abstract class TLEventLabel extends Label {
 		this.hovered = hovered;
 		updateDesign();
 	}
-	
+
 	/**
 	 * Setter to set text for the hover over tooltip for Duration labels
 	 * 
@@ -78,19 +78,30 @@ public abstract class TLEventLabel extends Label {
 	public String setDurationTooltip(Duration E){
 		String dateString;
 		dateString = E.getStartDate()+" --> "+E.getEndDate();
-		return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+dateString;
-		
+		String detailString;
+		if(E.getDetails()!=null){
+			detailString = "Details: "+E.getDetails();	
+			return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+dateString+"\n"+detailString;
+		}else{
+			return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+dateString;
+		}
+
+
 	}
-	
+
 	/**
 	 * Setter to set text for the hover over tooltip for Atomic labels
 	 * 
 	 * @return String
 	 */
 	public String setAtomicTooltip(Atomic E){
-		
-		return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+E.getDate();
-		
+		String detailString;
+		if(E.getDetails()!=null){
+			detailString = "Details: "+E.getDetails();	
+			return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+E.getDate()+"\n"+detailString;
+		}else{
+			return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+E.getDate();
+		}
 	}
 
 	/**
