@@ -161,7 +161,7 @@ public class DurationLabel extends TLEventLabel {
 				label.setStyle("-fx-background-color: red");
 			}else{
 				label.setStyle("-fx-border-color: blue");
-				label.setStyle("-fx-background-color: Color.web(0x0000FF)");
+				label.setStyle("-fx-background-color: blue");
 			}
 		}
 		

@@ -444,7 +444,7 @@ public class TimelineRender implements Runnable {
 		            .startY(timelineYLocation)
 		            .endX(atomicXPositions.get(i))
 		            .endY(atomicYPositions.get(i))
-		            .fill(Color.BLACK)
+		            .fill(Color.color(1.0, 0, 0))
 		            .strokeWidth(1.5f)
 		            .translateY(20)
 		            .build();
