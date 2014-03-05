@@ -4,7 +4,10 @@ import model.*;
 import entities.*;
 
 import javax.swing.*;
+
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * TimelinePropertiesWindow.java
@@ -80,7 +83,7 @@ public class TimelinePropertiesWindow extends JFrame {
 				final int axisLabelIndex = axisLabel.getSelectedIndex();
 				new Thread(new Runnable() {
 					public void run() {
-						model.addTimeline(new Timeline(titleString, axisLabelIndex));
+						model.addTimeline(new Timeline.Builder(titleString).axisLabel(axisLabelIndex).build());
 					}
 				}).start();
 				dispose();
@@ -127,8 +130,9 @@ public class TimelinePropertiesWindow extends JFrame {
 				final int axisLabelIndex = axisLabel.getSelectedIndex();
 				new Thread(new Runnable() {
 					public void run() {
-						Event[] events = timeline.getEvents();
-						model.editTimeline(new Timeline(titleString, events, axisLabelIndex));
+						ArrayList<Event> events = timeline.getEvents();
+						HashSet<Category> categories = timeline.getCategories(); 
+						model.editTimeline(new Timeline.Builder(titleString).categories(categories).events(events).axisLabel(axisLabelIndex).build());
 					}
 				}).start();
 				dispose();

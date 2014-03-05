@@ -43,7 +43,7 @@ public class TimelineMaker {
 	 * The database for storing timelines of this application.
 	 */
 	// TODO Add storage object.
-	
+
 	/**
 	 * The main GUI window for this application.
 	 */
@@ -61,7 +61,7 @@ public class TimelineMaker {
 		// TODO Instantiate storage helper object.
 		graphics = new TimelineGraphics(this);
 		timelines = new ArrayList<Timeline>();
-                selectedCategories = new ArrayList<Category>();
+		selectedCategories = new ArrayList<Category>();
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
@@ -95,7 +95,7 @@ public class TimelineMaker {
 				new Thread(new Runnable() {
 					public void run() {
 						gui.updateTimelines(getTimelineTitles(), null);
-						gui.updateCategories(selectedTimeline.getCategoryNames(), new ArrayList<String>());
+						gui.updateCategories(null, null);
 					}
 				}).start();
 			}
@@ -143,8 +143,9 @@ public class TimelineMaker {
 	public void selectTimeline(String title) {
 		selectedTimeline = getTimeline(title);
 		selectedEvent = null;
-		if (selectedTimeline != null)
+		if (selectedTimeline != null) {
 			updateGraphics();
+		}
 	}
 
 	/**
@@ -201,28 +202,52 @@ public class TimelineMaker {
 			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
 	}
-	
+
 	public ArrayList<Category> getSelectedCategories() {
 		return selectedCategories;
 	}
-	
-	public void selectCategories(ArrayList<Category> c) {
-		selectedCategories = c;
+
+	public void selectCategories(ArrayList<String> c) {
+		selectedCategories.clear();
+		for (String name : c)
+			selectedCategories.add(getCategory(name));
 		// TODO Update graphics.
 	}
-	
+
 	public void addCategory(Category c) {
 		// TODO Implement.
-                selectedTimeline.addCategory(c);
-                selectedCategories.add(c);
-                updateGraphics();
+		selectedTimeline.addCategory(c);
+		selectedCategories.add(c);
+		ArrayList<String> selectedCategoryTitles = new ArrayList<String>();
+		for (Category cat : selectedCategories)
+			selectedCategoryTitles.add(cat.getName());
+		gui.updateCategories(selectedTimeline.getCategoryNames(), selectedCategoryTitles);
+		System.out.println("Categories updated in GUI!\n\tCategories include:");
+		for (Category cat : selectedCategories)
+			System.out.println(cat.getName());
+		updateGraphics();
 	}
-	
+
+	/**
+	 * Retrieves a category with a particular name. If it can't find the category,
+	 * it returns the Category.defaultCategory.
+	 * 
+	 * @param name The name of the Category to be returned
+	 * @return The found Category of the Category.defaultCategory
+	 */
+	public Category getCategory(String name){
+		for(Category cat : selectedTimeline.getCategories()){
+			if(cat.getName().equals(name))
+				return cat;
+		}
+		return Category.defaultCategory;
+	}
+
 	public void deleteCategory() {
 		// TODO Implement.
 		// Loop through the selected categories and remove them from the timeline.
 	}
-	
+
 	public void editCategory(Category c) {
 		// TODO Implement.
 	}
@@ -295,8 +320,8 @@ public class TimelineMaker {
 			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
-	
-	
+
+
 	/**
 	 * Update the graphics for the display screen.
 	 */

@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.event.*;
-import java.awt.*;
+import java.util.ArrayList;
 
 import model.TimelineMaker;
 
@@ -10,8 +10,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import javafx.scene.paint.Color;
-
 import entities.Category;
+import entities.Event;
 
 /**
  * CategoryPropertiesWindow.java
@@ -67,7 +67,59 @@ public class CategoryPropertiesWindow extends JFrame {
 						Double.parseDouble(greenSpinner.getValue().toString())/255, Double.parseDouble(blueSpinner.getValue().toString())/255,1);
 				new Thread(new Runnable() {
 					public void run() {
-						model.addCategory(new Category(title, color, color));
+						model.addCategory(new Category.Builder(title).selectColor(color).deselectColor(color).build());
+					}
+				}).start();
+				dispose();
+			}
+		});
+		
+		initLayout();
+	}
+	
+	/**
+	 * Constructor.
+	 * Constructor for adding a new category.
+	 * @param model the TimelineMaker application model
+	 */
+	public CategoryPropertiesWindow(final TimelineMaker model, final Category category) {
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		setTitle("Edit Category");
+		
+		initComponents();
+		
+		new Thread(new Runnable() {
+			/**
+			 * Load information from the timeline to be edited into the window.
+			 */
+			public void run() {
+				final String categoryTitle = category.getName();
+				final int red = (int)(category.getSelectColor().getRed()*255);
+				final int green = (int)(category.getSelectColor().getGreen()*255);
+				final int blue = (int)(category.getSelectColor().getBlue()*255);
+				SwingUtilities.invokeLater(new Runnable() {
+					public void run() {
+						title.setText(categoryTitle);
+						redSpinner.setValue(red);
+						greenSpinner.setValue(green);
+						blueSpinner.setValue(blue);
+					}
+				});
+			}
+		}).start();
+		
+		okButton.addActionListener(new ActionListener() {
+			/**
+			 * Get information from data fields and create new category. Add category to model.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				final String title = CategoryPropertiesWindow.this.title.getText();
+				final Color color = new Color(Double.parseDouble(redSpinner.getValue().toString())/255, 
+						Double.parseDouble(greenSpinner.getValue().toString())/255, Double.parseDouble(blueSpinner.getValue().toString())/255,1);
+				new Thread(new Runnable() {
+					public void run() {
+						ArrayList<Event> events = category.getEvents();
+						model.addCategory(new Category.Builder(title).selectColor(color).deselectColor(color).events(events).build());
 					}
 				}).start();
 				dispose();

@@ -31,8 +31,8 @@ public class Duration extends Event {
 	 * @param startDate the event startDate
 	 * @param endDate the event endDate
 	 */
-	public Duration(String name, Category category, Date startDate, Date endDate){
-		super(name, category);
+	public Duration(String name, Category category, String details, Date startDate, Date endDate){
+		super(name, category, details);
 		this.setStartDate(startDate);
 		this.setEndDate(endDate);
 	}

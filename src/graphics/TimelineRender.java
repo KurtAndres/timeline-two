@@ -215,15 +215,14 @@ public class TimelineRender implements Runnable {
 	 */
 
 	private boolean initRange() {
-		if(timeline.getEvents() == null) { // Initializes the variables, super kludgy but we can make it better later if there is time
+		if(timeline.getEvents() == null || timeline.getEvents().isEmpty()) { // Initializes the variables, super kludgy but we can make it better later if there is time
 			return false; 
-		}
-		if (timeline.getEvents()[0] instanceof Duration){
-			minTime = ((Duration)timeline.getEvents()[0]).getStartDate().getTime();
-			maxTime = ((Duration)timeline.getEvents()[0]).getEndDate().getTime();
-		}else{
-			minTime = ((Atomic)timeline.getEvents()[0]).getDate().getTime();
-			maxTime = ((Atomic)timeline.getEvents()[0]).getDate().getTime();
+		} else if (timeline.getEvents().get(0) instanceof Duration) {
+			minTime = ((Duration)timeline.getEvents().get(0)).getStartDate().getTime();
+			maxTime = ((Duration)timeline.getEvents().get(0)).getEndDate().getTime();
+		} else {
+			minTime = ((Atomic)timeline.getEvents().get(0)).getDate().getTime();
+			maxTime = ((Atomic)timeline.getEvents().get(0)).getDate().getTime();
 		}
 		return true;
 	}
