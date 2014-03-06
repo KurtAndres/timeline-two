@@ -8,6 +8,7 @@ import com.thoughtworks.xstream.XStream;
 import entities.Category;
 import entities.Event;
 import entities.Timeline;
+import entities.Timeline.AxisLabel;
 import entities.Timeline.Builder;
 
 import java.io.File;
@@ -93,7 +94,7 @@ public class SaveMe implements SaveMeAPI{
 			out.write(bytes);
 			out.close();
 
-		}catch(Exception e){ //Refine?
+		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Could not save.");
 		}
@@ -132,7 +133,7 @@ public class SaveMe implements SaveMeAPI{
 			out.write(bytes);
 			out.close();
 
-		}catch(Exception e){ //Refine?
+		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("Could not save.");
 		}
@@ -153,6 +154,42 @@ public class SaveMe implements SaveMeAPI{
 		}
 
 		return event;
+	}
+	
+	@Override
+	public void saveAxisLabel(AxisLabel axisLabel, String timeline){
+		XStream xstream = new XStream(); 
+		String path = "Timelines/" + timeline + "/axisLabel.xml";
+
+		xstream.alias(axisLabel.toString(), AxisLabel.class);
+		String xml = xstream.toXML(axisLabel);
+		try{
+			FileOutputStream out = new FileOutputStream(path);
+			byte[] bytes = xml.getBytes("UTF-8");
+			out.write(bytes);
+			out.close();
+
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println("Could not save.");
+		}
+	}
+	
+	@Override
+	public AxisLabel loadAxisLabel(String timeline){
+		XStream xstream = new XStream();
+		AxisLabel axisLabel = null;
+		String path = System.getProperty("user.dir"); //Grab the working dir
+		path = path + "Timelines/" + timeline + "/axisLabel";
+		
+		try{
+			File xmlFile = new File(path);
+			axisLabel = (AxisLabel)xstream.fromXML(xmlFile);       
+		}catch(Exception e){
+			System.err.println("Error in XML Read: " + e.getMessage());
+		}
+
+		return axisLabel;
 	}
 
 
