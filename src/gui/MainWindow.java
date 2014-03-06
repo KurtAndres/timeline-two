@@ -260,6 +260,7 @@ public class MainWindow extends JFrame {
 		editTimelineButton.setText("Edit Timeline");
 
 		categoriesEditLabel.setText("Categories");
+		categoriesList.setModel(new DefaultListModel<String>());
 		addCategoryButton.setText("Add Category");
 		editCategoryButton.setText("Edit Category");
 		deleteCategoryButton.setText("Delete Category");
@@ -662,5 +663,50 @@ public class MainWindow extends JFrame {
 				}
 			}
 		});
+	}
+
+	public void updateTimelines() {
+		final ArrayList<String> timelinesTitles = model.getTimelineTitles();
+		final Timeline selectedTimeline = model.getSelectedTimeline();
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				timelineSelector.removeAllItems();
+				for (String s : timelinesTitles)
+					timelineSelector.addItem(s);
+				if (selectedTimeline != null && timelinesTitles.contains(selectedTimeline.getName())) {
+					timelineSelector.setSelectedItem(selectedTimeline.getName());
+					new Thread(new Runnable() {
+						public void run() {
+							updateCategories(selectedTimeline);
+						}
+					}).start();
+				}
+			}
+		});
+	}
+
+
+	public void updateCategories(Timeline selectedTimeline) {
+		final ArrayList<String> categoriesTitles = selectedTimeline.getCategoryNames();
+		final ArrayList<Category> selectedCategories = model.getSelectedCategories();
+		if (categoriesTitles != null && !categoriesTitles.isEmpty() && selectedCategories != null && !selectedCategories.isEmpty()) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					System.out.println("Setting categories list data.");
+//					ListModel<String> listModel = categoriesList.getModel();
+//					if (listModel != null && listModel instanceof DefaultListModel) {
+//						((DefaultListModel<String>)listModel).clear();
+//						for (String s : categoriesTitles) {
+//							((DefaultListModel<String>)listModel).addElement(s);
+//							System.out.println("\tAdding: " + s);
+//						}
+//						categoriesList.setModel(listModel);
+//					}
+					categoriesList = new JList<String>(categoriesTitles.toArray(new String[categoriesTitles.size()]));
+					for (Category c : selectedCategories)
+						categoriesList.setSelectedValue(c.getName(), false);
+				}
+			});
+		}
 	}
 }
