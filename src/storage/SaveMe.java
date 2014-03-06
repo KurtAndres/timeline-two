@@ -19,7 +19,10 @@ import java.util.HashSet;
  * @author leanne.miller
  * 
  * Class which can save Timelines, Events and Categories. 
- * Creates a directory for the timeline, within which are two other directories, one holding all of the events and the other holding all of the categories.
+ * 
+ * A directory called "Timelines" is created in the working directory, within which are directories for each individual timeline.
+ * In each timeline's directory are two other directories and one file. 
+ * The first directory holds all of the timeline's events and the other holds all of its categories and the file keeps track of the axis label.
  * Currently saving to disk. Eventually will try to save to Google Drive.
  *
  */
