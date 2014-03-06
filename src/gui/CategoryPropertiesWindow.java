@@ -92,9 +92,9 @@ public class CategoryPropertiesWindow extends JFrame {
 			 */
 			public void run() {
 				final String categoryTitle = category.getName();
-				final int red = (int)(category.getSelectColor().getRed()*255);
-				final int green = (int)(category.getSelectColor().getGreen()*255);
-				final int blue = (int)(category.getSelectColor().getBlue()*255);
+				final int red = (int)(category.getDeselectColor().getRed()*255);
+				final int green = (int)(category.getDeselectColor().getGreen()*255);
+				final int blue = (int)(category.getDeselectColor().getBlue()*255);
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						title.setText(categoryTitle);
