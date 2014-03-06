@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
 /**
  * @author Kurt Andres
@@ -55,6 +56,17 @@ public class DurationLabel extends TLEventLabel {
 	private String tooltipText;
 	
 	/**
+	 * The string color (i.e. #ff0000) of the label when selected
+	 */
+	private String selectedColor;
+
+	/**
+	 * The string color of the label when not selected
+	 */
+	private String deselectedColor;
+
+	
+	/**
 	 * Constructor calls the super constructor with the event name, assigns instance variables,
 	 * and then calls init
 	 * 
@@ -75,6 +87,8 @@ public class DurationLabel extends TLEventLabel {
 		this.width = width;
 		this.model = model;
 		this.tooltipText = setDurationTooltip(event);
+		this.selectedColor = this.toStringColor((event.getCategory()).getSelectColor());
+		this.deselectedColor = this.toStringColor((event.getCategory()).getDeselectColor());
 		init();
 	}
 	
@@ -96,13 +110,13 @@ public class DurationLabel extends TLEventLabel {
 		label.setAlignment(Pos.CENTER);
 		label.setLayoutX(xPos);
 		label.setLayoutY(yPos);
-		label.setStyle("-fx-border-color: blue");
-		label.setStyle("-fx-background-color: blue");
+		label.setStyle("-fx-border-color: "+ selectedColor);
+		label.setStyle("-fx-background-color: " + selectedColor );
 		label.setTooltip(new Tooltip(tooltipText));
 	}
 	
 	/**
-	 * Initializes the various handlers of the label
+	 * Initializes the various handlers of the label for mouse over and selection
 	 */
 	private void initHandlers(){
 		label.setOnMouseClicked(new EventHandler<MouseEvent>() {
@@ -145,23 +159,32 @@ public class DurationLabel extends TLEventLabel {
 			}
 		});
 	}
-
-	@Override
 	
-	//when we get the category picker working for RGB colors, we can use the folowing to give colors
-	// Color.hsb(270,1.0,1.0);
+	/**
+	 * Takes an 8-digit hex color and transforms it to a JavaFx css sheet color
+	 */
+	public String toStringColor(Color c){
+	String colorString = ""+ c;
+	String colorStringCSS = "#" + colorString.substring(2, 8);
+	return colorStringCSS;
+	}
+	
+	
+	/**
+	 * Controls highlight, and selection fx of timeline events
+	 */
+	@Override
 	public void updateDesign() {
 			
 		if (isSelected()) {
-			label.setStyle("-fx-border-color: black");
-			label.setStyle("-fx-background-color: green");
+			label.setStyle("-fx-background-color: firebrick");
 		}else{	
 			if (isHovered()){
-				label.setStyle("-fx-border-color: green");
-				label.setStyle("-fx-background-color: red");
+				label.setStyle("-fx-border-color: #7cfc00");
+				label.setStyle("-fx-background-color: #7cfc00");
 			}else{
-				label.setStyle("-fx-border-color: blue");
-				label.setStyle("-fx-background-color: blue");
+				label.setStyle("-fx-border-color: " + selectedColor);
+				label.setStyle("-fx-background-color: " + selectedColor);
 			}
 		}
 		

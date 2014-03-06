@@ -256,17 +256,19 @@ public class TimelineRender implements Runnable {
 	private void renderTime() {
 		int diffUnit = getUnitLength();
 		int xPos2 = 0;
-		for(int i = 0; i < diffUnit ; i++){
+		for(int i = 0; i <= diffUnit ; i++){
 			Label label = unitLabel(i,xPos2);
+			label.setTextAlignment(TextAlignment.LEFT);
+			label.setAlignment(Pos.BASELINE_LEFT);
 			Label lineLabel;
 			
 			//adds the dashes (|) on the timeline
-			lineLabel = new Label("|");
+			lineLabel = new Label("    |");
 			lineLabel.setLayoutX(xPos2);
 			lineLabel.setLayoutY(pushDown+23);
 			lineLabel.setPrefWidth(unitWidth);
-			lineLabel.setTextAlignment(TextAlignment.CENTER);
-			lineLabel.setAlignment(Pos.CENTER);
+			lineLabel.setTextAlignment(TextAlignment.LEFT);
+			lineLabel.setAlignment(Pos.TOP_LEFT);
 			
 			group.getChildren().add(label);
 			group.getChildren().add(lineLabel);
@@ -274,9 +276,9 @@ public class TimelineRender implements Runnable {
 		}
 		//adds the actual black timeline
 		Line blackLine = LineBuilder.create()
-	            .startX(15)
+	            .startX(5)
 	            .startY(pushDown+10)
-	            .endX(xPos2-10)
+	            .endX(xPos2-5)
 	            .endY(pushDown+10)
 	            .fill(Color.BLACK)
 	            .strokeWidth(3.5f)
@@ -403,16 +405,14 @@ public class TimelineRender implements Runnable {
 	private void renderAtomics() {
 		pushDown = 30; //where to put the event ( y - axis )
 		for(Atomic e : atomics){
-			int xPosition = getXPos(e.getDate());
+			int xPosition = getXPos(e.getDate())+19;
 			AtomicLabel label = new AtomicLabel(e, xPosition, pushDown, model, eventLabels);
 			eventLabels.add(label);
 			group.getChildren().add(label);
 			atomicXPositions.add(xPosition);
 			atomicYPositions.add(pushDown);
 			pushDown += 20;
-			
 		}
-
 	}
 
 	/**
@@ -425,7 +425,7 @@ public class TimelineRender implements Runnable {
 		int counter = 0;
 		for(Duration e : durations){
 			
-			int xStart = getXPos(e.getStartDate());
+			int xStart = getXPos(e.getStartDate())+19;
 			int xEnd = getXPos(e.getEndDate());
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);

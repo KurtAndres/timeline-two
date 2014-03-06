@@ -79,7 +79,7 @@ public abstract class TLEventLabel extends Label {
 		String dateString;
 		dateString = E.getStartDate()+" --> "+E.getEndDate();
 		String detailString;
-		if(E.getDetails()!=null){
+		if(E.getDetails()!=null && !E.getDetails().isEmpty()){
 			detailString = "Details: "+E.getDetails();	
 			return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+dateString+"\n"+detailString;
 		}else{
@@ -96,7 +96,7 @@ public abstract class TLEventLabel extends Label {
 	 */
 	public String setAtomicTooltip(Atomic E){
 		String detailString;
-		if(E.getDetails()!=null){
+		if(E.getDetails()!=null && !E.getDetails().isEmpty()){
 			detailString = "Details: "+E.getDetails();	
 			return "Name: "+E.getName()+"\n"+"Category: "+E.getCategory()+"\n"+E.getDate()+"\n"+detailString;
 		}else{
