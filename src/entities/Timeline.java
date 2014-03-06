@@ -58,6 +58,11 @@ public class Timeline implements TimelineAPI{
 	 * whether the timeline has been changed since its last database sync
 	 */
 	private boolean dirty;
+        
+        /**
+         * the object by which to save
+         */
+        private storage.SaveMe saver;
 
 	/**
 	 * Constructor
@@ -71,6 +76,8 @@ public class Timeline implements TimelineAPI{
 		this.axisLabel = builder.axisLabel;
 		if (!this.categories.contains(Category.defaultCategory))
 			this.categories.add(Category.defaultCategory);
+                this.saver = new storage.SaveMe();
+                save();
 	}
 
 	/**
@@ -146,6 +153,10 @@ public class Timeline implements TimelineAPI{
 			return new Timeline(this);
 		}
 	}
+        
+        private void save(){
+            saver.saveTimeline(this);
+        }
 
 	/**
 	 * add a Category to the timeline
@@ -155,6 +166,7 @@ public class Timeline implements TimelineAPI{
 	@Override
 	public void addCategory(Category category){
 		categories.add(category);
+                save();
 	}
 
 	/**
@@ -178,9 +190,10 @@ public class Timeline implements TimelineAPI{
 	public boolean removeCategory(Category category){
 		for(Event event : events){
 			if(category.equals(event.getCategory())){
-				event.setCategory(null);
+				event.setCategory(Category.defaultCategory);
 			}
 		}
+                save();
 		return categories.remove(category);
 	}
 
@@ -217,17 +230,18 @@ public class Timeline implements TimelineAPI{
 
 	@Override
 	public void addEvent(Event event) {
-		setDirty(true);
 		events.add(event);
+                save();
 	}
 
 	@Override
 	public boolean removeEvent(Event event) {
 		if(events.contains(event)){
 			events.remove(event);
-			setDirty(true);
+                        save();
 			return true;
 		}else{
+                        save();
 			return false;
 		}
 	}
@@ -236,16 +250,6 @@ public class Timeline implements TimelineAPI{
 	@Override
 	public ArrayList<Event> getEvents() {
 		return events;
-	}
-
-	@Override
-	public boolean isDirty() {
-		return dirty;
-	}
-
-	@Override
-	public void setDirty(boolean dirty) {
-		this.dirty = dirty;
 	}
 
 	@Override

@@ -85,20 +85,6 @@ public interface TimelineAPI {
 	public ArrayList<Event> getEvents();
 	
 	/**
-	 * Returns true if the timeline has been altered since last database sync. Currently not in use
-	 * 
-	 * @return if the timeline is dirty
-	 */
-	public boolean isDirty();
-	
-	/**
-	 * Sets the dirty value
-	 * 
-	 * @param dirty value to set
-	 */
-	public void setDirty(boolean dirty);
-	
-	/**
 	 * getter method for the timeline's name
 	 * 
 	 * @return timeline name
