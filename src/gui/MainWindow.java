@@ -509,7 +509,7 @@ public class MainWindow extends JFrame {
 							if (selectedCategory != null && model.getSelectedTimeline() != null)
 								SwingUtilities.invokeLater(new Runnable() {
 									public void run() {
-										new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
+										new CategoryPropertiesWindow(MainWindow.this.model, model.getCategory((String)categorySelector.getSelectedItem())).setVisible(true); // TODO
 									}
 								});
 						}catch(NullPointerException npe){
