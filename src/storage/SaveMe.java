@@ -31,11 +31,11 @@ public class SaveMe implements SaveMeAPI{
 		HashSet<Category> categories = tl.getCategories();
 		String tlName = tl.getName();
 		
-		//Make dirs for the timeline's events and categories, making a dir for the timeline itself in the process	
-		/*File dir = new File(tlName);
-		dir.mkdir(); */
-		new File(tlName + "\\events").mkdirs();
-		new File(tlName + "\\categories").mkdirs();
+		//Make dirs for the timeline's events and categories	
+		//File dir = new File("Timelines");
+		//dir.mkdir(); 
+		new File("Timelines/" + tlName + "/events").mkdirs();
+		new File("Timelines/" +tlName + "/categories").mkdirs();
 		
 		//Save events
 		for(Event e : events){
@@ -49,29 +49,29 @@ public class SaveMe implements SaveMeAPI{
 	}
 
 	@Override
-	public Timeline loadTimeline(String timelineName){		
-		Builder b = new Builder(timelineName);
+	public Timeline loadTimeline(String timeline){		
+		Builder b = new Builder(timeline);
 		ArrayList<Event> events = new ArrayList<Event>();
 		HashSet<Category> categories = new HashSet<Category>();
 
 		//Load events
-		String eventPath = timelineName + "\\events";
+		String eventPath = "Timelines/" + timeline + "/events";
 		File eventDir = new File(eventPath);
 		File[] eventFiles = eventDir.listFiles();
 		for(File f : eventFiles){
 			if(f.isFile()){
-				events.add(loadEvent(eventPath + f.getName()));	
+				events.add(loadEvent(f.getName(), timeline));	
 			}
 		}
 		b.events(events);
 
 		//Load Categories
-		String categoryPath = timelineName + "\\categories";
+		String categoryPath = "Timelines/" + timeline + "/categories";
 		File categoryDir = new File(categoryPath);
 		File[] categoryFiles = categoryDir.listFiles();
 		for(File f : categoryFiles){
 			if(f.isFile()){
-				categories.add(loadCategory(categoryPath + f.getName()));	
+				categories.add(loadCategory(f.getName(), timeline));	
 			}
 		}
 		b.categories(categories);
@@ -82,13 +82,13 @@ public class SaveMe implements SaveMeAPI{
 	@Override
 	public void saveCategory(Category category, String timeline) {
 		XStream xstream = new XStream(); 
-		String path = timeline + "\\categories\\";
 		String name = category.getName();
+		String path = "Timelines/" + timeline + "/categories/" + name + ".xml";
 
 		xstream.alias(name, Category.class);
 		String xml = xstream.toXML(category);
 		try{
-			FileOutputStream out = new FileOutputStream(path + name + ".xml");
+			FileOutputStream out = new FileOutputStream(path);
 			byte[] bytes = xml.getBytes("UTF-8");
 			out.write(bytes);
 			out.close();
@@ -101,13 +101,14 @@ public class SaveMe implements SaveMeAPI{
 	}
 
 	@Override
-	public Category loadCategory(String filePath) {
+	public Category loadCategory(String filename, String timeline) {
 		XStream xstream = new XStream();
 		Category category = null;
 		String path = System.getProperty("user.dir"); //Grab the working directory
+		path = path + "Timelines/" + timeline + "/categories/" + filename;
 
 		try{
-			File xmlFile = new File(path + "\\" + filePath);
+			File xmlFile = new File(path);
 			category = (Category)xstream.fromXML(xmlFile);       
 		}catch(Exception e){
 			System.err.println("Error in XML Read: " + e.getMessage());
@@ -120,13 +121,13 @@ public class SaveMe implements SaveMeAPI{
 	@Override
 	public void saveEvent(Event event, String timeline){
 		XStream xstream = new XStream(); 
-		String path = timeline + "\\events\\";
 		String name = event.getName();
+		String path = "Timelines/" + timeline + "/events/" + name + ".xml";
 
 		xstream.alias(name, Event.class);
 		String xml = xstream.toXML(event);
 		try{
-			FileOutputStream out = new FileOutputStream(path + name + ".xml");
+			FileOutputStream out = new FileOutputStream(path);
 			byte[] bytes = xml.getBytes("UTF-8");
 			out.write(bytes);
 			out.close();
@@ -138,13 +139,14 @@ public class SaveMe implements SaveMeAPI{
 	}
 
 	@Override
-	public Event loadEvent(String filePath){
+	public Event loadEvent(String filename, String timeline){
 		XStream xstream = new XStream();
 		Event event = null;
-		String path = System.getProperty("user.dir"); //Grab the working directory
-
+		String path = System.getProperty("user.dir"); //Grab the working dir
+		path = path + "Timelines/" + timeline + "/events/" + filename;
+		
 		try{
-			File xmlFile = new File(path + "\\" + filePath);
+			File xmlFile = new File(path);
 			event = (Event)xstream.fromXML(xmlFile);       
 		}catch(Exception e){
 			System.err.println("Error in XML Read: " + e.getMessage());
