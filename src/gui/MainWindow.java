@@ -6,8 +6,6 @@ import entities.Event;
 import graphics.TimelineGraphics;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -468,7 +466,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		//TODO Define action listeners for category tools.
+		// Set up category toolbar action listeners.
 		categorySelector.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				final String selectedCategory = (String)categorySelector.getSelectedItem();
@@ -504,17 +502,13 @@ public class MainWindow extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
-						try{
-							final Category selectedCategory = model.getSelectedCategories().get(0);
-							if (selectedCategory != null && model.getSelectedTimeline() != null)
-								SwingUtilities.invokeLater(new Runnable() {
-									public void run() {
-										new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
-									}
-								});
-						}catch(NullPointerException npe){
-							System.out.println("No categories, null pointer");
-						}
+						final Category selectedCategory = model.getSelectedCategory();
+						if (selectedCategory != null && !selectedCategory.equals(Category.defaultCategory) && model.getSelectedTimeline() != null)
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									new CategoryPropertiesWindow(MainWindow.this.model, selectedCategory).setVisible(true);
+								}
+							});
 					}
 				}).start();
 			}
@@ -641,7 +635,7 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
-	
+
 	public void updateTimelines() {
 		final ArrayList<String> timelinesTitles = model.getTimelineTitles();
 		final Timeline selectedTimeline = model.getSelectedTimeline();
