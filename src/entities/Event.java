@@ -65,10 +65,10 @@ public abstract class Event {
 	 * @param category the category to be set
 	 */
 	public void setCategory(Category category){
-		if(this.category!=null)
+		if(this.category!=null&&this.category.contains(this))
 			this.category.removeEvent(this);
+                this.category = category;
 		category.addEvent(this);
-		this.category = category;
 	}
 
 	/**
