@@ -164,16 +164,15 @@ public class AtomicLabel extends TLEventLabel {
 	public void updateDesign() {
 
 		if (isSelected()) {
-			label.setStyle("-fx-text-fill: "+ selectedColor);
 			label.setStyle("-fx-border-color: black");
-			label.setStyle("-fx-background-color: firebrick");
+			label.setStyle("-fx-background-color: #7cfc00");
 		}else{	
 			if (isHovered()){
-				label.setStyle("-fx-border-color: #7cfc00");
-				label.setStyle("-fx-background-color: #7cfc00");
-			}else{
 				label.setStyle("-fx-border-color: " + selectedColor);
 				label.setStyle("-fx-background-color: " + selectedColor);
+			}else{
+				label.setStyle("-fx-border-color: " + deselectedColor);
+				label.setStyle("-fx-background-color: " + deselectedColor);
 			}
 		}
 
