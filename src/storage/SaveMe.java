@@ -76,6 +76,10 @@ public class SaveMe implements SaveMeAPI{
 			}
 		}
 		b.categories(categories);
+		
+		//Load Axis Label
+		b.axisLabel(loadAxisLabel(timeline));
+	
 
 		return b.build();
 	}
@@ -157,11 +161,11 @@ public class SaveMe implements SaveMeAPI{
 	}
 	
 	@Override
-	public void saveAxisLabel(AxisLabel axisLabel, String timeline){
+	public void saveAxisLabel(int axisLabel, String timeline){
 		XStream xstream = new XStream(); 
 		String path = "Timelines/" + timeline + "/axisLabel.xml";
 
-		xstream.alias(axisLabel.toString(), AxisLabel.class);
+		xstream.alias("Axis Label", int.class);
 		String xml = xstream.toXML(axisLabel);
 		try{
 			FileOutputStream out = new FileOutputStream(path);
@@ -176,15 +180,15 @@ public class SaveMe implements SaveMeAPI{
 	}
 	
 	@Override
-	public AxisLabel loadAxisLabel(String timeline){
+	public int loadAxisLabel(String timeline){
 		XStream xstream = new XStream();
-		AxisLabel axisLabel = null;
+		int axisLabel = 0;
 		String path = System.getProperty("user.dir"); //Grab the working dir
 		path = path + "Timelines/" + timeline + "/axisLabel";
 		
 		try{
 			File xmlFile = new File(path);
-			axisLabel = (AxisLabel)xstream.fromXML(xmlFile);       
+			axisLabel = (int)xstream.fromXML(xmlFile);       
 		}catch(Exception e){
 			System.err.println("Error in XML Read: " + e.getMessage());
 		}

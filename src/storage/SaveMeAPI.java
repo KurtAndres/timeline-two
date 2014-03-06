@@ -75,7 +75,7 @@ public interface SaveMeAPI {
 	 * @param timeline The name of the timeline which the axis label belongs to.
 	 *
 	 */
-	public abstract void saveAxisLabel(AxisLabel axislabel, String timeline);
+	public abstract void saveAxisLabel(int axislabel, String timeline);
 	
 	
 	/**
@@ -85,7 +85,7 @@ public interface SaveMeAPI {
 	 * @return The saved axis label for the given timeline.
 	 *
 	 */
-	public abstract AxisLabel loadAxisLabel(String timeline);
+	public abstract int loadAxisLabel(String timeline);
 
 	
 	
