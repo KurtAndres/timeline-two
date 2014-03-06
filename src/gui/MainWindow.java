@@ -2,9 +2,13 @@ package gui;
 
 import model.*;
 import entities.*;
+import entities.Event;
 import graphics.TimelineGraphics;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -163,7 +167,8 @@ public class MainWindow extends JFrame {
 
 
 	private JLabel categoriesEditLabel;
-	private JComboBox<String> categorySelector;
+	private JScrollPane categoriesPane;
+	private JList<String> categoriesList;
 	private JButton addCategoryButton;
 	private JButton editCategoryButton;
 	private JButton deleteCategoryButton;
@@ -204,7 +209,8 @@ public class MainWindow extends JFrame {
 		toolbarSeparator2 = new JSeparator();
 
 		categoriesEditLabel = new JLabel();
-		categorySelector = new JComboBox<String>();
+		categoriesPane = new JScrollPane();
+		categoriesList = new JList<String>();
 		addCategoryButton = new JButton();
 		editCategoryButton = new JButton();
 		deleteCategoryButton = new JButton();
@@ -267,72 +273,72 @@ public class MainWindow extends JFrame {
 		GroupLayout toolbarLayout = new GroupLayout(toolbar);
 		toolbar.setLayout(toolbarLayout);
 		toolbarLayout.setHorizontalGroup(
-				toolbarLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addComponent(toolbarSeparator1)
 				.addComponent(toolbarSeparator2)
 				.addComponent(toolbarSeparator3)
-				.addGroup(toolbarLayout.createSequentialGroup()
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, toolbarLayout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(toolbarLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-								.addComponent(categoriesEditLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(toolbarLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editTimelineButton, GroupLayout.Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteTimelineButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addTimelineButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelineSelector, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelinesEditLabel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(categorySelector, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addCategoryButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editCategoryButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteCategoryButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addEventButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editEventButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(toolbarLayout.createSequentialGroup()
+						.addGroup(toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+								.addComponent(categoriesPane)
+								.addComponent(categoriesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(toolbarLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(addTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(timelineSelector, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(timelinesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(addCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+								.addComponent(addEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(javax.swing.GroupLayout.Alignment.LEADING, toolbarLayout.createSequentialGroup()
 										.addComponent(eventsEditLabel)
-										.addGap(0, 0, Short.MAX_VALUE))
-										.addComponent(deleteEventButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+										.addGap(0, 0, Short.MAX_VALUE)))
 										.addContainerGap())
 				);
 		toolbarLayout.setVerticalGroup(
-				toolbarLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+				toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
 				.addGroup(toolbarLayout.createSequentialGroup()
 						.addContainerGap()
 						.addComponent(toolbarLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(toolbarSeparator1, GroupLayout.PREFERRED_SIZE, 5, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(timelinesEditLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(toolbarSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(timelinesEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addGap(4, 4, 4)
-						.addComponent(timelineSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(timelineSelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(addTimelineButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(editTimelineButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteTimelineButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(toolbarSeparator2, GroupLayout.PREFERRED_SIZE, 5, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(categoriesEditLabel, GroupLayout.PREFERRED_SIZE, 14, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(categorySelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(toolbarSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(categoriesEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(categoriesPane, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(addCategoryButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(editCategoryButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteCategoryButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(toolbarSeparator3, GroupLayout.PREFERRED_SIZE, 5, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(toolbarSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(eventsEditLabel)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(addEventButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(editEventButton)
-						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteEventButton)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addContainerGap())
 				);
 
 		mainSplitPane.setLeftComponent(toolbar);
@@ -409,51 +415,16 @@ public class MainWindow extends JFrame {
 	 * Initialize action listeners for all interactive buttons and shortcuts.
 	 */
 	private void initActionListeners() {
-		//TODO Define action listeners for category tools.
-		// Set up event toolbar listeners.
-		addEventButton.addActionListener(new ActionListener() {
+		// Set up timeline-selection dropdown listener.
+		timelineSelector.addActionListener(new ActionListener() {
 			/**
-			 * Create a new EventPropertiesWindow for event addition.
+			 * Update the selected event in the model.
 			 */
 			public void actionPerformed(ActionEvent e) {
+				final String selectedTimeline = (String)timelineSelector.getSelectedItem();
 				new Thread(new Runnable() {
-					public void run() {
-						if (model.getSelectedTimeline() != null)
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									new EventPropertiesWindow(MainWindow.this.model).setVisible(true);
-								}
-							});
-					}
-				}).start();
-			}
-		});
-		editEventButton.addActionListener(new ActionListener() {
-			/**
-			 * Create a new EventPropertiesWindow for event editing.
-			 */
-			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
-					public void run() {
-						final TLEvent selectedEvent = model.getSelectedEvent();
-						if (selectedEvent != null && model.getSelectedTimeline() != null)
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									new EventPropertiesWindow(MainWindow.this.model, selectedEvent).setVisible(true);
-								}
-							});
-					}
-				}).start();
-			}
-		});
-		deleteEventButton.addActionListener(new ActionListener() {
-			/**
-			 * Delete the selected event in the model.
-			 */
-			public void actionPerformed(ActionEvent e) {
-				new Thread(new Runnable() {
-					public void run() {
-						model.deleteEvent();
+					public void run(){
+						model.selectTimeline(selectedTimeline);
 					}
 				}).start();
 			}
@@ -499,20 +470,119 @@ public class MainWindow extends JFrame {
 			}
 		});
 
-		// Set up timeline-selection dropdown listener.
-		timelineSelector.addActionListener(new ActionListener() {
-			/**
-			 * Update the selected event in the model.
-			 */
-			public void actionPerformed(ActionEvent e) {
-				final String selectedTimeline = (String)timelineSelector.getSelectedItem();
+		//TODO Define action listeners for category tools.
+		categoriesList.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent e) {
+				final ArrayList<String> selectedCategories = new ArrayList<String>(categoriesList.getSelectedValuesList());
 				new Thread(new Runnable() {
 					public void run(){
-						model.selectTimeline(selectedTimeline);
+						model.selectCategories(selectedCategories);
 					}
 				}).start();
 			}
 		});
+
+		addCategoryButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new CategoryPropertiesWindow for category additon.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						if (model.getSelectedTimeline() != null)
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									new CategoryPropertiesWindow(MainWindow.this.model).setVisible(true);
+								}
+							});
+					}
+				}).start();
+			}
+		});
+		editCategoryButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new CategoryPropertiesWindow for category editing.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						try{
+							final Category selectedCategory = model.getSelectedCategories().get(0);
+							if (selectedCategory != null && model.getSelectedTimeline() != null)
+								SwingUtilities.invokeLater(new Runnable() {
+									public void run() {
+										new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
+									}
+								});
+						}catch(NullPointerException npe){
+							System.out.println("No categories, null pointer");
+						}
+					}
+				}).start();
+			}
+		});
+		deleteCategoryButton.addActionListener(new ActionListener() {
+			/**
+			 * Delete the selected category(ies) in the model.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						model.deleteCategory();
+					}
+				}).start();
+			}
+		});
+
+		// Set up event toolbar listeners.
+		addEventButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new EventPropertiesWindow for event addition.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						if (model.getSelectedTimeline() != null)
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									new EventPropertiesWindow(MainWindow.this.model).setVisible(true);
+								}
+							});
+					}
+				}).start();
+			}
+		});
+		editEventButton.addActionListener(new ActionListener() {
+			/**
+			 * Create a new EventPropertiesWindow for event editing.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						final Event selectedEvent = model.getSelectedEvent();
+						if (selectedEvent != null && model.getSelectedTimeline() != null)
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									new EventPropertiesWindow(MainWindow.this.model, selectedEvent).setVisible(true);
+								}
+							});
+					}
+				}).start();
+			}
+		});
+		deleteEventButton.addActionListener(new ActionListener() {
+			/**
+			 * Delete the selected event in the model.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run() {
+						model.deleteEvent();
+					}
+				}).start();
+			}
+		});
+
 
 		// Set up menu item listeners.
 		newEventMenuItem.addActionListener(new ActionListener() {
@@ -562,16 +632,35 @@ public class MainWindow extends JFrame {
 	 * Update the timelineSelector from TimelineMaker model into GUI window.
 	 * Get a list of timeline titles from model. Then populate a default list model for the JList of timelineSelector with those titles.
 	 */
-	public void updateTimelines(final ArrayList<String> timelineTitles, final String selectedTimelineName) {
+	public void updateTimelines(final ArrayList<String> timelineTitles, final String selectedTimelineTitle) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				timelineSelector.removeAllItems();
 				for (String s : timelineTitles)
 					timelineSelector.addItem(s);
-				if (selectedTimelineName != null && !selectedTimelineName.isEmpty())
-					timelineSelector.setSelectedItem(selectedTimelineName);
+				if (selectedTimelineTitle != null && !selectedTimelineTitle.isEmpty())
+					timelineSelector.setSelectedItem(selectedTimelineTitle);
 			}
 		});
+	}
 
+	public void updateCategories(final ArrayList<String> categoryTitles, final ArrayList<String> selectedCategoryTitles) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (categoryTitles != null) {
+					categoriesList.removeAll();
+					DefaultListModel<String> listModel = new DefaultListModel<String>();
+					categoriesList.removeAll();
+					for (String s : categoryTitles)
+						listModel.addElement(s);
+					categoriesList.setModel(listModel);
+					if (selectedCategoryTitles != null && !selectedCategoryTitles.isEmpty())
+						for (String s : selectedCategoryTitles)
+							categoriesList.setSelectedIndex(categoryTitles.indexOf(s));
+					else
+						categoriesList.setSelectedValue(Category.defaultCategory.getName(), true);
+				}
+			}
+		});
 	}
 }

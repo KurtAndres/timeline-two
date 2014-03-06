@@ -12,9 +12,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.LineBuilder;
+import javafx.scene.text.TextAlignment;
 import entities.Atomic;
 import entities.Duration;
-import entities.TLEvent;
+import entities.Event;
 import entities.Timeline;
 import entities.Timeline.AxisLabel;
 
@@ -41,7 +44,7 @@ import entities.Timeline.AxisLabel;
  * the axisLabel of the timeline before it renders properly, (EditTimeline -> AxisLabel). It won't
  * crash the program, it just won't render.
  * 
- * @author Josh Wright
+ * @author Kurt Andres & Josh Wright
  * Created: Feb 10, 2014
  * Package: graphics
  * 
@@ -92,6 +95,21 @@ public class TimelineRender implements Runnable {
 	 */
 
 	private AxisLabel axisLabel;
+	
+	/**
+	 * ArrayList of all the atomic event x positions
+	 */
+	private ArrayList<Integer> atomicXPositions = new ArrayList<Integer>();
+	
+	/**
+	 * ArrayList of all the atomic event y positions
+	 */
+	private ArrayList<Integer> atomicYPositions = new ArrayList<Integer>();
+	
+	/**
+	 * Int value of timeline loaction after drawing timeline before making atomic connections
+	 */
+	private int timelineYLocation = 0;
 	
 	/**
 	 * Use in rendering with an AxisLabel of months
@@ -172,7 +190,7 @@ public class TimelineRender implements Runnable {
 	private void init(){
 		unitWidth = 150;
 		pushDown = 60;
-		for(TLEvent event : timeline.getEvents()){
+		for(Event event : timeline.getEvents()){
 			if(event instanceof Duration){
 				durations.add((Duration)event);
 				long start = ((Duration) event).getStartDate().getTime();
@@ -197,15 +215,14 @@ public class TimelineRender implements Runnable {
 	 */
 
 	private boolean initRange() {
-		if(timeline.getEvents() == null) { // Initializes the variables, super kludgy but we can make it better later if there is time
+		if(timeline.getEvents() == null || timeline.getEvents().isEmpty()) { // Initializes the variables, super kludgy but we can make it better later if there is time
 			return false; 
-		}
-		if (timeline.getEvents()[0] instanceof Duration){
-			minTime = ((Duration)timeline.getEvents()[0]).getStartDate().getTime();
-			maxTime = ((Duration)timeline.getEvents()[0]).getEndDate().getTime();
-		}else{
-			minTime = ((Atomic)timeline.getEvents()[0]).getDate().getTime();
-			maxTime = ((Atomic)timeline.getEvents()[0]).getDate().getTime();
+		} else if (timeline.getEvents().get(0) instanceof Duration) {
+			minTime = ((Duration)timeline.getEvents().get(0)).getStartDate().getTime();
+			maxTime = ((Duration)timeline.getEvents().get(0)).getEndDate().getTime();
+		} else {
+			minTime = ((Atomic)timeline.getEvents().get(0)).getDate().getTime();
+			maxTime = ((Atomic)timeline.getEvents().get(0)).getDate().getTime();
 		}
 		return true;
 	}
@@ -223,12 +240,17 @@ public class TimelineRender implements Runnable {
 		renderAtomics();
 		renderTime();
 		renderDurations();
+		renderConnections();
 	}
 	
 	/**
-	 * Renders each 'Unit' on the axis as label with width unitWidth (uses unitLabel method). 
+	 * Renders each 'Unit' on the axis as a label with width unitWidth (uses unitLabel method). 
 	 * Adds the label to the group, and when finished puts the group in a scene and displays the 
 	 * scene in the fxPanel.
+	 * 
+	 * currently uses a second label to make each hash mark on the timeline simply a |
+	 * 
+	 * then lineBuilder to draw a black constant line for the timeline depending on length
 	 */
 
 	private void renderTime() {
@@ -236,10 +258,36 @@ public class TimelineRender implements Runnable {
 		int xPos2 = 0;
 		for(int i = 0; i < diffUnit ; i++){
 			Label label = unitLabel(i,xPos2);
+			Label lineLabel;
+			
+			//adds the dashes (|) on the timeline
+			lineLabel = new Label("|");
+			lineLabel.setLayoutX(xPos2);
+			lineLabel.setLayoutY(pushDown+23);
+			lineLabel.setPrefWidth(unitWidth);
+			lineLabel.setTextAlignment(TextAlignment.CENTER);
+			lineLabel.setAlignment(Pos.CENTER);
+			
 			group.getChildren().add(label);
+			group.getChildren().add(lineLabel);
 			xPos2+=unitWidth;
 		}
-		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.WHITE);
+		//adds the actual black timeline
+		Line blackLine = LineBuilder.create()
+	            .startX(15)
+	            .startY(pushDown+10)
+	            .endX(xPos2-10)
+	            .endY(pushDown+10)
+	            .fill(Color.BLACK)
+	            .strokeWidth(3.5f)
+	            .translateY(20)
+	            .build();
+		
+		group.getChildren().add(blackLine);
+		
+		timelineYLocation = pushDown+10;
+		
+		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.GHOSTWHITE);
 		fxPanel.setScene(toShow);
 	}
 	
@@ -278,7 +326,8 @@ public class TimelineRender implements Runnable {
 		label.setPrefWidth(unitWidth);
 		label.setPrefHeight(40);
 		label.setAlignment(Pos.CENTER);
-		label.setStyle("-fx-border-color: black;");
+		//label.setStyle("-fx-border-color: black;");
+		
 		return label;
 	}
 
@@ -352,13 +401,16 @@ public class TimelineRender implements Runnable {
 	 * Uses custom Label class
 	 */
 	private void renderAtomics() {
-		pushDown = 60; //where to put the event ( y - axis )
+		pushDown = 30; //where to put the event ( y - axis )
 		for(Atomic e : atomics){
 			int xPosition = getXPos(e.getDate());
 			AtomicLabel label = new AtomicLabel(e, xPosition, pushDown, model, eventLabels);
 			eventLabels.add(label);
 			group.getChildren().add(label);
+			atomicXPositions.add(xPosition);
+			atomicYPositions.add(pushDown);
 			pushDown += 20;
+			
 		}
 
 	}
@@ -378,9 +430,27 @@ public class TimelineRender implements Runnable {
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);
 			eventLabels.add(label);
+			
 			group.getChildren().add(label);
 			counter += 20;
 		}
+	}
+	
+	private void renderConnections() {
+		for(int i =0; i<atomicXPositions.size(); i++){
+			Line blackConnector = LineBuilder.create()
+		            .startX(atomicXPositions.get(i))
+		            .startY(timelineYLocation)
+		            .endX(atomicXPositions.get(i))
+		            .endY(atomicYPositions.get(i))
+		            .fill(Color.color(1.0, 0, 0))
+		            .strokeWidth(1.5f)
+		            .translateY(20)
+		            .build();
+			
+			group.getChildren().add(blackConnector);
+		}
+
 	}
 
 

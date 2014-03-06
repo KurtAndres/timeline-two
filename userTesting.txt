@@ -1,16 +1,15 @@
 KURT ANDRES
 *Users*
 -Nancy Swider-Peltz
-input:
+input: Clearer GUI, more self intuitive date entry, and more methods of date entry.
+She liked the rendering, thought it was streamlined and clear, and enjoyed the visual look of Kurt & Conner's rendering.
+Recomends keep timelines and there entries simple and come up with an easier to use GUI. The look of the timeline didn't matter much to her, rather ease of adding events was critical. 
 
 -Michael Aguilera
-input:
+input: Keep input simpler. Don't have program crash if  user enters month in a string i.e. November instead of 11. 
+And don't let the rendering get cluttered, no need for overlaping, complex categories in this user's mind.
+Prefered the simple sorted timeline that was easy to read.
 
--Kai Libby
-input:
-
--Tyler Benware
-input:
 
 DANIEL CONROY
 *Users*

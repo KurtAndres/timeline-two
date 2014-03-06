@@ -4,14 +4,14 @@
 package entities;
 import java.sql.Date;
 /**
- * Extension of class TLEvent to represent duration (events that have a start and end date) events
+ * Extension of class Event to represent duration (events that have a start and end date) events
  * 
  * @author Josh Wright
  * Created: Jan 29, 2014
  * Package: backend
  *
  */
-public class Duration extends TLEvent {
+public class Duration extends Event {
 	
 	/**
 	 * the date the event starts
@@ -31,8 +31,8 @@ public class Duration extends TLEvent {
 	 * @param startDate the event startDate
 	 * @param endDate the event endDate
 	 */
-	public Duration(String name, Category category, Date startDate, Date endDate){
-		super(name, category);
+	public Duration(String name, Category category, String details, Date startDate, Date endDate){
+		super(name, category, details);
 		this.setStartDate(startDate);
 		this.setEndDate(endDate);
 	}

@@ -3,14 +3,16 @@ package graphics;
 import java.util.ArrayList;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import model.TimelineMaker;
 import entities.Atomic;
 
 /**
  * Atomic version of TLEventLabel
  * 
- * @author Josh Wright
+ * @author Kurt Andres & Josh Wright
  * February 15, 2014
  */
 public class AtomicLabel extends TLEventLabel {
@@ -37,6 +39,22 @@ public class AtomicLabel extends TLEventLabel {
 	private AtomicLabel label;
 	
 	/**
+	 * The tooltip hoverover text for the label
+	 */
+	private String tooltipText;
+	
+	/**
+	 * The color of the label when selected
+	 */
+	private Color selectedColor;
+	
+	/**
+	 * The color of the label when not selected
+	 */
+	private Color deselectedColor;
+	
+	
+	/**
 	 * ArrayList of all other eventLabels, used for clearing previous selection
 	 */
 	private ArrayList<TLEventLabel> eventLabels;
@@ -59,6 +77,9 @@ public class AtomicLabel extends TLEventLabel {
 		this.eventLabels = eventLabels;
 		this.label = this;
 		this.model = model;
+		this.tooltipText = setAtomicTooltip(event);
+		this.selectedColor = (event.getCategory()).getSelectColor();
+		this.deselectedColor = (event.getCategory()).getDeselectColor();
 		init();
 	}
 	
@@ -77,6 +98,7 @@ public class AtomicLabel extends TLEventLabel {
 		label.setLayoutX(xPos);
 		label.setLayoutY(yPos);
 		label.setStyle("-fx-border-color: green");
+		label.setTooltip(new Tooltip(tooltipText));
 	}
 	
 	/**
@@ -101,9 +123,9 @@ public class AtomicLabel extends TLEventLabel {
 	@Override
 	public void updateDesign() {
 		if (isSelected()) {
-			label.setStyle("-fx-border-color: black");
+			label.setStyle("-fx-border-color: "+selectedColor);
 		}else{	
-			label.setStyle("-fx-border-color: green");
+			label.setStyle("-fx-border-color: "+deselectedColor);
 		}
 	}
 

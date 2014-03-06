@@ -6,7 +6,7 @@ import entities.*;
 
 import javax.swing.*;
 
-import storage.*;
+//import storage.*;
 
 import java.util.*;
 import java.util.logging.*;
@@ -32,13 +32,18 @@ public class TimelineMaker {
 	 */
 	private Timeline selectedTimeline;
 	/**
+	 * The categories selected for display in this application.
+	 */
+	private ArrayList<Category> selectedCategories;
+	/**
 	 * The event selected in this application.
 	 */
-	private TLEvent selectedEvent;
+	private Event selectedEvent;
 	/**
 	 * The database for storing timelines of this application.
 	 */
-	private DBHelper database;
+	// TODO Add storage object.
+
 	/**
 	 * The main GUI window for this application.
 	 */
@@ -53,46 +58,13 @@ public class TimelineMaker {
 	 * Create a new TimelineMaker application model with database, graphics, and GUI components.
 	 */
 	public TimelineMaker() {
-		database = new DBHelper("databases/timeline.db");
+		// TODO Instantiate storage helper object.
 		graphics = new TimelineGraphics(this);
 		timelines = new ArrayList<Timeline>();
-
-		try {
-			for (Timeline t : database.getTimelines())
-				timelines.add(t);
-			selectedTimeline = timelines.get(0);
-			selectedEvent = selectedTimeline.getEvents()[0];
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Your database is empty.");
-		} catch (Exception e){
-			System.out.println("Error loading from Database.");
-		}
+		selectedCategories = new ArrayList<Category>();
+		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
-	}
-
-	/**
-	 * Constructor.
-	 * Only for testing purposes.
-	 * @param db
-	 */
-	public TimelineMaker(DBHelper db) {
-		database = db;
-		timelines = new ArrayList<Timeline>();
-		try {
-			for (Timeline t : database.getTimelines())
-				timelines.add(t);
-			selectedTimeline = timelines.get(0);
-			selectedEvent = selectedTimeline.getEvents()[0];
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("Your database is empty.");
-		} catch (Exception e){
-			System.out.println("Error loading from Database.");
-		}		
-		graphics = new TimelineGraphics(this);
-		gui = new MainWindow(this, graphics);
-		while (!timelines.isEmpty())
-			deleteTimeline();
 	}
 
 	/**
@@ -123,6 +95,7 @@ public class TimelineMaker {
 				new Thread(new Runnable() {
 					public void run() {
 						gui.updateTimelines(getTimelineTitles(), null);
+						gui.updateCategories(null, null);
 					}
 				}).start();
 			}
@@ -170,8 +143,9 @@ public class TimelineMaker {
 	public void selectTimeline(String title) {
 		selectedTimeline = getTimeline(title);
 		selectedEvent = null;
-		if (selectedTimeline != null)
+		if (selectedTimeline != null) {
 			updateGraphics();
+		}
 	}
 
 	/**
@@ -184,7 +158,7 @@ public class TimelineMaker {
 		selectedEvent = null;
 		timelines.add(selectedTimeline);
 
-		database.writeTimeline(selectedTimeline);
+		// TODO Add selectedTimeline to the storage helper.
 		gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
 	}
@@ -197,7 +171,7 @@ public class TimelineMaker {
 	public void deleteTimeline() {
 		if (selectedTimeline != null) {
 			timelines.remove(selectedTimeline);
-			database.removeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
 			selectedTimeline = null;
 			selectedEvent = null;
 			graphics.clearScreen();
@@ -213,7 +187,7 @@ public class TimelineMaker {
 	 */
 	public void editTimeline(Timeline t) {
 		timelines.remove(selectedTimeline);
-		database.removeTimeline(selectedTimeline);
+		// TODO Remove selectedTimeline from the storage helper.
 
 		boolean newName;
 		try {
@@ -223,17 +197,66 @@ public class TimelineMaker {
 		}
 		selectedTimeline = t;
 		timelines.add(selectedTimeline);
-		database.writeTimeline(selectedTimeline);
+		// TODO Add selectedTimeline to the storage helper.
 		if (newName)
 			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		updateGraphics();
+	}
+
+	public ArrayList<Category> getSelectedCategories() {
+		return selectedCategories;
+	}
+
+	public void selectCategories(ArrayList<String> c) {
+		selectedCategories.clear();
+		for (String name : c)
+			selectedCategories.add(getCategory(name));
+		// TODO Update graphics.
+	}
+
+	public void addCategory(Category c) {
+		// TODO Implement.
+		selectedTimeline.addCategory(c);
+		selectedCategories.add(c);
+		ArrayList<String> selectedCategoryTitles = new ArrayList<String>();
+		for (Category cat : selectedCategories)
+			selectedCategoryTitles.add(cat.getName());
+		gui.updateCategories(selectedTimeline.getCategoryNames(), selectedCategoryTitles);
+		System.out.println("Categories updated in GUI!\n\tCategories include:");
+		for (Category cat : selectedCategories)
+			System.out.println(cat.getName());
+		updateGraphics();
+	}
+
+	/**
+	 * Retrieves a category with a particular name. If it can't find the category,
+	 * it returns the Category.defaultCategory.
+	 * 
+	 * @param name The name of the Category to be returned
+	 * @return The found Category of the Category.defaultCategory
+	 */
+	public Category getCategory(String name){
+		for(Category cat : selectedTimeline.getCategories()){
+			if(cat.getName().equals(name))
+				return cat;
+		}
+		return Category.defaultCategory;
+	}
+
+	public void deleteCategory() {
+		// TODO Implement.
+		// Loop through the selected categories and remove them from the timeline.
+	}
+
+	public void editCategory(Category c) {
+		// TODO Implement.
 	}
 
 	/**
 	 * Retrieve the currently selected event.
 	 * @return selectedEvent
 	 */
-	public TLEvent getSelectedEvent() { 
+	public Event getSelectedEvent() { 
 		return selectedEvent; 
 	}
 
@@ -241,7 +264,7 @@ public class TimelineMaker {
 	 * Set the selected event.
 	 * @param e The event to be selected
 	 */
-	public void selectEvent(TLEvent e) {
+	public void selectEvent(Event e) {
 		if (e != null)
 			selectedEvent = e;
 	}
@@ -251,15 +274,15 @@ public class TimelineMaker {
 	 * Update selectedTimeline, selectedEvent, graphics, and database.
 	 * @param e the new event
 	 */
-	public void addEvent(TLEvent e) {
+	public void addEvent(Event e) {
 		if (selectedTimeline != null) {
 			selectedTimeline.addEvent(e);
 			selectedEvent = e;
 
 			updateGraphics();
 
-			database.removeTimeline(selectedTimeline);
-			database.writeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
+			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
 
@@ -274,8 +297,8 @@ public class TimelineMaker {
 
 			updateGraphics();
 
-			database.removeTimeline(selectedTimeline);
-			database.writeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
+			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
 
@@ -285,7 +308,7 @@ public class TimelineMaker {
 	 * Update selectedTimeline, selectedEvent, graphics, and database.
 	 * @param e the new event
 	 */
-	public void editEvent(TLEvent e) {
+	public void editEvent(Event e) {
 		if (selectedEvent != null && selectedTimeline != null && selectedTimeline.contains(selectedEvent)) {
 			selectedTimeline.removeEvent(selectedEvent);
 			selectedEvent = e;
@@ -293,12 +316,12 @@ public class TimelineMaker {
 
 			updateGraphics();
 
-			database.removeTimeline(selectedTimeline);
-			database.writeTimeline(selectedTimeline);
+			// TODO Remove selectedTimeline from the storage helper.
+			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
-	
-	
+
+
 	/**
 	 * Update the graphics for the display screen.
 	 */

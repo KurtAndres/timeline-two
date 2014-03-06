@@ -21,29 +21,29 @@ public class TimelineTest {
 	@Test
 	public void testTimelineCreation() {
 		String name = "Test";
-                Category cat1 = new Category("category1");
-                Category cat2 = new Category("category2");
-		TLEvent[] events = new TLEvent[2];
-		events[0] = new Atomic("event1", cat1, new Date(0));
-		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
+                Category cat1 = new Category.Builder("category1").build();
+                Category cat2 = new Category.Builder("category2").build();
+		Event[] events = new Event[2];
+		events[0] = new Atomic("event1", cat1, "Testing event 1.", new Date(0));
+		events[1] = new Duration("event2", cat2, "Testing event 2.", new Date(0), new Date(10000));
 		Timeline.AxisLabel axisLabel = Timeline.AxisLabel.YEARS;
-		Timeline test = new Timeline(name, events, 3);
+		Timeline test = new Timeline.Builder(name).events(events).axisLabel(3).build();
 		assertNotNull("The test timeline should not be null: ", test);
 		assertTrue("Test the name: ", test.getName().equals(name));
-		assertTrue("Test the events array: ", test.getEvents().length != 0);
+		assertTrue("Test the events array: ", test.getEvents().size() != 0);
 		assertTrue("Test the axis label: ", test.getAxisLabel() == axisLabel && test.getAxisLabelIndex() == 3);
 	}
 	
 	@Test
 	public void testEventAddition() {
 		String name = "Test";
-                Category cat1 = new Category("category1");
-                Category cat2 = new Category("category2");
-		TLEvent[] events = new TLEvent[2];
-		events[0] = new Atomic("event1", cat1, new Date(0));
-		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
-		Timeline test = new Timeline(name, events, 3);
-		Atomic testEvent = new Atomic("test event", cat1, new Date(100));
+                Category cat1 = new Category.Builder("category1").build();
+                Category cat2 = new Category.Builder("category2").build();
+		Event[] events = new Event[2];
+		events[0] = new Atomic("event1", cat1, "Testing event 1.", new Date(0));
+		events[1] = new Duration("event2", cat2, "Testing event 2.", new Date(0), new Date(10000));
+		Timeline test = new Timeline.Builder(name).events(events).axisLabel(3).build();
+		Atomic testEvent = new Atomic("test event", cat1, "Testing event 1.", new Date(100));
 		assertFalse("The event is not in the timeline: ", test.contains(testEvent));
 		test.addEvent(testEvent);
 		assertTrue("The event is now in the timeline: ", test.contains(testEvent));
@@ -52,12 +52,12 @@ public class TimelineTest {
 	@Test
 	public void testEventRemoval() {
 		String name = "Test";
-                Category cat1 = new Category("category1");
-                Category cat2 = new Category("category2");
-		TLEvent[] events = new TLEvent[2];
-		events[0] = new Atomic("event1", cat1, new Date(0));
-		events[1] = new Duration("event2", cat2, new Date(0), new Date(10000));
-		Timeline test = new Timeline(name, events, 3);
+                Category cat1 = new Category.Builder("category1").build();
+                Category cat2 = new Category.Builder("category2").build();
+		Event[] events = new Event[2];
+		events[0] = new Atomic("event1", cat1, "Testing event 1.", new Date(0));
+		events[1] = new Duration("event2", cat2, "Testing event 1.", new Date(0), new Date(10000));
+		Timeline test = new Timeline.Builder(name).events(events).axisLabel(3).build();
 		assertTrue("The event is in the timeline: ", test.contains(events[0]));
 		test.removeEvent(events[0]);
 		assertFalse("The event is no longer in the timeline: ", test.contains(events[0]));

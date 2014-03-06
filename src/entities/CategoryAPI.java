@@ -21,30 +21,31 @@ public interface CategoryAPI {
      * @param event the event for which to search
      * @return true if found, false otherwise
      */
-    public boolean contains(TLEvent event);
+    public boolean contains(Event event);
     
     /**
-     * Add an event to this categories known list of events.
+     * Add an event to this categories known list of events. Sets the event's category to this.
      * 
      * @param event the event to add
      * @return true if successful, false otherwise
      */
-    public boolean addEvent(TLEvent event);
+    public boolean addEvent(Event event);
     
     /**
-     * Removes an event from this categories known list of events.
+     * Removes an event from this categories known list of events. If the event has a reference to this category,
+     * its category field is set to null.
      * 
      * @param event the event to remove
      * @return true if successful, false otherwise
      */
-    public boolean removeEvent(TLEvent event);
+    public boolean removeEvent(Event event);
     
     /**
      * Access a copy of the list of events known to belong to this category.
      * 
      * @return a copy of the ArrayList of events
      */
-    public ArrayList<TLEvent> getEvents();
+    public ArrayList<Event> getEvents();
     
     /**
      * Get a copy of the name of the category.

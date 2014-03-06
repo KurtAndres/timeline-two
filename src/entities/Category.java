@@ -26,7 +26,7 @@ public class Category implements CategoryAPI{
     /**
      * ArrayList to keep track of the events in the Category
      */
-    private ArrayList<TLEvent> events;
+    private ArrayList<Event> events;
 
     /**
      * Name of the Category
@@ -49,68 +49,90 @@ public class Category implements CategoryAPI{
     private Image icon;
     
     /**
-     * Constructor for name.
-     * 
-     * @param name 
+     * Default Category to hand to Timelines and Events if no categories yet exist.
      */
-    public Category(String name){
-        this.name = name;
+    public static final Category defaultCategory = new Category.Builder("Default Category").build();
+    
+    private Category (Builder builder){
+        this.name = builder.name;
+        this.selectColor = builder.sColor;
+        this.deselectColor = builder.dsColor;
+        this.icon = builder.icon;
+        this.events = builder.events;
+        for(Event e : events){
+            e.setCategory(this);
+        }
     }
     
     /**
-     * Constructor for name, selectColor, and deselectColor.
-     * 
-     * @param name
-     * @param sColor
-     * @param dsColor 
+     * The Builder class to build a Category.
      */
-    public Category(String name, Color sColor, Color dsColor){
-        this.name = name;
-        this.selectColor = sColor;
-        this.deselectColor = dsColor;
-    }
-    
-    /**
-     * Constructor for name and icon.
-     * 
-     * @param name
-     * @param icon 
-     */
-    public Category(String name, Image icon){
-        this.name = name;
-        this.icon = icon;
-    }
-    
-    /**
-     * Constructor for name, selectColor, deselectColor, and icon.
-     * 
-     * @param name
-     * @param sColor
-     * @param dsColor
-     * @param icon 
-     */
-    public Category(String name, Color sColor, Color dsColor, Image icon){
-        this.name = name;
-        this.selectColor = sColor;
-        this.deselectColor = dsColor;
-        this.icon = icon;
-    }
-    
-    /**
-     * Constructor for name, selectColor, deselectColor, icon, and events.
-     * 
-     * @param name
-     * @param sColor
-     * @param dsColor
-     * @param icon
-     * @param events 
-     */
-    public Category(String name, Color sColor, Color dsColor, Image icon, ArrayList<TLEvent> events){
-        this.name = name;
-        this.selectColor = sColor;
-        this.deselectColor = dsColor;
-        this.icon = icon;
-        this.events = events;
+    public static class Builder {
+        // Required Field
+        private String name;
+        // Optional Fields
+        private Color sColor = Color.BEIGE;
+        private Color dsColor = Color.DARKGREEN;
+        private Image icon = null;
+        private ArrayList<Event> events = new ArrayList<Event>();
+        
+        /**
+         * Constructor
+         * 
+         * @param name The name of the Category
+         */
+        public Builder(String name){
+            this.name = name;
+        }
+        
+        /**
+         * set the selectColor of the Category
+         * 
+         * @param selectColor the color to set
+         * @return the Builder
+         */
+        public Builder selectColor(Color selectColor){
+            this.sColor = selectColor; return this;
+        }
+        
+        /**
+         * set the deselectColor of the Category
+         * 
+         * @param deselectColor the color to set
+         * @return the Builder
+         */
+        public Builder deselectColor(Color deselectColor){
+            this.dsColor = deselectColor; return this;
+        }
+        
+        /**
+         * set the icon of the Category
+         * 
+         * @param icon the icon to set
+         * @return the Builder
+         */
+        public Builder icon(Image icon){
+            this.icon = icon; return this;
+        }
+        
+        /**
+         * set the events of the Category
+         * 
+         * @param events the events to set
+         * @return the Builder
+         */
+        public Builder events(ArrayList<Event> events){
+            this.events = events; return this;
+        }
+        
+        /**
+         * Build the Category
+         * 
+         * @return the Category built
+         */
+        public Category build(){
+            return new Category(this);
+        }
     }
     
     /**
@@ -119,39 +141,33 @@ public class Category implements CategoryAPI{
      * @param event the event for which to search
      * @return true if found, false otherwise
      */
-    public boolean contains(TLEvent event){
+    public boolean contains(Event event){
         return events.contains(event);
     }
     
     /**
-     * Add an event to this categories known list of events.
+     * Add an event to this categories known list of events. Sets the event's category to this.
      * 
      * @param event the event to add
      * @return true if successful, false otherwise
      */
-    public boolean addEvent(TLEvent event){
-        try{
-            events.add(event);
-        }catch(Exception e){
-            return false;
-        }
-        return true;
+    public boolean addEvent(Event event){
+        if(!event.getCategory().equals(this))
+            event.setCategory(this);
+        return events.add(event);
     }
     
     /**
-     * Removes an event from this categories known list of events.
+     * Removes an event from this categories known list of events. If the event has a reference to this category,
+     * its category field is set to null.
      * 
      * @param event the event to remove
      * @return true if successful, false otherwise
      */
-    public boolean removeEvent(TLEvent event){
-        try{
-            if(events.contains(event))
-                events.remove(event);
-        }catch(Exception e){
-            return false;
-        }
-        return true;
+    public boolean removeEvent(Event event){
+        if(this.equals(event.getCategory()))
+            event.setCategory(null);
+        return events.remove(event);
     }
     
     /**
@@ -159,8 +175,8 @@ public class Category implements CategoryAPI{
      * 
      * @return a copy of the ArrayList of events
      */
-    public ArrayList<TLEvent> getEvents(){
-        ArrayList<TLEvent> toReturn = new ArrayList<TLEvent>();
+    public ArrayList<Event> getEvents(){
+        ArrayList<Event> toReturn = new ArrayList<Event>();
         toReturn.addAll(events);
         return toReturn;
     }
@@ -259,6 +275,16 @@ public class Category implements CategoryAPI{
             return false;
         }
         return true;
+    }
+    
+    /**
+     * Returns the name of the Category
+     * 
+     * @return The name of the Category
+     */
+    @Override
+    public String toString(){
+        return this.name;
     }
 
 }
