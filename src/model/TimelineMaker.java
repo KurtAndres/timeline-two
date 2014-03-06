@@ -16,7 +16,7 @@ import java.util.logging.*;
  * 
  * The model of the timeline editor and viewer. Contains all necessary objects to model the application.
  * 
- * @author Josh Wright and Andrew Thompson
+ * @author Andrew Thompson
  * Wheaton College, CS 335, Spring 2014
  * Project Phase 1
  * Feb 15, 2014
@@ -203,6 +203,21 @@ public class TimelineMaker {
 		updateGraphics();
 	}
 
+	/**
+	 * Retrieves a category with a particular name. If it can't find the category,
+	 * it returns the Category.defaultCategory.
+	 * 
+	 * @param name The name of the Category to be returned
+	 * @return The found Category of the Category.defaultCategory
+	 */
+	public Category getCategory(String name){
+		for(Category cat : selectedTimeline.getCategories()){
+			if(cat.getName().equals(name))
+				return cat;
+		}
+		return Category.defaultCategory;
+	}
+	
 	public ArrayList<Category> getSelectedCategories() {
 		return selectedCategories;
 	}
@@ -218,34 +233,13 @@ public class TimelineMaker {
 		// TODO Implement.
 		selectedTimeline.addCategory(c);
 		selectedCategories.add(c);
-		ArrayList<String> selectedCategoryTitles = new ArrayList<String>();
-		for (Category cat : selectedCategories)
-			selectedCategoryTitles.add(cat.getName());
-		gui.updateCategories(selectedTimeline.getCategoryNames(), selectedCategoryTitles);
-		System.out.println("Categories updated in GUI!\n\tCategories include:");
-		for (Category cat : selectedCategories)
-			System.out.println(cat.getName());
 		updateGraphics();
 	}
 
-	/**
-	 * Retrieves a category with a particular name. If it can't find the category,
-	 * it returns the Category.defaultCategory.
-	 * 
-	 * @param name The name of the Category to be returned
-	 * @return The found Category of the Category.defaultCategory
-	 */
-	public Category getCategory(String name){
-		for(Category cat : selectedTimeline.getCategories()){
-			if(cat.getName().equals(name))
-				return cat;
-		}
-		return Category.defaultCategory;
-	}
-
 	public void deleteCategory() {
-		// TODO Implement.
-		// Loop through the selected categories and remove them from the timeline.
+		for (Category c : selectedCategories)
+			if (selectedTimeline.contains(c))
+				selectedTimeline.removeCategory(c);
 	}
 
 	public void editCategory(Category c) {
