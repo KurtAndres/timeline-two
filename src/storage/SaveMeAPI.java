@@ -41,11 +41,12 @@ public interface SaveMeAPI {
 	/**
 	 * Loads an instance of class Category.
 	 * 
-	 * @param filePath The path from the current dir to the category to load. Normally takes the form of timelineName + "\\categories\\" + categoryName 
+	 * @param filename The name of the category to load.
+	 * @param timeline The name of the timeline which the category is a part of.
 	 * @return The category stored at the given filePath.
 	 *
 	 */
-	public abstract Category loadCategory(String filePath);
+	public abstract Category loadCategory(String filename, String timeline);
 	
 	/**
 	 * Saves an event of type TLEvent.
@@ -59,10 +60,11 @@ public interface SaveMeAPI {
 	/**
 	 * Loads an event of type TLEvent.
 	 * 
-	 * @param filePath The path from the current dir to the event to load. Normally takes the form of timelineName + "\\events\\" + eventName 
-	 * @return The event stored at the given filePath.
+	 * @param filename The name of the event to load.
+	 * @param timeline The timeline which the event is a part of.
+	 * @return The event stored under the given name.
 	 *
 	 */
-	public abstract Event loadEvent(String filePath);
+	public abstract Event loadEvent(String filename, String timeline);
 
 }
