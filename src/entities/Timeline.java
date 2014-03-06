@@ -54,11 +54,6 @@ public class Timeline implements TimelineAPI{
 	 */
 	private AxisLabel axisLabel;
 
-	/**
-	 * whether the timeline has been changed since its last database sync
-	 */
-	private boolean dirty;
-        
         /**
          * the object by which to save
          */
@@ -184,17 +179,27 @@ public class Timeline implements TimelineAPI{
 	 * remove a Category from the timeline. Assigns the category of all associated events to null.
 	 * 
 	 * @param category The category to remove
-	 * @return 
 	 */
 	@Override
-	public boolean removeCategory(Category category){
+	public void removeCategory(Category category){
 		for(Event event : events){
 			if(category.equals(event.getCategory())){
 				event.setCategory(Category.defaultCategory);
 			}
 		}
-                save();
-		return categories.remove(category);
+		categories.remove(category);
+		save();
+	}
+	
+	public void replaceCategory(Category initial, Category replacement) {
+		categories.add(replacement);
+		for(Event event : events){
+			if(initial.equals(event.getCategory())){
+				event.setCategory(replacement);
+			}
+		}
+		categories.remove(initial);
+		save();
 	}
 
 	/**
