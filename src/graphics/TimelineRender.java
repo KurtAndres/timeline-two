@@ -426,7 +426,7 @@ public class TimelineRender implements Runnable {
 		for(Duration e : durations){
 			
 			int xStart = getXPos(e.getStartDate())+19;
-			int xEnd = getXPos(e.getEndDate());
+			int xEnd = getXPos(e.getEndDate())+19;
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);
 			eventLabels.add(label);
