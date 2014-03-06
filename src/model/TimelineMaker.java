@@ -230,7 +230,6 @@ public class TimelineMaker {
 	}
 
 	public void addCategory(Category c) {
-		// TODO Implement.
 		selectedTimeline.addCategory(c);
 		selectedCategories.add(c);
 		updateGraphics();
