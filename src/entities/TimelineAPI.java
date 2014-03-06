@@ -21,9 +21,8 @@ public interface TimelineAPI {
          * remove a Category from the timeline. Assigns the category of all associated events to null.
          * 
          * @param category The category to remove
-         * @return 
          */
-        public boolean removeCategory(Category category);
+        public void removeCategory(Category category);
         
         /**
          * add a Category to the timeline

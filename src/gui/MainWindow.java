@@ -167,8 +167,7 @@ public class MainWindow extends JFrame {
 
 
 	private JLabel categoriesEditLabel;
-	private JScrollPane categoriesPane;
-	private JList<String> categoriesList;
+	private JComboBox<String> categorySelector;
 	private JButton addCategoryButton;
 	private JButton editCategoryButton;
 	private JButton deleteCategoryButton;
@@ -209,8 +208,7 @@ public class MainWindow extends JFrame {
 		toolbarSeparator2 = new JSeparator();
 
 		categoriesEditLabel = new JLabel();
-		categoriesPane = new JScrollPane();
-		categoriesList = new JList<String>();
+		categorySelector = new JComboBox<String>();
 		addCategoryButton = new JButton();
 		editCategoryButton = new JButton();
 		deleteCategoryButton = new JButton();
@@ -277,26 +275,26 @@ public class MainWindow extends JFrame {
 				.addComponent(toolbarSeparator1)
 				.addComponent(toolbarSeparator2)
 				.addComponent(toolbarSeparator3)
-				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, toolbarLayout.createSequentialGroup()
+				.addGroup(toolbarLayout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-								.addComponent(categoriesPane)
-								.addComponent(categoriesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(toolbarLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelineSelector, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelinesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
-								.addComponent(addEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addGroup(javax.swing.GroupLayout.Alignment.LEADING, toolbarLayout.createSequentialGroup()
+						.addGroup(toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+								.addComponent(categoriesEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(toolbarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editTimelineButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(addTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(timelineSelector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(timelinesEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(addCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(addEventButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(editEventButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addComponent(deleteEventButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+								.addGroup(toolbarLayout.createSequentialGroup()
 										.addComponent(eventsEditLabel)
-										.addGap(0, 0, Short.MAX_VALUE)))
+										.addGap(0, 0, Short.MAX_VALUE))
+										.addComponent(categorySelector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 										.addContainerGap())
 				);
 		toolbarLayout.setVerticalGroup(
@@ -321,7 +319,7 @@ public class MainWindow extends JFrame {
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(categoriesEditLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-						.addComponent(categoriesPane, javax.swing.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+						.addComponent(categorySelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(addCategoryButton)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -338,7 +336,7 @@ public class MainWindow extends JFrame {
 						.addComponent(editEventButton)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteEventButton)
-						.addContainerGap())
+						.addContainerGap(147, Short.MAX_VALUE))
 				);
 
 		mainSplitPane.setLeftComponent(toolbar);
@@ -471,12 +469,12 @@ public class MainWindow extends JFrame {
 		});
 
 		//TODO Define action listeners for category tools.
-		categoriesList.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent e) {
-				final ArrayList<String> selectedCategories = new ArrayList<String>(categoriesList.getSelectedValuesList());
+		categorySelector.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				final String selectedCategory = (String)categorySelector.getSelectedItem();
 				new Thread(new Runnable() {
 					public void run(){
-						model.selectCategories(selectedCategories);
+						model.selectCategory(selectedCategory);
 					}
 				}).start();
 			}
@@ -511,7 +509,7 @@ public class MainWindow extends JFrame {
 							if (selectedCategory != null && model.getSelectedTimeline() != null)
 								SwingUtilities.invokeLater(new Runnable() {
 									public void run() {
-										new EventPropertiesWindow(MainWindow.this.model).setVisible(true); // TODO
+										new CategoryPropertiesWindow(MainWindow.this.model, model.getCategory((String)categorySelector.getSelectedItem())).setVisible(true); // TODO
 									}
 								});
 						}catch(NullPointerException npe){
@@ -643,24 +641,42 @@ public class MainWindow extends JFrame {
 			}
 		});
 	}
-
-	public void updateCategories(final ArrayList<String> categoryTitles, final ArrayList<String> selectedCategoryTitles) {
+	
+	public void updateTimelines() {
+		final ArrayList<String> timelinesTitles = model.getTimelineTitles();
+		final Timeline selectedTimeline = model.getSelectedTimeline();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				if (categoryTitles != null) {
-					categoriesList.removeAll();
-					DefaultListModel<String> listModel = new DefaultListModel<String>();
-					categoriesList.removeAll();
-					for (String s : categoryTitles)
-						listModel.addElement(s);
-					categoriesList.setModel(listModel);
-					if (selectedCategoryTitles != null && !selectedCategoryTitles.isEmpty())
-						for (String s : selectedCategoryTitles)
-							categoriesList.setSelectedIndex(categoryTitles.indexOf(s));
-					else
-						categoriesList.setSelectedValue(Category.defaultCategory.getName(), true);
+				timelineSelector.removeAllItems();
+				for (String s : timelinesTitles)
+					timelineSelector.addItem(s);
+				if (selectedTimeline != null && timelinesTitles.contains(selectedTimeline.getName())) {
+					timelineSelector.setSelectedItem(selectedTimeline.getName());
+					new Thread(new Runnable() {
+						public void run() {
+							updateCategories(selectedTimeline);
+						}
+					}).start();
 				}
 			}
 		});
+	}
+
+
+	public void updateCategories(Timeline selectedTimeline) {
+		final ArrayList<String> categoriesTitles = selectedTimeline.getCategoryNames();
+		final Category selectedCategory = model.getSelectedCategory();
+		if (categoriesTitles != null && !categoriesTitles.isEmpty()) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					categorySelector.removeAllItems();
+					for (String s : categoriesTitles)
+						categorySelector.addItem(s);
+					if (selectedCategory != null && categoriesTitles.contains(selectedCategory.getName())) {
+						categorySelector.setSelectedItem(selectedCategory.getName());
+					}
+				}
+			});
+		}
 	}
 }

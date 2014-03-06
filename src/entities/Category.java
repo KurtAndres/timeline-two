@@ -165,9 +165,12 @@ public class Category implements CategoryAPI{
      * @return true if successful, false otherwise
      */
     public boolean removeEvent(Event event){
-        if(this.equals(event.getCategory()))
-            event.setCategory(null);
-        return events.remove(event);
+        boolean toReturn = true;
+        if(this.equals(event.getCategory())&&events.contains(event)){
+            toReturn = events.remove(event);
+            event.setCategory(Category.defaultCategory);
+        }
+        return toReturn;
     }
     
     /**
