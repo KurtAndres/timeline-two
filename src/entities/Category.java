@@ -86,23 +86,15 @@ public class Category implements CategoryAPI{
         }
         
         /**
-         * set the selectColor of the Category
-         * 
-         * @param selectColor the color to set
-         * @return the Builder
-         */
-        public Builder selectColor(Color selectColor){
-            this.sColor = selectColor; return this;
-        }
-        
-        /**
          * set the deselectColor of the Category
          * 
          * @param deselectColor the color to set
          * @return the Builder
          */
         public Builder deselectColor(Color deselectColor){
-            this.dsColor = deselectColor; return this;
+            this.dsColor = deselectColor;
+            this.sColor = this.dsColor.darker();
+            return this;
         }
         
         /**
