@@ -119,7 +119,7 @@ public class CategoryPropertiesWindow extends JFrame {
 				new Thread(new Runnable() {
 					public void run() {
 						ArrayList<Event> events = category.getEvents();
-						model.editCategory(category, new Category.Builder(title).selectColor(color).deselectColor(color).events(events).build());
+						model.editCategory(new Category.Builder(title).selectColor(color).deselectColor(color).events(events).build());
 					}
 				}).start();
 				dispose();
