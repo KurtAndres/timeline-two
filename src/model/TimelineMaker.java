@@ -30,10 +30,6 @@ public class TimelineMaker {
 	 */
 	private Timeline selectedTimeline;
 	/**
-	 * The categories selected for display in this application.
-	 */
-	private ArrayList<Category> selectedCategories;
-	/**
 	 * The category selected for display and editing in the application.
 	 */
 	private Category selectedCategory;
@@ -63,8 +59,6 @@ public class TimelineMaker {
 		// TODO Instantiate storage helper object.
 		graphics = new TimelineGraphics(this);
 		timelines = new ArrayList<Timeline>();
-		selectedCategories = new ArrayList<Category>();
-                selectedCategories.add(Category.defaultCategory);
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
@@ -97,7 +91,7 @@ public class TimelineMaker {
 				gui.setVisible(true);
 				new Thread(new Runnable() {
 					public void run() {
-//						gui.updateTimelines(getTimelineTitles(), null);
+						//						gui.updateTimelines(getTimelineTitles(), null);
 						gui.updateTimelines();
 					}
 				}).start();
@@ -163,7 +157,7 @@ public class TimelineMaker {
 		timelines.add(selectedTimeline);
 
 		// TODO Add selectedTimeline to the storage helper.
-//		gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
+		//		gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		gui.updateTimelines();
 		updateGraphics();
 	}
@@ -180,7 +174,7 @@ public class TimelineMaker {
 			selectedTimeline = null;
 			selectedEvent = null;
 			graphics.clearScreen();
-//			gui.updateTimelines(getTimelineTitles(), null);
+			//			gui.updateTimelines(getTimelineTitles(), null);
 			gui.updateTimelines();
 		}
 	}
@@ -205,7 +199,7 @@ public class TimelineMaker {
 		timelines.add(selectedTimeline);
 		// TODO Add selectedTimeline to the storage helper.
 		if (newName)
-//			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
+			//			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 			gui.updateTimelines();
 		updateGraphics();
 	}
@@ -224,22 +218,10 @@ public class TimelineMaker {
 		}
 		return Category.defaultCategory;
 	}
-	
-	public ArrayList<Category> getSelectedCategories() {
-		return selectedCategories;
-	}
-	
+
 	public Category getSelectedCategory() {
 		return selectedCategory;
 	}
-
-	public void selectCategories(ArrayList<String> c) {
-		selectedCategories.clear();
-		for (String name : c)
-			selectedCategories.add(getCategory(name));
-		// TODO Update graphics.
-	}
-	
 
 	public void selectCategory(String c) {
 		// TODO Auto-generated method stub
@@ -249,19 +231,17 @@ public class TimelineMaker {
 
 	public void addCategory(Category c) {
 		selectedTimeline.addCategory(c);
-//		selectedCategories.add(c);
 		selectedCategory = c;
 		gui.updateCategories(selectedTimeline);
 		updateGraphics();
 	}
 
 	public void deleteCategory() {
-//		for (Category c : selectedCategories)
-//			if (selectedTimeline.contains(c))
-//				selectedTimeline.removeCategory(c);
-		selectedTimeline.removeCategory(selectedCategory);
-		selectedCategory = null;
-		gui.updateCategories(selectedTimeline);
+		if (selectedCategory != null && !selectedCategory.equals(Category.defaultCategory)) {
+			selectedTimeline.removeCategory(selectedCategory);
+			selectedCategory = null;
+			gui.updateCategories(selectedTimeline);
+		}
 	}
 
 	public void editCategory(Category b) {
