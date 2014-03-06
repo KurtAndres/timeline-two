@@ -242,8 +242,8 @@ public class TimelineMaker {
 				selectedTimeline.removeCategory(c);
 	}
 
-	public void editCategory(Category c) {
-		// TODO Implement.
+	public void editCategory(Category a, Category b) {
+		selectedTimeline.replaceCategory(a, b);
 	}
 
 	/**

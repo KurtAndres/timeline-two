@@ -79,7 +79,7 @@ public class CategoryPropertiesWindow extends JFrame {
 	
 	/**
 	 * Constructor.
-	 * Constructor for adding a new category.
+	 * Constructor for editing an existing category.
 	 * @param model the TimelineMaker application model
 	 */
 	public CategoryPropertiesWindow(final TimelineMaker model, final Category category) {
@@ -119,7 +119,7 @@ public class CategoryPropertiesWindow extends JFrame {
 				new Thread(new Runnable() {
 					public void run() {
 						ArrayList<Event> events = category.getEvents();
-						model.addCategory(new Category.Builder(title).selectColor(color).deselectColor(color).events(events).build());
+						model.editCategory(category, new Category.Builder(title).selectColor(color).deselectColor(color).events(events).build());
 					}
 				}).start();
 				dispose();
