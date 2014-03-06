@@ -244,7 +244,7 @@ public class MainWindow extends JFrame {
 
 		// Set default close operation and title of this window.
 		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		setTitle("Timelord - Create, edit, and view timelineSelector!");
+		setTitle("Timelord - Create, edit, and view timelines!");
 
 		// Set location of the main divider.
 		mainSplitPane.setDividerLocation(140);
