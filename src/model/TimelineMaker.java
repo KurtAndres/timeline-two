@@ -64,6 +64,7 @@ public class TimelineMaker {
 		graphics = new TimelineGraphics(this);
 		timelines = new ArrayList<Timeline>();
 		selectedCategories = new ArrayList<Category>();
+                selectedCategories.add(Category.defaultCategory);
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
