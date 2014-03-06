@@ -3,16 +3,27 @@
  */
 package storage;
 
+import java.util.ArrayList;
+
 import entities.Category;
 import entities.Event;
 import entities.Timeline;
-import entities.Timeline.AxisLabel;
 
 /**
  * @author leanne.miller
  *
  */
 public interface SaveMeAPI {
+	
+	/**
+	 * Loads all timelines found in the working directory under the folder "Timelines".
+	 * If no timelines are found, it will return an empty arraylist.
+	 * 
+	 * @return An arraylist containing all of the timelines found in the "Timelines" folder. 
+	 *
+	 */
+	public abstract ArrayList<Timeline> loadAll();
+	
 	/**
 	 * Saves an instance of class Timeline.
 	 * 

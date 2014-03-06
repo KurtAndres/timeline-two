@@ -8,7 +8,6 @@ import com.thoughtworks.xstream.XStream;
 import entities.Category;
 import entities.Event;
 import entities.Timeline;
-import entities.Timeline.AxisLabel;
 import entities.Timeline.Builder;
 
 import java.io.File;
@@ -25,6 +24,21 @@ import java.util.HashSet;
  *
  */
 public class SaveMe implements SaveMeAPI{
+	
+	@Override
+	public ArrayList<Timeline> loadAll(){
+		ArrayList<Timeline> timelines = new ArrayList<Timeline>();
+		String path = System.getProperty("user.dir") + "/Timelines";
+		File dir = new File(path);
+
+		File[] files = dir.listFiles();
+		for(File f : files){
+			timelines.add(loadTimeline(f.getName()));
+		}
+		
+		return timelines;	
+		
+	}
 
 	@Override
 	public void saveTimeline(Timeline tl){
@@ -33,8 +47,6 @@ public class SaveMe implements SaveMeAPI{
 		String tlName = tl.getName();
 		
 		//Make dirs for the timeline's events and categories	
-		//File dir = new File("Timelines");
-		//dir.mkdir(); 
 		new File("Timelines/" + tlName + "/events").mkdirs();
 		new File("Timelines/" +tlName + "/categories").mkdirs();
 		
@@ -47,6 +59,10 @@ public class SaveMe implements SaveMeAPI{
 		for(Category c : categories){
 			saveCategory(c, tlName);
 		}
+		
+		//Save axis label
+		saveAxisLabel(tl.getAxisLabelIndex(), tlName);
+		
 	}
 
 	@Override
