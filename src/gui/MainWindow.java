@@ -163,17 +163,42 @@ public class MainWindow extends JFrame {
 	 */
 	private JMenu viewMenu;
 
-
+	/**
+	 * The category edit toolbar label.
+	 */
 	private JLabel categoriesEditLabel;
+	/**
+	 * The category selection dropdown.
+	 */
 	private JComboBox<String> categorySelector;
+	/**
+	 * The add-category button.
+	 */
 	private JButton addCategoryButton;
+	/**
+	 * The edit-category button.
+	 */
 	private JButton editCategoryButton;
+	/**
+	 * The delete-category button.
+	 */
 	private JButton deleteCategoryButton;
-
+	
+	/**
+	 * The checkbox for toggling display mode.
+	 */
 	private JCheckBox displayToggle;
-
+	/**
+	 * The help menu.
+	 */
 	private JMenu helpMenu;
+	/**
+	 * The about menu item for displaying relevant information.
+	 */
 	private JMenuItem aboutMenuItem;
+	/**
+	 * The third toolbar separator.
+	 */
 	private JSeparator toolbarSeparator3;
 
 	/**
@@ -629,6 +654,20 @@ public class MainWindow extends JFrame {
 				// TODO implement.
 			}
 		});
+		aboutMenuItem.addActionListener(new ActionListener() {
+			/**
+			 * Display a short message about the application.
+			 */
+			public void actionPerformed(ActionEvent e) {
+				JFrame messageFrame = new JFrame();
+				messageFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				JOptionPane.showMessageDialog(messageFrame, "TIMELORD!\n" +
+						"This is a student-made application for creating, editing, and viewing timelines.\n" +
+						"To get started add a Timeline, then category(ies) and event(s).\n" +
+						"\nWheaton College, CS 335, Spring 2014\nProject Phase 2\nMar 7, 2014");
+				messageFrame.pack();
+			}
+		});
 		exitMenuItem.addActionListener(new ActionListener() {
 			/**
 			 * Exit the application.
@@ -642,6 +681,7 @@ public class MainWindow extends JFrame {
 	/**
 	 * Update the timelineSelector from TimelineMaker model into GUI window.
 	 * Get a list of timeline titles from model. Then populate the JComboBox timelineSelector with those titles, selecting the appropriate timeline.
+	 * Then update the categories.
 	 */
 	public void updateTimelines() {
 		final ArrayList<String> timelinesTitles = model.getTimelineTitles();

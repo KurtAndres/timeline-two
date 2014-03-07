@@ -3,7 +3,7 @@ package model;
 /**
  * Driver.java
  * 
- * This class starts the application.
+ * This class starts the TimelineMaker application.
  * 
  * @author Andrew Thompson
  * Wheaton College, CS 335, Spring 2014

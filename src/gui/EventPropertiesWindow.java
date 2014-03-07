@@ -270,11 +270,17 @@ public class EventPropertiesWindow extends JFrame {
 		dateLabel.setText("Date");
 		startDate.setText("yyyy-mm-dd");
 		startDate.addFocusListener(new FocusListener() {
+			/**
+			 * Clear the start-date entry-field when the user clicks in it.
+			 */
 			public void focusGained(FocusEvent e) {
 				startDate.setForeground(Color.GRAY);
 				startDate.setText("");
 			}
-
+			/**
+			 * Ensure the user has entered correct data when they click out of the start date field.
+			 * Otherwise, display an error-prompt text.
+			 */
 			public void focusLost(FocusEvent e) {
 				try {
 					Date.valueOf(startDate.getText());
@@ -287,11 +293,17 @@ public class EventPropertiesWindow extends JFrame {
 		toLabel.setText("to");
 		endDate.setText("yyyy-mm-dd");
 		endDate.addFocusListener(new FocusListener() {
+			/**
+			 * Clear the end-date entry-field when the user clicks in it.
+			 */
 			public void focusGained(FocusEvent e) {
 				endDate.setForeground(Color.GRAY);
 				endDate.setText("");
 			}
-
+			/**
+			 * Ensure the user has entered correct data when they click out of the end-date field.
+			 * Otherwise, display an error-prompt text.
+			 */
 			public void focusLost(FocusEvent e) {
 				try {
 					Date.valueOf(endDate.getText());
