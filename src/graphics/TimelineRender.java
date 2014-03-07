@@ -5,17 +5,25 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import com.sun.javafx.geom.Rectangle;
+import com.sun.prism.j2d.paint.MultipleGradientPaint.CycleMethod;
+import com.sun.prism.paint.LinearGradient;
+
 import model.TimelineMaker;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import entities.Atomic;
+import entities.Category;
 import entities.Duration;
 import entities.Event;
 import entities.Timeline;
@@ -59,23 +67,23 @@ public class TimelineRender implements Runnable {
 	 * (embeds in swing)
 	 */
 	private JFXPanel fxPanel;
-	
+
 	/**
 	 * The model of the entire program, this is so selected events can be set
 	 */
 	private TimelineMaker model;
-	
+
 	/**
 	 * The timeline associated with this CategoryRender object
 	 */
 	private Timeline timeline;
-	
+
 	/**
 	 * The group of javafx elements to display in the scene (similar to a canvas,
 	 * this gets put on the JFXPanel)
 	 */
 	private Group group;
-	
+
 	/**
 	 * ArrayLists of all the events in the timeline. 
 	 * Separated into durations and atomics for rendering purposes
@@ -83,48 +91,59 @@ public class TimelineRender implements Runnable {
 
 	private ArrayList<Duration> durations;
 	private ArrayList<Atomic> atomics;
-	
+
 	/**
 	 * An ArrayList of all the TLEventLabels, used for selecting events
 	 */
 	private ArrayList<TLEventLabel> eventLabels;
-	
+
 	/**
 	 * The AxisLabel that this TimelineRenderer will use when rendering the timeline.
 	 * Essentially the unit by which the axis will be rendered.
 	 */
 
 	private AxisLabel axisLabel;
-	
+
 	/**
 	 * ArrayList of all the atomic event x positions
 	 */
 	private ArrayList<Integer> atomicXPositions = new ArrayList<Integer>();
-	
+
 	/**
 	 * ArrayList of all the atomic event y positions
 	 */
 	private ArrayList<Integer> atomicYPositions = new ArrayList<Integer>();
+
+	/**
+	 * ArrayList of all the duration event x positions
+	 */
+	private ArrayList<Integer> durationXPositions = new ArrayList<Integer>();
+
+	/**
+	 * ArrayList of all the duration event y positions
+	 */
+	private ArrayList<Integer> durationYPositions = new ArrayList<Integer>();
+
 	
 	/**
 	 * Int value of timeline loaction after drawing timeline before making atomic connections
 	 */
 	private int timelineYLocation = 0;
-	
+
 	/**
 	 * Use in rendering with an AxisLabel of months
 	 */
 	private final String[] months = {"Jan", "Feb", "March", "April",
 			"May","June","July","Aug",
 			"Sept","Oct","Nov","Dec"};
-	
+
 	/**
 	 * The number of pixels each unit (definied by axisLAbel) on the axis takes
 	 * up. Currently this is constant, but could be easily changed to account for
 	 * different timeline sizes.
 	 */
 	private int unitWidth;
-	
+
 	/**
 	 * The y location of the next element to be rendered. Everything is rendered
 	 * from the top (0) down (positive y) to avoid overlaps of events.
@@ -137,7 +156,7 @@ public class TimelineRender implements Runnable {
 	 */
 	private long minTime;
 	private long maxTime;
-	
+
 	/**
 	 * The constructor for CategoryRender. Takes an fxPanel for putting the 
 	 * scene (graphics), a TimelineMake object for updating the program state, a Timeline
@@ -160,7 +179,7 @@ public class TimelineRender implements Runnable {
 		this.fxPanel = fxPanel;
 		atomics = new ArrayList<Atomic>();
 		durations = new ArrayList<Duration>();
-		
+
 		eventLabels = new ArrayList<TLEventLabel>();
 	}
 
@@ -205,7 +224,7 @@ public class TimelineRender implements Runnable {
 			}
 		}
 	}
-	
+
 	/**
 	 * Initializes the minTime and maxTime to the first event. This is kind of a hack but
 	 * seems to be necessary. It would not be necesssary if we used the compareTo method 
@@ -226,7 +245,7 @@ public class TimelineRender implements Runnable {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Renders the timeline in order of height on the screen; atomic events,
 	 * axis, duration events.
@@ -242,7 +261,8 @@ public class TimelineRender implements Runnable {
 		renderDurations();
 		renderConnections();
 	}
-	
+
+
 	/**
 	 * Renders each 'Unit' on the axis as a label with width unitWidth (uses unitLabel method). 
 	 * Adds the label to the group, and when finished puts the group in a scene and displays the 
@@ -256,12 +276,25 @@ public class TimelineRender implements Runnable {
 	private void renderTime() {
 		int diffUnit = getUnitLength();
 		int xPos2 = 0;
+		/*
+		//title not currently displaying correct
+		//adding the title label
+		Label titleLabel = new Label(timeline.getName());
+		titleLabel.setRotate(270);
+		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
+		titleLabel.setLayoutX(xPos2);
+		titleLabel.setLayoutY(pushDown+23);
+		titleLabel.setStyle("-fx-border-color: black");
+		titleLabel.setTextAlignment(TextAlignment.CENTER);
+		titleLabel.setAlignment(Pos.TOP_LEFT);
+		group.getChildren().add(titleLabel);
+		*/
 		for(int i = 0; i <= diffUnit ; i++){
 			Label label = unitLabel(i,xPos2);
 			label.setTextAlignment(TextAlignment.LEFT);
 			label.setAlignment(Pos.BASELINE_LEFT);
 			Label lineLabel;
-			
+
 			//adds the dashes (|) on the timeline
 			lineLabel = new Label("    |");
 			lineLabel.setLayoutX(xPos2);
@@ -269,30 +302,30 @@ public class TimelineRender implements Runnable {
 			lineLabel.setPrefWidth(unitWidth);
 			lineLabel.setTextAlignment(TextAlignment.LEFT);
 			lineLabel.setAlignment(Pos.TOP_LEFT);
-			
+
 			group.getChildren().add(label);
 			group.getChildren().add(lineLabel);
 			xPos2+=unitWidth;
 		}
 		//adds the actual black timeline
 		Line blackLine = LineBuilder.create()
-	            .startX(5)
-	            .startY(pushDown+10)
-	            .endX(xPos2-5)
-	            .endY(pushDown+10)
-	            .fill(Color.BLACK)
-	            .strokeWidth(3.5f)
-	            .translateY(20)
-	            .build();
-		
+				.startX(5)
+				.startY(pushDown+10)
+				.endX(xPos2-5)
+				.endY(pushDown+10)
+				.fill(Color.BLACK)
+				.strokeWidth(3.5f)
+				.translateY(20)
+				.build();
+
 		group.getChildren().add(blackLine);
-		
+
 		timelineYLocation = pushDown+10;
-		
+
 		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.GHOSTWHITE);
 		fxPanel.setScene(toShow);
 	}
-	
+
 	/**
 	 * Helper method for creating units on the axis. Uses a Calendar object to add i units to the object,
 	 * and then create a label with the correct position and text based on the unit and the current
@@ -329,7 +362,7 @@ public class TimelineRender implements Runnable {
 		label.setPrefHeight(40);
 		label.setAlignment(Pos.CENTER);
 		//label.setStyle("-fx-border-color: black;");
-		
+
 		return label;
 	}
 
@@ -348,7 +381,7 @@ public class TimelineRender implements Runnable {
 		int diffYear = endCalendar.get(Calendar.YEAR) - startCalendar.get(Calendar.YEAR);
 		int diffMonth = diffYear * 12 + endCalendar.get(Calendar.MONTH) - startCalendar.get(Calendar.MONTH);
 		int diffDay = diffYear * 365 +endCalendar.get(Calendar.DAY_OF_YEAR) - startCalendar.get(Calendar.DAY_OF_YEAR);
-		
+
 		switch(axisLabel){ // +1 to round up
 		case DAYS:
 			return diffDay+1;
@@ -424,35 +457,61 @@ public class TimelineRender implements Runnable {
 	private void renderDurations() {
 		int counter = 0;
 		for(Duration e : durations){
-			
+
 			int xStart = getXPos(e.getStartDate())+19;
 			int xEnd = getXPos(e.getEndDate())+19;
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);
 			eventLabels.add(label);
-			
 			group.getChildren().add(label);
+			durationXPositions.add(xStart);
+			durationYPositions.add(pushDown);
+			
+			//add connecting lines for start duration events
+			Line blackdashedConnector = LineBuilder.create()
+					.startX(xStart)
+					.startY(timelineYLocation+2)
+					.endX(xStart)
+					.endY(pushDown + 45 + counter-7)
+					.fill(Color.BLACK)
+					.strokeWidth(1.5f)
+					.translateY(20)
+					.build();
+
+			group.getChildren().add(blackdashedConnector);
+			
+			//add connecting line for end duration events
+			Line endDurrationConnector = LineBuilder.create()
+					.startX(xEnd)
+					.startY(timelineYLocation+2)
+					.endX(xEnd)
+					.endY(pushDown + 45 + counter-7)
+					.fill(Color.BLACK)
+					.strokeWidth(1.5f)
+					.translateY(20)
+					.build();
+
+			group.getChildren().add(endDurrationConnector);
 			counter += 20;
 		}
 	}
-	
+	//can't draw this with atomic events because they have to wait for the timeline axis to know what to connect to
 	private void renderConnections() {
 		for(int i =0; i<atomicXPositions.size(); i++){
 			Line blackConnector = LineBuilder.create()
-		            .startX(atomicXPositions.get(i))
-		            .startY(timelineYLocation)
-		            .endX(atomicXPositions.get(i))
-		            .endY(atomicYPositions.get(i))
-		            .fill(Color.color(1.0, 0, 0))
-		            .strokeWidth(1.5f)
-		            .translateY(20)
-		            .build();
-			
+					.startX(atomicXPositions.get(i))
+					.startY(timelineYLocation)
+					.endX(atomicXPositions.get(i))
+					.endY(atomicYPositions.get(i))
+					.fill(Color.color(1.0, 0, 0))
+					.strokeWidth(1.5f)
+					.translateY(20)
+					.build();
+
 			group.getChildren().add(blackConnector);
 		}
 
 	}
-
 
 	/**
 	 * Returns the pixel x position that a date should be, based on its value and the axis
@@ -466,7 +525,7 @@ public class TimelineRender implements Runnable {
 		//System.out.println("Event " + date.toString() + " is " +units+ " units after the start. It has an x offset of " +(int)(units*unitWidth)+ " pixels.");
 		return xPosition;
 	}
-	
+
 	/**
 	 * Returns the number of units (based on axisLabel) since the first date on the timeline axis (see
 	 * getFirstDate) for a Date.
@@ -477,7 +536,7 @@ public class TimelineRender implements Runnable {
 	 * @param date the date to get the units for
 	 * @return the units since the start date, of the date
 	 */
-	
+
 	private double getUnitsSinceStart(Date date){
 		Calendar startCalendar = new GregorianCalendar();
 		startCalendar.setTime(getFirstDate());
@@ -503,7 +562,7 @@ public class TimelineRender implements Runnable {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * Returns the calendar unit based on axisLabel (used in rendering the different pieces based
 	 * on length and date)

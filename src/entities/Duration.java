@@ -35,6 +35,7 @@ public class Duration extends Event {
 		super(name, category, details, timeline);
 		this.setStartDate(startDate);
 		this.setEndDate(endDate);
+		
 	}
 	
 	/**
