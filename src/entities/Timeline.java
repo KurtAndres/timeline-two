@@ -154,8 +154,8 @@ public class Timeline implements TimelineAPI{
         private void save(){
             saver.saveTimeline(this);
         }
-
-	/**
+        
+    /**
 	 * add a Category to the timeline
 	 * 
 	 * @param category 

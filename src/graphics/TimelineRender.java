@@ -66,7 +66,7 @@ public class TimelineRender implements Runnable {
 	private TimelineMaker model;
 	
 	/**
-	 * The timeline associated with this TimelineRender object
+	 * The timeline associated with this CategoryRender object
 	 */
 	private Timeline timeline;
 	
@@ -139,7 +139,7 @@ public class TimelineRender implements Runnable {
 	private long maxTime;
 	
 	/**
-	 * The sole constructor for TimelineRender. Takes an fxPanel for putting the 
+	 * The constructor for CategoryRender. Takes an fxPanel for putting the 
 	 * scene (graphics), a TimelineMake object for updating the program state, a Timeline
 	 * object to render with, and a group for putting the elements to draw on before 
 	 * drawing to the fxPanel
