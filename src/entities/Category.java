@@ -162,9 +162,11 @@ public class Category implements CategoryAPI{
      */
     public boolean removeEvent(Event event){
         boolean toReturn = true;
-        if(this.equals(event.getCategory())&&events.contains(event)){
+        if(this.equals(event.getCategory()) && events.contains(event)){
             toReturn = events.remove(event);
-            event.setCategory(timeline.defaultCategory);
+            try {
+            	event.setCategory(timeline.defaultCategory);
+            } catch (NullPointerException e) { }
         }
         return toReturn;
     }

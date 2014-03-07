@@ -257,6 +257,7 @@ public class Timeline implements TimelineAPI{
 	public boolean removeEvent(Event event) {
 		if(events.contains(event)){
 			events.remove(event);
+			event.getCategory().removeEvent(event);
 			save();
 			return true;
 		}else{
