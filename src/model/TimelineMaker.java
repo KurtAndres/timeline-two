@@ -358,8 +358,10 @@ public class TimelineMaker {
 		if (selectedTimeline != null)
 			if (displayAll)
 				graphics.renderTimeline(selectedTimeline);
-			else
-				;// graphics.renderCategory(selectedCategory); // TODO Write this method.
+			else{
+				graphics.clearScreen();
+			}
+				// graphics.renderCategory(selectedCategory); // TODO Write this method.
 	}
 
 }
