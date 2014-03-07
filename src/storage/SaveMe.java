@@ -107,7 +107,7 @@ public class SaveMe implements SaveMeAPI{
 	public void saveCategory(Category category, String timeline) {
 		XStream xstream = new XStream(); 
 		String name = category.getName();
-		String path = "Timelines/" + timeline + "/categories/" + name + ".xml";
+		String path = "/Timelines/" + timeline + "/categories/" + name + ".xml";
 
 		xstream.alias(name, Category.class);
 		String xml = xstream.toXML(category);
@@ -167,7 +167,7 @@ public class SaveMe implements SaveMeAPI{
 		XStream xstream = new XStream();
 		Event event = null;
 		String path = System.getProperty("user.dir"); //Grab the working dir
-		path = path + "Timelines/" + timeline + "/events/" + filename;
+		path = path + "/Timelines/" + timeline + "/events/" + filename;
 		
 		try{
 			File xmlFile = new File(path);

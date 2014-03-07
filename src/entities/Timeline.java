@@ -104,6 +104,8 @@ public class Timeline implements TimelineAPI{
 		 */
 		public Builder categories(HashSet<Category> categories) {
 			this.categories = categories;
+                        if(this.categories.contains(null))
+                            this.categories.remove(null);
 			return this;
 		}
 

@@ -8,6 +8,7 @@ import javax.swing.*;
 
 import java.util.*;
 import java.util.logging.*;
+import storage.SaveMe;
 
 /**
  * TimelineMaker.java
@@ -58,7 +59,8 @@ public class TimelineMaker {
 	public TimelineMaker() {
 		// TODO Instantiate storage helper object.
 		graphics = new TimelineGraphics(this);
-		timelines = new ArrayList<Timeline>();
+                SaveMe loader = new SaveMe();
+                timelines = loader.loadAll();
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
