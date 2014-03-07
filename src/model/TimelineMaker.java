@@ -39,6 +39,10 @@ public class TimelineMaker {
 	 */
 	private Event selectedEvent;
 	/**
+	 * Whether or not to display all categories in the selected timeline.
+	 */
+	private boolean displayAll;
+	/**
 	 * The database for storing timelines of this application.
 	 */
 	// TODO Add storage object.
@@ -58,6 +62,7 @@ public class TimelineMaker {
 	 */
 	public TimelineMaker() {
 		// TODO Instantiate storage helper object.
+		displayAll = true;
 		graphics = new TimelineGraphics(this);
 		SaveMe loader = new SaveMe();
 		timelines = new ArrayList<Timeline>();
@@ -94,7 +99,6 @@ public class TimelineMaker {
 				gui.setVisible(true);
 				new Thread(new Runnable() {
 					public void run() {
-						//						gui.updateTimelines(getTimelineTitles(), null);
 						gui.updateTimelines();
 					}
 				}).start();
@@ -160,7 +164,6 @@ public class TimelineMaker {
 		timelines.add(selectedTimeline);
 
 		// TODO Add selectedTimeline to the storage helper.
-		//		gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 		gui.updateTimelines();
 		updateGraphics();
 	}
@@ -177,7 +180,6 @@ public class TimelineMaker {
 			selectedTimeline = null;
 			selectedEvent = null;
 			graphics.clearScreen();
-			//			gui.updateTimelines(getTimelineTitles(), null);
 			gui.updateTimelines();
 		}
 	}
@@ -202,7 +204,6 @@ public class TimelineMaker {
 		timelines.add(selectedTimeline);
 		// TODO Add selectedTimeline to the storage helper.
 		if (newName)
-			//			gui.updateTimelines(getTimelineTitles(), selectedTimeline.getName());
 			gui.updateTimelines();
 		updateGraphics();
 	}
@@ -222,17 +223,27 @@ public class TimelineMaker {
 		return Category.defaultCategory;
 	}
 
+	/**
+	 * Retrieve the currently-selected category in this application.
+	 * @return selectedCategory
+	 */
 	public Category getSelectedCategory() {
 		return selectedCategory;
 	}
 
+	/**
+	 * Set the selected category to the parameterized category.
+	 * @param c The category to select.
+	 */
 	public void selectCategory(String c) {
-		// TODO Auto-generated method stub
 		selectedCategory = getCategory(c);
 		updateGraphics();
-		// TODO Update graphics.
 	}
 
+	/**
+	 * Add the category to the currently-selected timeline.
+	 * @param c The category to add.
+	 */
 	public void addCategory(Category c) {
 		selectedTimeline.addCategory(c);
 		selectedCategory = c;
@@ -240,6 +251,9 @@ public class TimelineMaker {
 		updateGraphics();
 	}
 
+	/**
+	 * Delete the currently-selected category.
+	 */
 	public void deleteCategory() {
 		if (selectedCategory != null && !selectedCategory.equals(Category.defaultCategory)) {
 			selectedTimeline.removeCategory(selectedCategory);
@@ -249,6 +263,10 @@ public class TimelineMaker {
 		}
 	}
 
+	/**
+	 * Replace the currently-selected category with the parameterized category in the currently-selected timeline.
+	 * @param b The edited timeline.
+	 */
 	public void editCategory(Category b) {
 		selectedTimeline.replaceCategory(selectedCategory, b);
 		gui.updateCategories(selectedTimeline);
@@ -323,6 +341,13 @@ public class TimelineMaker {
 			// TODO Add selectedTimeline to the storage helper.
 		}
 	}
+	
+
+	public void toggleDisplayType() {
+		displayAll = !displayAll;
+		System.out.println("Will all categories be displayed: " + displayAll);
+		updateGraphics();
+	}
 
 
 	/**
@@ -331,6 +356,10 @@ public class TimelineMaker {
 	public void updateGraphics() { 
 		graphics.clearScreen();
 		if (selectedTimeline != null)
-			graphics.renderTimeline(selectedTimeline);
+			if (displayAll)
+				graphics.renderTimeline(selectedTimeline);
+			else
+				;// graphics.renderCategory(selectedCategory); // TODO Write this method.
 	}
+
 }
