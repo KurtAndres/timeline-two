@@ -59,12 +59,12 @@ public class TimelineGraphics{
 	 */
 	public void renderTimeline(Timeline timeline) {
 		root = new Group();
-		Platform.runLater(new TimelineRender(fxPanel, model, timeline, root));
+		Platform.runLater(new Renderer(fxPanel, model, timeline, root));
 	}
 	
 	public void renderCategory(Timeline timeline, Category category) {
 		root = new Group();
-		Platform.runLater(new CategoryRender(fxPanel, model, timeline, category, root));
+		Platform.runLater(new Renderer(fxPanel, model, timeline, category, root));
 	}
 
 	/**

@@ -16,17 +16,17 @@ import model.TimelineMaker;
  * Currently the subclasses have a decent amount of repetition so some of that could be
  * moved up here.
  * 
- * @author KurtAndres & Josh Wright
+ * @author KurtAndres
  * February 15, 2014
  */
 public abstract class TLEventLabel extends Label {
-    
-        /**
+
+	/**
 	 * The event this label is associated with
 	 */
 	protected Event event;
-        
-        /**
+
+	/**
 	 * The x and y position of this event
 	 */
 	protected int xPos;
@@ -41,28 +41,28 @@ public abstract class TLEventLabel extends Label {
 	 * Whether this event is hovered over or not
 	 */
 	private boolean hovered;
-        
-        /**
+
+	/**
 	 * This object. Used for passing to anonymous inner classes.
 	 */
-        protected TLEventLabel label;
-        
-        /**
+	protected TLEventLabel label;
+
+	/**
 	 * The model of the program to update selected event
 	 */
 	protected TimelineMaker model;
-        
-        /**
+
+	/**
 	 * ArrayList of all other eventLabels, used for clearing previous selection
 	 */
 	protected ArrayList<TLEventLabel> eventLabels;
-        
-        /**
+
+	/**
 	 * The tooltip hoverover text for the label
 	 */
 	protected String tooltipText;
-        
-        /**
+
+	/**
 	 * The string color (i.e. #ff0000) of the label when selected
 	 */
 	protected String selectedColor;
@@ -80,8 +80,8 @@ public abstract class TLEventLabel extends Label {
 	TLEventLabel(String text){
 		super(text);
 	}
-        
-        /**
+
+	/**
 	 * Initializes the various handlers of the label for mouse over and selection
 	 */
 	protected void initHandlers(){
@@ -125,20 +125,24 @@ public abstract class TLEventLabel extends Label {
 			}
 		});
 	}
-        
-        /**
-	 * Sets up the "design" of the label. Border, position, etc.
+
+	/**
+	 * Sets up the "design" of the label. Border, position, fill, etc.
 	 */
 	protected void initDesign(){
 		label.setLayoutX(xPos);
 		label.setLayoutY(yPos);
-		label.setStyle("-fx-border-color: "+ selectedColor);
-		label.setStyle("-fx-background-color: " + selectedColor );
+		label.setStyle("-fx-border-color: "+ deselectedColor);
+		label.setStyle("-fx-background-color: " + deselectedColor );
 		label.setTooltip(new Tooltip(tooltipText));
 	}
-        
+
 	/**
 	 * Takes an 8-digit hex color and transforms it to a JavaFx css sheet color
+	 * @param Color 
+	 * @return colorStringCSS
+	 * this color returns a string in the form "#ffffff" 
+	 * which can be used in java fx with css styling, normal 8-digit with 0x cannot be used in css styling
 	 */
 	protected String toStringColor(Color c){
 		String colorString = ""+ c;
@@ -166,8 +170,9 @@ public abstract class TLEventLabel extends Label {
 	}
 	/**
 	 * Getter for hovered
-	 * 
+	 *
 	 * @return hovered
+	 * merely use to check if a particular label is hovered over by the mouse
 	 */
 	public boolean isHovered(){
 		return hovered;
@@ -177,6 +182,7 @@ public abstract class TLEventLabel extends Label {
 	 * Setter for hovered, that updates the label if hovered
 	 * 
 	 * @param selected
+	 * updates a labels boolean to true if mouse is over it
 	 */
 	public void setHovered(boolean hovered) {
 		this.hovered = hovered;
@@ -221,7 +227,7 @@ public abstract class TLEventLabel extends Label {
 	 * Controls highlight, and selection fx of timeline events
 	 */
 	public void updateDesign(){
-            if (isSelected()) {
+		if (isSelected()) {
 			label.setStyle("-fx-background-color: #7cfc00");
 		}else{	
 			if (isHovered()){
@@ -232,5 +238,5 @@ public abstract class TLEventLabel extends Label {
 				label.setStyle("-fx-background-color: " + deselectedColor);
 			}
 		}
-        }
+	}
 }

@@ -19,8 +19,8 @@ import storage.SaveMe;
  * 
  * @author Andrew Thompson
  * Wheaton College, CS 335, Spring 2014
- * Project Phase 1
- * Feb 15, 2014
+ * Project Phase 2
+ * Mar 7, 2014
  *
  */
 public class TimelineMaker {
@@ -44,11 +44,7 @@ public class TimelineMaker {
 	 * Whether or not to display all categories in the selected timeline.
 	 */
 	private boolean displayAll;
-	/**
-	 * The database for storing timelines of this application.
-	 */
-	// TODO Add storage object.
-
+	
 	/**
 	 * The main GUI window for this application.
 	 */
@@ -162,7 +158,6 @@ public class TimelineMaker {
 		selectedEvent = null;
 		timelines.add(selectedTimeline);
 
-		// TODO Add selectedTimeline to the storage helper.
 		gui.updateTimelines();
 		updateGraphics();
 	}
@@ -191,8 +186,6 @@ public class TimelineMaker {
 	 */
 	public void editTimeline(Timeline t) {
 		timelines.remove(selectedTimeline);
-		// TODO Remove selectedTimeline from the storage helper.
-
 		boolean newName;
 		try {
 			newName = !selectedTimeline.getName().equals(t.getName());
@@ -201,7 +194,6 @@ public class TimelineMaker {
 		}
 		selectedTimeline = t;
 		timelines.add(selectedTimeline);
-		// TODO Add selectedTimeline to the storage helper.
 		if (newName)
 			gui.updateTimelines();
 		updateGraphics();
@@ -209,10 +201,9 @@ public class TimelineMaker {
 
 	/**
 	 * Retrieves a category with a particular name. If it can't find the category,
-	 * it returns the Category.defaultCategory.
-	 * 
+	 * it returns the default category.
 	 * @param name The name of the Category to be returned
-	 * @return The found Category of the Category.defaultCategory
+	 * @return The found Category or Category.defaultCategory
 	 */
 	public Category getCategory(String name){
 		for(Category cat : selectedTimeline.getCategories()){
@@ -301,8 +292,7 @@ public class TimelineMaker {
 			selectedEvent = e;
 
 			updateGraphics();
-
-			// TODO Add selectedTimeline to the storage helper.
+			
 		}
 	}
 
@@ -316,8 +306,7 @@ public class TimelineMaker {
 			DeleteMe.deleteEvent(selectedEvent, selectedTimeline.getName());
 			selectedEvent = null;
 
-			updateGraphics();
-
+			updateGraphics();		
 		}
 	}
 
@@ -333,22 +322,24 @@ public class TimelineMaker {
 			selectedEvent = e;
 			selectedTimeline.addEvent(selectedEvent);
 
-			updateGraphics();
-
-			// TODO Add selectedTimeline to the storage helper.
+			updateGraphics();			
 		}
 	}
 	
 
+	/**
+	 * Toggle the display from all categories to the selected category.
+	 */
 	public void toggleDisplayType() {
 		displayAll = !displayAll;
-		System.out.println("Will all categories be displayed: " + displayAll);
 		updateGraphics();
 	}
 
 
 	/**
-	 * Update the graphics for the display screen.
+	 * Update the graphics for the display panel.
+	 * If the application is set to display all categories, render the entire selected timeline.
+	 * Otherwise, render just the currently selected category.
 	 */
 	public void updateGraphics() { 
 		graphics.clearScreen();

@@ -29,25 +29,59 @@ public class CategoryPropertiesWindow extends JFrame {
 	private static final long serialVersionUID = 1L;
 
 	// Variable declaration.
+	/**
+	 * The title text-field label.
+	 */
 	private JLabel titleLabel;
+	/**
+	 * The title text-field.
+	 */
 	private JTextField title;
-	
+	/**
+	 * The color modifier label.
+	 */
 	private JLabel colorLabel;
+	/**
+	 * The red spinner label.
+	 */
 	private JLabel redLabel;
+	/**
+	 * The spinner for entering red value.
+	 */
 	private JSpinner redSpinner;
+	/**
+	 * The green spinner label.
+	 */
 	private JLabel greenLabel;
+	/**
+	 * The spinner for entering green value.
+	 */
 	private JSpinner greenSpinner;
+	/**
+	 * The blue spinner label.
+	 */
 	private JLabel blueLabel;
+	/**
+	 * The spinner for entering blue value.
+	 */
 	private JSpinner blueSpinner;
+	/**
+	 * A textfield for previewing the specified color.
+	 */
 	private JTextField colorPreview;
-	
+	/**
+	 * The ok button.
+	 */
 	private JButton okButton;
+	/**
+	 * The canel button.
+	 */
 	private JButton cancelButton;
 
 	/**
 	 * Constructor.
 	 * Constructor for adding a new category.
-	 * @param model the TimelineMaker application model
+	 * @param model The TimelineMaker application model
 	 */
 	public CategoryPropertiesWindow(final TimelineMaker model) {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -129,6 +163,7 @@ public class CategoryPropertiesWindow extends JFrame {
 
 	/**
 	 * Initialize the window components.
+	 * Add action listeners and format the window..
 	 */
 	private void initComponents() {
 
@@ -159,6 +194,9 @@ public class CategoryPropertiesWindow extends JFrame {
 		colorPreview.setEditable(false);
 		
 		ChangeListener spinnerListener = new ChangeListener() {
+			/**
+			 * Update the color preview field whenever the user modifies the color spinners.
+			 */
 			public void stateChanged(ChangeEvent e) {
 				colorPreview.setBackground(new java.awt.Color(Integer.valueOf(redSpinner.getValue().toString()), 
 						Integer.valueOf(greenSpinner.getValue().toString()), Integer.valueOf(blueSpinner.getValue().toString())));

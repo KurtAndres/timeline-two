@@ -18,7 +18,7 @@ import java.util.HashSet;
 /**
  * @author leanne.miller
  * 
- * Class which can save Timelines, Events and Categories. 
+ * A class which can save Timelines, Events and Categories. 
  * 
  * A directory called "Timelines" is created in the working directory, within which are directories for each individual timeline.
  * In each timeline's directory are two other directories and one file. 

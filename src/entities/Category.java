@@ -4,6 +4,8 @@
  */
 package entities;
 
+import graphics.Renderable;
+
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -21,7 +23,7 @@ import javafx.scene.image.Image;
  * Project Phase 2
  * Feb 27, 2014
  */
-public class Category implements CategoryAPI{
+public class Category implements CategoryAPI, Renderable {
     
     /**
      * ArrayList to keep track of the events in the Category
@@ -75,8 +77,8 @@ public class Category implements CategoryAPI{
         private String name;
         private Timeline timeline;
         // Optional Fields
-        private Color sColor = Color.BEIGE;
-        private Color dsColor = Color.DARKGREEN;
+        private Color sColor = Color.DARKGREY;
+        private Color dsColor = Color.LIGHTGREY;
         private Image icon = null;
         private ArrayList<Event> events = new ArrayList<Event>();
         
@@ -162,9 +164,11 @@ public class Category implements CategoryAPI{
      */
     public boolean removeEvent(Event event){
         boolean toReturn = true;
-        if(this.equals(event.getCategory())&&events.contains(event)){
+        if(this.equals(event.getCategory()) && events.contains(event)){
             toReturn = events.remove(event);
-            event.setCategory(timeline.defaultCategory);
+            try {
+            	event.setCategory(timeline.defaultCategory);
+            } catch (NullPointerException e) { }
         }
         return toReturn;
     }

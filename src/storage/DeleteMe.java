@@ -11,6 +11,8 @@ import entities.Timeline;
 
 
 /**
+ * A class which can delete Timelines, Categories and Events.
+ * 
  * @author leanne.miller
  *
  */
