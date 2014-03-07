@@ -276,28 +276,17 @@ public class TimelineRender implements Runnable {
 	private void renderTime() {
 		int diffUnit = getUnitLength();
 		int xPos2 = 0;
-		/*
-		//title not currently displaying correct
-		//adding the title label
-		Label titleLabel = new Label(timeline.getName());
-		titleLabel.setRotate(270);
-		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
-		titleLabel.setLayoutX(xPos2);
-		titleLabel.setLayoutY(pushDown+23);
-		titleLabel.setStyle("-fx-border-color: black");
-		titleLabel.setTextAlignment(TextAlignment.CENTER);
-		titleLabel.setAlignment(Pos.TOP_LEFT);
-		group.getChildren().add(titleLabel);
-		*/
+	
 		for(int i = 0; i <= diffUnit ; i++){
-			Label label = unitLabel(i,xPos2);
+			System.out.println(xPos2);
+			Label label = unitLabel(i,xPos2+50);
 			label.setTextAlignment(TextAlignment.LEFT);
 			label.setAlignment(Pos.BASELINE_LEFT);
 			Label lineLabel;
 
 			//adds the dashes (|) on the timeline
 			lineLabel = new Label("    |");
-			lineLabel.setLayoutX(xPos2);
+			lineLabel.setLayoutX(xPos2+50);
 			lineLabel.setLayoutY(pushDown+23);
 			lineLabel.setPrefWidth(unitWidth);
 			lineLabel.setTextAlignment(TextAlignment.LEFT);
@@ -309,7 +298,7 @@ public class TimelineRender implements Runnable {
 		}
 		//adds the actual black timeline
 		Line blackLine = LineBuilder.create()
-				.startX(5)
+				.startX(50)
 				.startY(pushDown+10)
 				.endX(xPos2-5)
 				.endY(pushDown+10)
@@ -321,6 +310,17 @@ public class TimelineRender implements Runnable {
 		group.getChildren().add(blackLine);
 
 		timelineYLocation = pushDown+10;
+		
+		//adding the title label
+				Label titleLabel = new Label(timeline.getName());
+				titleLabel.setRotate(270);
+				titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
+				titleLabel.setLayoutX(0);
+				titleLabel.setLayoutY(pushDown+23);
+				//titleLabel.setStyle("-fx-border-color: black");
+				titleLabel.setTextAlignment(TextAlignment.CENTER);
+				titleLabel.setAlignment(Pos.TOP_LEFT);
+				group.getChildren().add(titleLabel);
 
 		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.GHOSTWHITE);
 		fxPanel.setScene(toShow);
@@ -438,7 +438,7 @@ public class TimelineRender implements Runnable {
 	private void renderAtomics() {
 		pushDown = 30; //where to put the event ( y - axis )
 		for(Atomic e : atomics){
-			int xPosition = getXPos(e.getDate())+19;
+			int xPosition = getXPos(e.getDate())+69;
 			AtomicLabel label = new AtomicLabel(e, xPosition, pushDown, model, eventLabels);
 			eventLabels.add(label);
 			group.getChildren().add(label);
@@ -458,8 +458,8 @@ public class TimelineRender implements Runnable {
 		int counter = 0;
 		for(Duration e : durations){
 
-			int xStart = getXPos(e.getStartDate())+19;
-			int xEnd = getXPos(e.getEndDate())+19;
+			int xStart = getXPos(e.getStartDate())+69;
+			int xEnd = getXPos(e.getEndDate())+69;
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);
 			eventLabels.add(label);
