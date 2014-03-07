@@ -42,9 +42,7 @@ public class TimelineMaker {
 	 * Whether or not to display all categories in the selected timeline.
 	 */
 	private boolean displayAll;
-	/**
-	 * The database for storing timelines of this application.
-	 */
+	
 	// TODO Add storage object.
 
 	/**
@@ -61,14 +59,12 @@ public class TimelineMaker {
 	 * Create a new TimelineMaker application model with database, graphics, and GUI components.
 	 */
 	public TimelineMaker() {
-		// TODO Instantiate storage helper object.
 		displayAll = true;
 		graphics = new TimelineGraphics(this);
 		SaveMe loader = new SaveMe();
 		timelines = new ArrayList<Timeline>();
 		timelines = loader.loadAll();
 
-		//timelines = loader.loadAll();
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
@@ -345,9 +341,11 @@ public class TimelineMaker {
 	}
 	
 
+	/**
+	 * Toggle the display from all categories to the selected category.
+	 */
 	public void toggleDisplayType() {
 		displayAll = !displayAll;
-		System.out.println("Will all categories be displayed: " + displayAll);
 		updateGraphics();
 	}
 
