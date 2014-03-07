@@ -161,10 +161,11 @@ public class Timeline implements TimelineAPI{
 			return new Timeline(this, loading);
 		}
 	}
+        
+        private void save(){
+            saver.saveTimeline(this);
+        }
 
-	private void save(){
-		saver.saveTimeline(this);
-	}
 
 	/**
 	 * add a Category to the timeline
