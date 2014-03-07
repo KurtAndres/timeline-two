@@ -170,6 +170,8 @@ public class MainWindow extends JFrame {
 	private JButton editCategoryButton;
 	private JButton deleteCategoryButton;
 
+	private JCheckBox displayToggle;
+
 	private JMenu helpMenu;
 	private JMenuItem aboutMenuItem;
 	private JSeparator toolbarSeparator3;
@@ -207,6 +209,7 @@ public class MainWindow extends JFrame {
 
 		categoriesEditLabel = new JLabel();
 		categorySelector = new JComboBox<String>();
+		displayToggle = new JCheckBox();
 		addCategoryButton = new JButton();
 		editCategoryButton = new JButton();
 		deleteCategoryButton = new JButton();
@@ -256,6 +259,8 @@ public class MainWindow extends JFrame {
 		editTimelineButton.setText("Edit Timeline");
 
 		categoriesEditLabel.setText("Categories");
+		displayToggle.setText("Display All");
+		displayToggle.setSelected(true);
 		addCategoryButton.setText("Add Category");
 		editCategoryButton.setText("Edit Category");
 		deleteCategoryButton.setText("Delete Category");
@@ -273,27 +278,30 @@ public class MainWindow extends JFrame {
 				.addComponent(toolbarSeparator1)
 				.addComponent(toolbarSeparator2)
 				.addComponent(toolbarSeparator3)
-				.addGroup(toolbarLayout.createSequentialGroup()
+				.addGroup(javax.swing.GroupLayout.Alignment.TRAILING, toolbarLayout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-								.addComponent(categoriesEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(toolbarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editTimelineButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelineSelector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(timelinesEditLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteCategoryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(addEventButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(editEventButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(deleteEventButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addGroup(toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
 								.addGroup(toolbarLayout.createSequentialGroup()
-										.addComponent(eventsEditLabel)
-										.addGap(0, 0, Short.MAX_VALUE))
-										.addComponent(categorySelector, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-										.addContainerGap())
+										.addGap(0, 0, Short.MAX_VALUE)
+										.addComponent(displayToggle))
+										.addComponent(categoriesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(toolbarLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(editTimelineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(deleteTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(addTimelineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(timelineSelector, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(timelinesEditLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(editCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(deleteCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE)
+										.addComponent(addEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(editEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(deleteEventButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(categorySelector, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addGroup(javax.swing.GroupLayout.Alignment.LEADING, toolbarLayout.createSequentialGroup()
+												.addComponent(eventsEditLabel)
+												.addGap(0, 0, Short.MAX_VALUE))
+												.addComponent(addCategoryButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+												.addContainerGap())
 				);
 		toolbarLayout.setVerticalGroup(
 				toolbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,6 +327,8 @@ public class MainWindow extends JFrame {
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(categorySelector, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(displayToggle)
+						.addGap(5, 5, 5)
 						.addComponent(addCategoryButton)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(editCategoryButton)
@@ -334,8 +344,9 @@ public class MainWindow extends JFrame {
 						.addComponent(editEventButton)
 						.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(deleteEventButton)
-						.addContainerGap(147, Short.MAX_VALUE))
+						.addContainerGap(123, Short.MAX_VALUE))
 				);
+
 
 		mainSplitPane.setLeftComponent(toolbar);
 		mainSplitPane.setRightComponent(displayPane);
@@ -477,7 +488,15 @@ public class MainWindow extends JFrame {
 				}).start();
 			}
 		});
-
+		displayToggle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Thread(new Runnable() {
+					public void run(){
+						model.toggleDisplayType();
+					}
+				}).start();
+			}
+		});
 		addCategoryButton.addActionListener(new ActionListener() {
 			/**
 			 * Create a new CategoryPropertiesWindow for category additon.
@@ -622,7 +641,7 @@ public class MainWindow extends JFrame {
 
 	/**
 	 * Update the timelineSelector from TimelineMaker model into GUI window.
-	 * Get a list of timeline titles from model. Then populate a default list model for the JList of timelineSelector with those titles.
+	 * Get a list of timeline titles from model. Then populate the JComboBox timelineSelector with those titles, selecting the appropriate timeline.
 	 */
 	public void updateTimelines() {
 		final ArrayList<String> timelinesTitles = model.getTimelineTitles();
@@ -644,7 +663,12 @@ public class MainWindow extends JFrame {
 		});
 	}
 
-
+	/**
+	 * Update the categorySelector dropdown from TimelineMaker maker in the GUI window.
+	 * Get a list of category titles for the selected timeline. Get the selected category.
+	 * Then populate the JComboBox categorySelector with those titles, selecting the appropriate category.
+	 * @param selectedTimeline The currently-selected timeline from which to load categories.
+	 */
 	public void updateCategories(Timeline selectedTimeline) {
 		final ArrayList<String> categoriesTitles = selectedTimeline.getCategoryNames();
 		final Category selectedCategory = model.getSelectedCategory();
