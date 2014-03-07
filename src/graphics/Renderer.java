@@ -74,7 +74,7 @@ public class Renderer implements Runnable {
 	private TimelineMaker model;
 
 	/**
-	 * The timeline associated with this CategoryRender object
+	 * The item associated with this Renderer object
 	 */
 	private Renderable item;
 
@@ -88,7 +88,6 @@ public class Renderer implements Runnable {
 	 * ArrayLists of all the events in the timeline. 
 	 * Separated into durations and atomics for rendering purposes
 	 */
-
 	private ArrayList<Duration> durations;
 	private ArrayList<Atomic> atomics;
 
