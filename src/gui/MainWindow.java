@@ -503,7 +503,7 @@ public class MainWindow extends JFrame {
 				new Thread(new Runnable() {
 					public void run() {
 						final Category selectedCategory = model.getSelectedCategory();
-						if (selectedCategory != null && !selectedCategory.equals(Category.defaultCategory) && model.getSelectedTimeline() != null)
+						if (selectedCategory != null && !selectedCategory.equals(model.getSelectedTimeline().defaultCategory) && model.getSelectedTimeline() != null)
 							SwingUtilities.invokeLater(new Runnable() {
 								public void run() {
 									new CategoryPropertiesWindow(MainWindow.this.model, selectedCategory).setVisible(true);

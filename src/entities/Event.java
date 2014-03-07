@@ -30,6 +30,8 @@ public abstract class Event {
 	 * The details on this event
 	 */
 	private String details;
+	
+	private Timeline timeline;
 
 	/**
 	 * A super constructor for all Events, setting the name, category, and details.
@@ -37,14 +39,15 @@ public abstract class Event {
 	 * @param name the name of the event
 	 * @param category the category of the event
 	 */
-	Event(String name, Category category, String details) {
+	Event(String name, Category category, String details, Timeline timeline) {
 		this.name = name;
 		this.details = details;
+		this.timeline = timeline;
 		try{
 			this.category = category;
 			category.addEvent(this);
 		}catch(NullPointerException npe){
-			category = Category.defaultCategory;
+			category = timeline.defaultCategory;
 			System.out.println("No category added, Null pointer");
 		}
 	}

@@ -54,25 +54,28 @@ public class Timeline implements TimelineAPI{
 	 */
 	private AxisLabel axisLabel;
 
-        /**
-         * the object by which to save
-         */
-        private storage.SaveMe saver;
+	/**
+	 * the object by which to save
+	 */
+	private storage.SaveMe saver;
+
+	public Category defaultCategory = new Category.Builder("DefaultCategory").build();
 
 	/**
 	 * Constructor
 	 * 
 	 * @param builder the builder required to build the timeline.
 	 */
-	private Timeline(Builder builder){
+	private Timeline(Builder builder, boolean loading){
 		this.name = builder.name;
 		this.categories = builder.categories;
 		this.events = builder.events;
 		this.axisLabel = builder.axisLabel;
-		if (!this.categories.contains(Category.defaultCategory))
-			this.categories.add(Category.defaultCategory);
-                this.saver = new storage.SaveMe();
-                save();
+		if (!this.categories.contains(defaultCategory))
+			this.categories.add(defaultCategory);
+		this.saver = new storage.SaveMe();
+		if(!loading) 
+			save();
 	}
 
 	/**
@@ -104,8 +107,8 @@ public class Timeline implements TimelineAPI{
 		 */
 		public Builder categories(HashSet<Category> categories) {
 			this.categories = categories;
-                        if(this.categories.contains(null))
-                            this.categories.remove(null);
+			if(this.categories.contains(null))
+				this.categories.remove(null);
 			return this;
 		}
 
@@ -146,14 +149,14 @@ public class Timeline implements TimelineAPI{
 		 * 
 		 * @return The built Timeline
 		 */
-		public Timeline build(){
-			return new Timeline(this);
+		public Timeline build(boolean loading){
+			return new Timeline(this, loading);
 		}
 	}
-        
-        private void save(){
-            saver.saveTimeline(this);
-        }
+
+	private void save(){
+		saver.saveTimeline(this);
+	}
 
 	/**
 	 * add a Category to the timeline
@@ -163,7 +166,7 @@ public class Timeline implements TimelineAPI{
 	@Override
 	public void addCategory(Category category){
 		categories.add(category);
-                save();
+		save();
 	}
 
 	/**
@@ -186,13 +189,13 @@ public class Timeline implements TimelineAPI{
 	public void removeCategory(Category category){
 		for(Event event : events){
 			if(category.equals(event.getCategory())){
-				event.setCategory(Category.defaultCategory);
+				event.setCategory(defaultCategory);
 			}
 		}
 		categories.remove(category);
 		save();
 	}
-	
+
 	public void replaceCategory(Category initial, Category replacement) {
 		categories.add(replacement);
 		for(Event event : events){
@@ -238,17 +241,17 @@ public class Timeline implements TimelineAPI{
 	@Override
 	public void addEvent(Event event) {
 		events.add(event);
-                save();
+		save();
 	}
 
 	@Override
 	public boolean removeEvent(Event event) {
 		if(events.contains(event)){
 			events.remove(event);
-                        save();
+			save();
 			return true;
 		}else{
-                        save();
+			save();
 			return false;
 		}
 	}
