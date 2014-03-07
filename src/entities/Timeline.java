@@ -71,10 +71,10 @@ public class Timeline implements TimelineAPI{
 		this.categories = builder.categories;
 
 		for(Category c : categories){
-			if(c.getName().equals("Default Category")) defaultCategory = c;
+			if(c.getName().equals("Default")) defaultCategory = c;
 		}
 		if(defaultCategory == null){
-			defaultCategory = new Category.Builder("Default Category").build();
+			defaultCategory = new Category.Builder("Default").build();
 		}
 		
 		this.events = builder.events;
