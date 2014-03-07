@@ -18,12 +18,12 @@ import javafx.scene.paint.Color;
  *
  */
 public class DurationLabel extends TLEventLabel {
-	
+
 	/**
 	 * The width in pixels of the label
 	 */
 	private int width;
-	
+
 	/**
 	 * Constructor calls the super constructor with the event name, assigns instance variables,
 	 * and then calls init
@@ -49,9 +49,9 @@ public class DurationLabel extends TLEventLabel {
 		this.deselectedColor = this.toStringColor((event.getCategory()).getDeselectColor());
 		init();
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Calls two other init helper methods for cleanliness
 	 */
@@ -63,9 +63,10 @@ public class DurationLabel extends TLEventLabel {
 	/**
 	 * Sets up the "design" of the label. Border, position, etc.
 	 */
-	private void initDesignDuration(){
-                initDesign();
+	@Override
+	public void initDesign(){
+		super.initDesign();
 		label.setPrefWidth(width);
 		label.setAlignment(Pos.CENTER);
-        }
+	}
 }

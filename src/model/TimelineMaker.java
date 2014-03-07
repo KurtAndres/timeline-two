@@ -59,9 +59,9 @@ public class TimelineMaker {
 	public TimelineMaker() {
 		// TODO Instantiate storage helper object.
 		graphics = new TimelineGraphics(this);
-                SaveMe loader = new SaveMe();
-                timelines = new ArrayList<Timeline>();
-                //timelines = loader.loadAll();
+		SaveMe loader = new SaveMe();
+		timelines = new ArrayList<Timeline>();
+		//timelines = loader.loadAll();
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
 		initGUI();
