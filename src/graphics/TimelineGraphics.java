@@ -4,6 +4,7 @@ import model.TimelineMaker;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
+import entities.Category;
 import entities.Timeline;
 
 /**
@@ -28,14 +29,14 @@ public class TimelineGraphics{
 	 * which displays the graphics to the screen.
 	 * 
 	 * Only in this class so that the clearScreen method can work, otherwise 
-	 * it could be encapsulated in the TimelineRender object.
+	 * it could be encapsulated in the CategoryRender object.
 	 * 
 	 */
 	private Group root;
 	
 	/**
 	 * The state of the program, only in this class to pass it to the 
-	 * TimelineRender objects.
+	 * CategoryRender objects.
 	 */
 	private TimelineMaker model;
 	
@@ -50,7 +51,7 @@ public class TimelineGraphics{
 	}
 	
 	/**
-	 * Runs a TimelineRender object to draw the timeline on the javafx thread. 
+	 * Runs a CategoryRender object to draw the timeline on the javafx thread. 
 	 * reinstantiates group since each group can only be in one scene (if this did not
 	 * happen there would be issues with the clearScreen method)
 	 * 
@@ -60,10 +61,15 @@ public class TimelineGraphics{
 		root = new Group();
 		Platform.runLater(new TimelineRender(fxPanel, model, timeline, root));
 	}
+	
+	public void renderCategory(Timeline timeline, Category category) {
+		root = new Group();
+		Platform.runLater(new CategoryRender(fxPanel, model, timeline, category, root));
+	}
 
 	/**
 	 * Clears the screen. This is primarily used when a timeline has no information in it
-	 * which would cause TimelineRender to do nothing, so this clears the screen of any
+	 * which would cause CategoryRender to do nothing, so this clears the screen of any
 	 * previously rendered timelines.
 	 * 
 	 * This could also be used elsewhere, and seems like a useful method to have.

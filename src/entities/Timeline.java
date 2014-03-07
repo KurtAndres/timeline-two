@@ -59,7 +59,7 @@ public class Timeline implements TimelineAPI{
 	 */
 	private storage.SaveMe saver;
 
-	public Category defaultCategory = new Category.Builder("DefaultCategory").build();
+	public Category defaultCategory; 
 
 	/**
 	 * Constructor
@@ -69,6 +69,14 @@ public class Timeline implements TimelineAPI{
 	private Timeline(Builder builder, boolean loading){
 		this.name = builder.name;
 		this.categories = builder.categories;
+
+		for(Category c : categories){
+			if(c.getName().equals("Default Category")) defaultCategory = c;
+		}
+		if(defaultCategory == null){
+			defaultCategory = new Category.Builder("Default Category").build();
+		}
+		
 		this.events = builder.events;
 		this.axisLabel = builder.axisLabel;
 		if (!this.categories.contains(defaultCategory))
@@ -153,10 +161,11 @@ public class Timeline implements TimelineAPI{
 			return new Timeline(this, loading);
 		}
 	}
+        
+        private void save(){
+            saver.saveTimeline(this);
+        }
 
-	private void save(){
-		saver.saveTimeline(this);
-	}
 
 	/**
 	 * add a Category to the timeline

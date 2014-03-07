@@ -16,13 +16,14 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.LineBuilder;
 import javafx.scene.text.TextAlignment;
 import entities.Atomic;
+import entities.Category;
 import entities.Duration;
 import entities.Event;
 import entities.Timeline;
 import entities.Timeline.AxisLabel;
 
 /**
- * This is the class that renders the actual timeline onto a JFXPanel using javafx.
+ * This is the class that renders the actual category onto a JFXPanel using javafx.
  * The JFXPanel is then put into the GUI (JFXPanel is the link between swing and 
  * javafx). Currently this class is a little confusing (I spent a large chunk of time
  * refactoring and simplifying it, but it is still large) so I'll give an overview of 
@@ -41,7 +42,7 @@ import entities.Timeline.AxisLabel;
  * 
  * NOTE: rendering long timelines with small units (i.e. 1500-2014 with days) will cause
  * an exception. It will also save to the database which means that you will have to change
- * the axisLabel of the timeline before it renders properly, (EditTimeline -> AxisLabel). It won't
+ * the axisLabel of the category before it renders properly, (EditTimeline -> AxisLabel). It won't
  * crash the program, it just won't render.
  * 
  * @author Kurt Andres & Josh Wright
@@ -52,7 +53,7 @@ import entities.Timeline.AxisLabel;
  * in the making this class.
  */
 
-public class TimelineRender implements Runnable {
+public class CategoryRender implements Runnable {
 
 	/**
 	 * Used as the connection between the Swing gui and the javafx graphics
@@ -66,9 +67,9 @@ public class TimelineRender implements Runnable {
 	private TimelineMaker model;
 	
 	/**
-	 * The timeline associated with this CategoryRender object
+	 * The category associated with this CategoryRender object
 	 */
-	private Timeline timeline;
+	private Category category;
 	
 	/**
 	 * The group of javafx elements to display in the scene (similar to a canvas,
@@ -77,7 +78,7 @@ public class TimelineRender implements Runnable {
 	private Group group;
 	
 	/**
-	 * ArrayLists of all the events in the timeline. 
+	 * ArrayLists of all the events in the category. 
 	 * Separated into durations and atomics for rendering purposes
 	 */
 
@@ -90,7 +91,7 @@ public class TimelineRender implements Runnable {
 	private ArrayList<TLEventLabel> eventLabels;
 	
 	/**
-	 * The AxisLabel that this TimelineRenderer will use when rendering the timeline.
+	 * The AxisLabel that this TimelineRenderer will use when rendering the category.
 	 * Essentially the unit by which the axis will be rendered.
 	 */
 
@@ -107,7 +108,7 @@ public class TimelineRender implements Runnable {
 	private ArrayList<Integer> atomicYPositions = new ArrayList<Integer>();
 	
 	/**
-	 * Int value of timeline loaction after drawing timeline before making atomic connections
+	 * Int value of category loaction after drawing category before making atomic connections
 	 */
 	private int timelineYLocation = 0;
 	
@@ -121,7 +122,7 @@ public class TimelineRender implements Runnable {
 	/**
 	 * The number of pixels each unit (definied by axisLAbel) on the axis takes
 	 * up. Currently this is constant, but could be easily changed to account for
-	 * different timeline sizes.
+	 * different category sizes.
 	 */
 	private int unitWidth;
 	
@@ -132,7 +133,7 @@ public class TimelineRender implements Runnable {
 	private int pushDown;
 
 	/**
-	 * The min and max time on the timeline, initialized in initRange() and used
+	 * The min and max time on the category, initialized in initRange() and used
 	 * for determining the range at which to render the axis
 	 */
 	private long minTime;
@@ -146,12 +147,12 @@ public class TimelineRender implements Runnable {
 	 * 
 	 * @param fxPanel
 	 * @param model
-	 * @param timeline
+	 * @param category
 	 * @param group
 	 */
-	public TimelineRender(JFXPanel fxPanel, TimelineMaker model, Timeline timeline, Group group) {
+	public CategoryRender(JFXPanel fxPanel, TimelineMaker model, Timeline timeline, Category category, Group group) {
 		this.model = model;
-		this.timeline = timeline;
+		this.category = category;
 		if (timeline.getAxisLabel() == AxisLabel.DAYS || timeline.getAxisLabel() == AxisLabel.MONTHS || timeline.getAxisLabel() == AxisLabel.YEARS)
 			this.axisLabel = timeline.getAxisLabel();
 		else
@@ -166,7 +167,7 @@ public class TimelineRender implements Runnable {
 
 	/*
 	 * Initializes the minTime maxTime values, if there are not events render a blank screen
-	 *  otherwise then calls init and renders the timeline.
+	 *  otherwise then calls init and renders the category.
 	 * 
 	 * (non-Javadoc)
 	 * @see java.lang.Runnable#run()
@@ -178,19 +179,19 @@ public class TimelineRender implements Runnable {
 			return;
 		}
 		init();
-		renderTimeline();
+		renderCategory();
 	}
 
 	/**
 	 * Sets the unitWidth to a constant (this can be changed to depend on how many units are in the
-	 * timeline) then populates the Atomic and Duration ArrayLists. While populating the lists, it
+	 * category) then populates the Atomic and Duration ArrayLists. While populating the lists, it
 	 * also updates the minTime and maxTime. Currently it uses milliseconds, but could be modified to use
 	 * the Date class's compareTo method (which I didn't know existed until after writing this).
 	 */
 	private void init(){
 		unitWidth = 150;
 		pushDown = 60;
-		for(Event event : timeline.getEvents()){
+		for(Event event : category.getEvents()){
 			if(event instanceof Duration){
 				durations.add((Duration)event);
 				long start = ((Duration) event).getStartDate().getTime();
@@ -215,26 +216,26 @@ public class TimelineRender implements Runnable {
 	 */
 
 	private boolean initRange() {
-		if(timeline.getEvents() == null || timeline.getEvents().isEmpty()) { // Initializes the variables, super kludgy but we can make it better later if there is time
+		if(category.getEvents() == null || category.getEvents().isEmpty()) { // Initializes the variables, super kludgy but we can make it better later if there is time
 			return false; 
-		} else if (timeline.getEvents().get(0) instanceof Duration) {
-			minTime = ((Duration)timeline.getEvents().get(0)).getStartDate().getTime();
-			maxTime = ((Duration)timeline.getEvents().get(0)).getEndDate().getTime();
+		} else if (category.getEvents().get(0) instanceof Duration) {
+			minTime = ((Duration)category.getEvents().get(0)).getStartDate().getTime();
+			maxTime = ((Duration)category.getEvents().get(0)).getEndDate().getTime();
 		} else {
-			minTime = ((Atomic)timeline.getEvents().get(0)).getDate().getTime();
-			maxTime = ((Atomic)timeline.getEvents().get(0)).getDate().getTime();
+			minTime = ((Atomic)category.getEvents().get(0)).getDate().getTime();
+			maxTime = ((Atomic)category.getEvents().get(0)).getDate().getTime();
 		}
 		return true;
 	}
 	
 	/**
-	 * Renders the timeline in order of height on the screen; atomic events,
+	 * Renders the category in order of height on the screen; atomic events,
 	 * axis, duration events.
 	 * 
 	 * Also clears the old rendering and resets the group to remove the previous render.
 	 */
 
-	private void renderTimeline() {
+	private void renderCategory() {
 		group.getChildren().clear();
 		group = new Group();
 		renderAtomics();
@@ -248,9 +249,9 @@ public class TimelineRender implements Runnable {
 	 * Adds the label to the group, and when finished puts the group in a scene and displays the 
 	 * scene in the fxPanel.
 	 * 
-	 * currently uses a second label to make each hash mark on the timeline simply a |
+	 * currently uses a second label to make each hash mark on the category simply a |
 	 * 
-	 * then lineBuilder to draw a black constant line for the timeline depending on length
+	 * then lineBuilder to draw a black constant line for the category depending on length
 	 */
 
 	private void renderTime() {
@@ -262,7 +263,7 @@ public class TimelineRender implements Runnable {
 			label.setAlignment(Pos.BASELINE_LEFT);
 			Label lineLabel;
 			
-			//adds the dashes (|) on the timeline
+			//adds the dashes (|) on the category
 			lineLabel = new Label("    |");
 			lineLabel.setLayoutX(xPos2);
 			lineLabel.setLayoutY(pushDown+23);
@@ -274,7 +275,7 @@ public class TimelineRender implements Runnable {
 			group.getChildren().add(lineLabel);
 			xPos2+=unitWidth;
 		}
-		//adds the actual black timeline
+		//adds the actual black category
 		Line blackLine = LineBuilder.create()
 	            .startX(5)
 	            .startY(pushDown+10)
@@ -334,7 +335,7 @@ public class TimelineRender implements Runnable {
 	}
 
 	/**
-	 * Uses a calndar object to calculate how long the timeline will be (rounds down to the nearest unit
+	 * Uses a calndar object to calculate how long the category will be (rounds down to the nearest unit
 	 * and then finds the number of units from there to the last event, rounded up).
 	 * 
 	 * @return the total units long the axis will be.
@@ -362,7 +363,7 @@ public class TimelineRender implements Runnable {
 	}
 
 	/**
-	 * @return the Date of the first date in the timeline rounded down to the nearest unit. Used
+	 * @return the Date of the first date in the category rounded down to the nearest unit. Used
 	 * for drawing the axis.
 	 * 
 	 * i.e. if the first date was November 3, 2012, this would return January 1, 2012.
@@ -468,7 +469,7 @@ public class TimelineRender implements Runnable {
 	}
 	
 	/**
-	 * Returns the number of units (based on axisLabel) since the first date on the timeline axis (see
+	 * Returns the number of units (based on axisLabel) since the first date on the category axis (see
 	 * getFirstDate) for a Date.
 	 * 
 	 * i.e. if first date was January 1, 2011, date was January 1, 2012 this and axisLabel was days, this would

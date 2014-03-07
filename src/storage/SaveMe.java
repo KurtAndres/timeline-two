@@ -110,7 +110,7 @@ public class SaveMe implements SaveMeAPI{
 		String name = category.getName();
 		String path = "Timelines/" + timeline + "/categories/" + name + ".xml";
 
-		xstream.alias(name, Category.class);
+		xstream.alias("entities.Category", Category.class);
 		String xml = xstream.toXML(category);
 		try{
 			FileOutputStream out = new FileOutputStream(path);

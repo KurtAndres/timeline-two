@@ -361,7 +361,7 @@ public class TimelineMaker {
 			if (displayAll)
 				graphics.renderTimeline(selectedTimeline);
 			else
-				;// graphics.renderCategory(selectedCategory); // TODO Write this method.
+				graphics.renderCategory(selectedTimeline, selectedCategory);
 	}
 
 }
