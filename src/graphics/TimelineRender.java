@@ -465,7 +465,8 @@ public class TimelineRender implements Runnable {
 			group.getChildren().add(label);
 			durationXPositions.add(xStart);
 			durationYPositions.add(pushDown);
-
+			
+			//add conecting lines for start duration events
 			Line blackdashedConnector = LineBuilder.create()
 					.startX(xStart)
 					.startY(timelineYLocation+2)
@@ -477,11 +478,23 @@ public class TimelineRender implements Runnable {
 					.build();
 
 			group.getChildren().add(blackdashedConnector);
-			System.out.print(""+e.getCategory().getDeselectColor());
+			
+			//add connecting line for end duration events
+			Line endDurrationConnector = LineBuilder.create()
+					.startX(xEnd)
+					.startY(timelineYLocation+2)
+					.endX(xEnd)
+					.endY(pushDown + 45 + counter-7)
+					.fill(Color.BLACK)
+					.strokeWidth(1.5f)
+					.translateY(20)
+					.build();
+
+			group.getChildren().add(endDurrationConnector);
 			counter += 20;
 		}
 	}
-
+	//can't draw this with atomic events because they have to wait for the timeline axis to know what to connect to
 	private void renderConnections() {
 		for(int i =0; i<atomicXPositions.size(); i++){
 			Line blackConnector = LineBuilder.create()
@@ -498,24 +511,6 @@ public class TimelineRender implements Runnable {
 		}
 
 	}
-	
-	private void renderDashedConnections() {
-		for(int i =0; i<durationXPositions.size(); i++){
-			Line blackdashedConnector = LineBuilder.create()
-					.startX(durationXPositions.get(i))
-					.startY(timelineYLocation)
-					.endX(durationXPositions.get(i))
-					.endY(durationYPositions.get(i))
-					.fill(Color.color(1.0, 0, 0))
-					.strokeWidth(1.5f)
-					.translateY(20)
-					.build();
-
-			group.getChildren().add(blackdashedConnector);
-		}
-
-	}
-
 
 	/**
 	 * Returns the pixel x position that a date should be, based on its value and the axis
