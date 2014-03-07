@@ -260,7 +260,6 @@ public class TimelineRender implements Runnable {
 		renderTime();
 		renderDurations();
 		renderConnections();
-		renderDashedConnections();
 	}
 
 
@@ -277,6 +276,8 @@ public class TimelineRender implements Runnable {
 	private void renderTime() {
 		int diffUnit = getUnitLength();
 		int xPos2 = 0;
+		/*
+		//title not currently displaying correct
 		//adding the title label
 		Label titleLabel = new Label(timeline.getName());
 		titleLabel.setRotate(270);
@@ -287,7 +288,7 @@ public class TimelineRender implements Runnable {
 		titleLabel.setTextAlignment(TextAlignment.CENTER);
 		titleLabel.setAlignment(Pos.TOP_LEFT);
 		group.getChildren().add(titleLabel);
-		
+		*/
 		for(int i = 0; i <= diffUnit ; i++){
 			Label label = unitLabel(i,xPos2);
 			label.setTextAlignment(TextAlignment.LEFT);
@@ -466,7 +467,7 @@ public class TimelineRender implements Runnable {
 			durationXPositions.add(xStart);
 			durationYPositions.add(pushDown);
 			
-			//add conecting lines for start duration events
+			//add connecting lines for start duration events
 			Line blackdashedConnector = LineBuilder.create()
 					.startX(xStart)
 					.startY(timelineYLocation+2)

@@ -108,6 +108,17 @@ public class CategoryRender implements Runnable {
 	private ArrayList<Integer> atomicYPositions = new ArrayList<Integer>();
 	
 	/**
+	 * ArrayList of all the duration event x positions
+	 */
+	private ArrayList<Integer> durationXPositions = new ArrayList<Integer>();
+
+	/**
+	 * ArrayList of all the duration event y positions
+	 */
+	private ArrayList<Integer> durationYPositions = new ArrayList<Integer>();
+
+		
+	/**
 	 * Int value of category loaction after drawing category before making atomic connections
 	 */
 	private int timelineYLocation = 0;
@@ -425,14 +436,41 @@ public class CategoryRender implements Runnable {
 	private void renderDurations() {
 		int counter = 0;
 		for(Duration e : durations){
-			
+
 			int xStart = getXPos(e.getStartDate())+19;
 			int xEnd = getXPos(e.getEndDate())+19;
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);
 			eventLabels.add(label);
-			
 			group.getChildren().add(label);
+			durationXPositions.add(xStart);
+			durationYPositions.add(pushDown);
+			
+			//add conecting lines for start duration events
+			Line blackdashedConnector = LineBuilder.create()
+					.startX(xStart)
+					.startY(timelineYLocation+2)
+					.endX(xStart)
+					.endY(pushDown + 45 + counter-7)
+					.fill(Color.BLACK)
+					.strokeWidth(1.5f)
+					.translateY(20)
+					.build();
+
+			group.getChildren().add(blackdashedConnector);
+			
+			//add connecting line for end duration events
+			Line endDurrationConnector = LineBuilder.create()
+					.startX(xEnd)
+					.startY(timelineYLocation+2)
+					.endX(xEnd)
+					.endY(pushDown + 45 + counter-7)
+					.fill(Color.BLACK)
+					.strokeWidth(1.5f)
+					.translateY(20)
+					.build();
+
+			group.getChildren().add(endDurrationConnector);
 			counter += 20;
 		}
 	}
