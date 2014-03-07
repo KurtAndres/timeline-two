@@ -4,6 +4,8 @@
  */
 package entities;
 
+import graphics.Renderable;
+
 import java.util.ArrayList;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
@@ -21,7 +23,7 @@ import javafx.scene.image.Image;
  * Project Phase 2
  * Feb 27, 2014
  */
-public class Category implements CategoryAPI{
+public class Category implements CategoryAPI, Renderable {
     
     /**
      * ArrayList to keep track of the events in the Category

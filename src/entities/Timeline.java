@@ -3,6 +3,8 @@
  */
 package entities;
 
+import graphics.Renderable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,7 +21,7 @@ import java.util.HashSet;
  * Project Phase 1
  * Feb 15, 2014
  */
-public class Timeline implements TimelineAPI{
+public class Timeline implements TimelineAPI, Renderable {
 
 	/**
 	 * ArrayList to keep track of the categories in the timeline
