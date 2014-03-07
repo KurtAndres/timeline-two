@@ -56,7 +56,7 @@ import entities.Timeline.AxisLabel;
  * Created: Feb 10, 2014
  * Package: graphics
  * 
- * Various online examples of the Calendar class as well as making javafx graphics were used
+ * Some online examples of the Calendar class as well as making javafx graphics were used
  * in the making this class.
  */
 
@@ -100,7 +100,6 @@ public class Renderer implements Runnable {
 	 * The AxisLabel that this TimelineRenderer will use when rendering the timeline.
 	 * Essentially the unit by which the axis will be rendered.
 	 */
-
 	private AxisLabel axisLabel;
 
 	/**
@@ -157,7 +156,7 @@ public class Renderer implements Runnable {
 	private long maxTime;
 
 	/**
-	 * The constructor for CategoryRender. Takes an fxPanel for putting the 
+	 * The constructor for TimelineRenderer. Takes an fxPanel for putting the 
 	 * scene (graphics), a TimelineMake object for updating the program state, a Timeline
 	 * object to render with, and a group for putting the elements to draw on before 
 	 * drawing to the fxPanel
@@ -182,6 +181,18 @@ public class Renderer implements Runnable {
 		eventLabels = new ArrayList<TLEventLabel>();
 	}
 	
+	/**
+	 * The constructor for CategoryRenderer. Takes an fxPanel for putting the 
+	 * scene (graphics), a TimelineMake object for updating the program state, a Timeline
+	 * object to render with, and a group for putting the elements to draw on before 
+	 * drawing to the fxPanel
+	 * 
+	 * @param fxPanel
+	 * @param model
+	 * @param timeline
+	 * @param category
+	 * @param group
+	 */
 	public Renderer(JFXPanel fxPanel, TimelineMaker model, Timeline timeline, Renderable category, Group group) {
 		this.model = model;
 		this.item = category;
@@ -211,7 +222,7 @@ public class Renderer implements Runnable {
 			return;
 		}
 		init();
-		renderTimeline();
+		render();
 	}
 
 	/**
@@ -267,7 +278,7 @@ public class Renderer implements Runnable {
 	 * Also clears the old rendering and resets the group to remove the previous render.
 	 */
 
-	private void renderTimeline() {
+	private void render() {
 		group.getChildren().clear();
 		group = new Group();
 		renderAtomics();
@@ -292,15 +303,15 @@ public class Renderer implements Runnable {
 		int xPos2 = 0;
 	
 		for(int i = 0; i <= diffUnit ; i++){
-			System.out.println(xPos2);
-			Label label = unitLabel(i,xPos2+50);
+			//System.out.println(xPos2);
+			Label label = unitLabel(i,xPos2+90);
 			label.setTextAlignment(TextAlignment.LEFT);
 			label.setAlignment(Pos.BASELINE_LEFT);
 			Label lineLabel;
 
 			//adds the dashes (|) on the timeline
 			lineLabel = new Label("    |");
-			lineLabel.setLayoutX(xPos2+50);
+			lineLabel.setLayoutX(xPos2+90);
 			lineLabel.setLayoutY(pushDown+23);
 			lineLabel.setPrefWidth(unitWidth);
 			lineLabel.setTextAlignment(TextAlignment.LEFT);
@@ -312,7 +323,7 @@ public class Renderer implements Runnable {
 		}
 		//adds the actual black timeline
 		Line blackLine = LineBuilder.create()
-				.startX(50)
+				.startX(75)
 				.startY(pushDown+10)
 				.endX(xPos2-5)
 				.endY(pushDown+10)
@@ -329,8 +340,14 @@ public class Renderer implements Runnable {
 				Label titleLabel = new Label(item.getName());
 				titleLabel.setRotate(270);
 				titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
+				
+				if (item instanceof Timeline) {
+					titleLabel.setLayoutY(timelineYLocation);
+				} else if (item instanceof Category) {
+					titleLabel.setLayoutY(timelineYLocation-30);
+				}
 				titleLabel.setLayoutX(0);
-				titleLabel.setLayoutY(pushDown+23);
+				titleLabel.setLayoutY(timelineYLocation);
 				//titleLabel.setStyle("-fx-border-color: black");
 				titleLabel.setTextAlignment(TextAlignment.CENTER);
 				titleLabel.setAlignment(Pos.TOP_LEFT);
@@ -452,7 +469,7 @@ public class Renderer implements Runnable {
 	private void renderAtomics() {
 		pushDown = 30; //where to put the event ( y - axis )
 		for(Atomic e : atomics){
-			int xPosition = getXPos(e.getDate())+69;
+			int xPosition = getXPos(e.getDate())+109;
 			AtomicLabel label = new AtomicLabel(e, xPosition, pushDown, model, eventLabels);
 			eventLabels.add(label);
 			group.getChildren().add(label);
@@ -472,8 +489,8 @@ public class Renderer implements Runnable {
 		int counter = 0;
 		for(Duration e : durations){
 
-			int xStart = getXPos(e.getStartDate())+69;
-			int xEnd = getXPos(e.getEndDate())+69;
+			int xStart = getXPos(e.getStartDate())+109;
+			int xEnd = getXPos(e.getEndDate())+109;
 			int labelWidth = xEnd - xStart;
 			DurationLabel label = new DurationLabel(e, xStart, (pushDown + 45 + counter), labelWidth, model, eventLabels);
 			eventLabels.add(label);
@@ -513,11 +530,11 @@ public class Renderer implements Runnable {
 	private void renderConnections() {
 		for(int i =0; i<atomicXPositions.size(); i++){
 			Line blackConnector = LineBuilder.create()
-					.startX(atomicXPositions.get(i))
+					.startX(atomicXPositions.get(i)+1)
 					.startY(timelineYLocation)
-					.endX(atomicXPositions.get(i))
-					.endY(atomicYPositions.get(i))
-					.fill(Color.color(1.0, 0, 0))
+					.endX(atomicXPositions.get(i)+1)
+					.endY(atomicYPositions.get(i)-4)
+					.fill(Color.color(1.0, 0, 1))
 					.strokeWidth(1.5f)
 					.translateY(20)
 					.build();
