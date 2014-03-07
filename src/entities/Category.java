@@ -75,8 +75,8 @@ public class Category implements CategoryAPI{
         private String name;
         private Timeline timeline;
         // Optional Fields
-        private Color sColor = Color.BEIGE;
-        private Color dsColor = Color.DARKGREEN;
+        private Color sColor = Color.DARKGREY;
+        private Color dsColor = Color.LIGHTGREY;
         private Image icon = null;
         private ArrayList<Event> events = new ArrayList<Event>();
         
