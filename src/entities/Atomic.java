@@ -25,8 +25,8 @@ public class Atomic extends Event {
 	 * @param category the event's category
 	 * @param date the date of the event
 	 */
-	public Atomic(String name, Category category, String details, Date date){
-		super(name, category, details);
+	public Atomic(String name, Category category, String details, Date date, Timeline timeline){
+		super(name, category, details, timeline);
 		this.setDate(date);
 	}
 	

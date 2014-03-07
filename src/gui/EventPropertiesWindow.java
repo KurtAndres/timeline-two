@@ -131,9 +131,9 @@ public class EventPropertiesWindow extends JFrame {
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
-							model.addEvent(new Atomic(title, model.getCategory(category), details, Date.valueOf(startDate)));
+							model.addEvent(new Atomic(title, model.getCategory(category), details, Date.valueOf(startDate), model.getSelectedTimeline()));
 						else if (type.equals("Duration"))
-							model.addEvent(new Duration(title, model.getCategory(category), details, Date.valueOf(startDate), Date.valueOf(endDate)));
+							model.addEvent(new Duration(title, model.getCategory(category), details, Date.valueOf(startDate), Date.valueOf(endDate), model.getSelectedTimeline()));
 					}
 				}).start();
 				dispose();
@@ -209,9 +209,9 @@ public class EventPropertiesWindow extends JFrame {
 				new Thread(new Runnable() {
 					public void run() {
 						if (type.equals("Atomic"))
-							model.editEvent(new Atomic(title,  model.getCategory(category), details, Date.valueOf(startDate)));
+							model.editEvent(new Atomic(title,  model.getCategory(category), details, Date.valueOf(startDate), model.getSelectedTimeline()));
 						else if (type.equals("Duration"))
-							model.editEvent(new Duration(title,  model.getCategory(category), details, Date.valueOf(startDate), Date.valueOf(endDate)));
+							model.editEvent(new Duration(title,  model.getCategory(category), details, Date.valueOf(startDate), Date.valueOf(endDate), model.getSelectedTimeline()));
 					}
 				}).start();
 				dispose();
