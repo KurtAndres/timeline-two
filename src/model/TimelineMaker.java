@@ -229,6 +229,7 @@ public class TimelineMaker {
 	public void selectCategory(String c) {
 		// TODO Auto-generated method stub
 		selectedCategory = getCategory(c);
+		updateGraphics();
 		// TODO Update graphics.
 	}
 
@@ -244,12 +245,14 @@ public class TimelineMaker {
 			selectedTimeline.removeCategory(selectedCategory);
 			selectedCategory = null;
 			gui.updateCategories(selectedTimeline);
+			updateGraphics();
 		}
 	}
 
 	public void editCategory(Category b) {
 		selectedTimeline.replaceCategory(selectedCategory, b);
 		gui.updateCategories(selectedTimeline);
+		updateGraphics();
 	}
 
 	/**
