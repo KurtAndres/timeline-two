@@ -26,10 +26,16 @@ import java.util.HashSet;
  * Currently saving to disk. Eventually will try to save to Google Drive.
  *
  */
-public class SaveMe implements SaveMeAPI{
+public class SaveMe{
 	
-	@Override
-	public ArrayList<Timeline> loadAll(){
+	/**
+	 * Loads all timelines found in the working directory under the folder "Timelines".
+	 * If no timelines are found, it will return an empty arraylist.
+	 * 
+	 * @return An arraylist containing all of the timelines found in the "Timelines" folder. 
+	 *
+	 */
+	public static ArrayList<Timeline> loadAll(){
 		ArrayList<Timeline> timelines = new ArrayList<Timeline>();
 		String path = System.getProperty("user.dir") + "/Timelines";
 		File dir = new File(path);
@@ -44,8 +50,13 @@ public class SaveMe implements SaveMeAPI{
 		
 	}
 
-	@Override
-	public void saveTimeline(Timeline tl){
+	/**
+	 * Saves an instance of class Timeline.
+	 * 
+	 * @param timeline The timeline to save.
+	 *
+	 */
+	public static void saveTimeline(Timeline tl){
 		ArrayList<Event> events = tl.getEvents();	
 		HashSet<Category> categories = tl.getCategories();
 		String tlName = tl.getName();
@@ -68,9 +79,16 @@ public class SaveMe implements SaveMeAPI{
 		saveAxisLabel(tl.getAxisLabelIndex(), tlName);
 		
 	}
+	
 
-	@Override
-	public Timeline loadTimeline(String timeline){		
+	/**
+	 * Loads an instance of class Timeline.
+	 * 
+	 * @param timeLineName The name the the timeline to load.
+	 * @return The timeline stored under the given name, with all of its events.
+	 *
+	 */
+	public static Timeline loadTimeline(String timeline){		
 		Builder b = new Builder(timeline);
 		ArrayList<Event> events = new ArrayList<Event>();
 		HashSet<Category> categories = new HashSet<Category>();
@@ -103,9 +121,16 @@ public class SaveMe implements SaveMeAPI{
 
 		return b.build(true);
 	}
-
-	@Override
-	public void saveCategory(Category category, String timeline) {
+	
+	
+	/**
+	 * Saves an instance of class Category.
+	 * 
+	 * @param category The category to save.
+	 * @param timeline The timeline which the category is part of.
+	 *
+	 */
+	public static void saveCategory(Category category, String timeline) {
 		XStream xstream = new XStream(); 
 		String name = category.getName();
 		String path = "Timelines/" + timeline + "/categories/" + name + ".xml";
@@ -125,8 +150,16 @@ public class SaveMe implements SaveMeAPI{
 
 	}
 
-	@Override
-	public Category loadCategory(String filename, String timeline) {
+	
+	/**
+	 * Loads an instance of class Category.
+	 * 
+	 * @param filename The name of the category to load.
+	 * @param timeline The name of the timeline which the category is a part of.
+	 * @return The category stored at the given filePath.
+	 *
+	 */
+	public static Category loadCategory(String filename, String timeline) {
 		XStream xstream = new XStream();
 		Category category = null;
 		String path = System.getProperty("user.dir"); //Grab the working directory
@@ -141,10 +174,17 @@ public class SaveMe implements SaveMeAPI{
 
 		return category;
 	}
-
+	
+	
 	//Ref: http://stackoverflow.com/questions/13063815/save-xml-file-with-xstream
-	@Override
-	public void saveEvent(Event event, String timeline){
+	/**
+	 * Saves an event of type Event.
+	 * 
+	 * @param event The event to save.
+	 * @param timeline The timeline which the event is part of. 
+	 *
+	 */
+	public static void saveEvent(Event event, String timeline){
 		XStream xstream = new XStream(); 
 		String name = event.getName();
 		String path = "Timelines/" + timeline + "/events/" + name + ".xml";
@@ -163,8 +203,16 @@ public class SaveMe implements SaveMeAPI{
 		}
 	}
 
-	@Override
-	public Event loadEvent(String filename, String timeline){
+	
+	/**
+	 * Loads an event of type Event.
+	 * 
+	 * @param filename The name of the event to load.
+	 * @param timeline The name of the timeline which the event is a part of.
+	 * @return The event stored under the given name.
+	 *
+	 */
+	public static Event loadEvent(String filename, String timeline){
 		XStream xstream = new XStream();
 		Event event = null;
 		String path = System.getProperty("user.dir"); //Grab the working dir
@@ -180,8 +228,15 @@ public class SaveMe implements SaveMeAPI{
 		return event;
 	}
 	
-	@Override
-	public void saveAxisLabel(int axisLabel, String timeline){
+	
+	/**
+	 * Saves a timeline's current AxisLabel.
+	 * 
+	 * @param axislabel The axis label to save.
+	 * @param timeline The name of the timeline which the axis label belongs to.
+	 *
+	 */
+	public static void saveAxisLabel(int axisLabel, String timeline){
 		XStream xstream = new XStream(); 
 		String path = "Timelines/" + timeline + "/axisLabel.xml";
 
@@ -200,8 +255,14 @@ public class SaveMe implements SaveMeAPI{
 		}
 	}
 	
-	@Override
-	public int loadAxisLabel(String timeline){
+	/**
+	 * Loads a timeline's AxisLabel
+	 * 
+	 * @param timeline The timeline whose axis label you want to load.
+	 * @return The saved axis label for the given timeline.
+	 *
+	 */
+	public static int loadAxisLabel(String timeline){
 		XStream xstream = new XStream();
 		int axisLabel = 0;
 		//Integer aL = new Integer(0);
