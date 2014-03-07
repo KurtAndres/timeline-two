@@ -83,7 +83,7 @@ public class TimelinePropertiesWindow extends JFrame {
 				final int axisLabelIndex = axisLabel.getSelectedIndex();
 				new Thread(new Runnable() {
 					public void run() {
-						model.addTimeline(new Timeline.Builder(titleString).axisLabel(axisLabelIndex).build());
+						model.addTimeline(new Timeline.Builder(titleString).axisLabel(axisLabelIndex).build(false));
 					}
 				}).start();
 				dispose();
@@ -132,7 +132,7 @@ public class TimelinePropertiesWindow extends JFrame {
 					public void run() {
 						ArrayList<Event> events = timeline.getEvents();
 						HashSet<Category> categories = timeline.getCategories(); 
-						model.editTimeline(new Timeline.Builder(titleString).categories(categories).events(events).axisLabel(axisLabelIndex).build());
+						model.editTimeline(new Timeline.Builder(titleString).categories(categories).events(events).axisLabel(axisLabelIndex).build(false));
 					}
 				}).start();
 				dispose();

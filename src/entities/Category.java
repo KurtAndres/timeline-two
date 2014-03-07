@@ -48,13 +48,16 @@ public class Category implements CategoryAPI{
      */
     private Image icon;
     
+    public Timeline timeline;
+    
     /**
      * Default Category to hand to Timelines and Events if no categories yet exist.
      */
-    public static final Category defaultCategory = new Category.Builder("Default Category").build();
+    //public static final Category defaultCategory = new Category.Builder("Default Category").events(new ArrayList<Event>()).deselectColor(Color.ALICEBLUE).build();
     
     private Category (Builder builder){
         this.name = builder.name;
+        this.timeline = builder.timeline;
         this.selectColor = builder.sColor;
         this.deselectColor = builder.dsColor;
         this.icon = builder.icon;
@@ -70,6 +73,7 @@ public class Category implements CategoryAPI{
     public static class Builder {
         // Required Field
         private String name;
+        private Timeline timeline;
         // Optional Fields
         private Color sColor = Color.BEIGE;
         private Color dsColor = Color.DARKGREEN;
@@ -160,7 +164,7 @@ public class Category implements CategoryAPI{
         boolean toReturn = true;
         if(this.equals(event.getCategory())&&events.contains(event)){
             toReturn = events.remove(event);
-            event.setCategory(Category.defaultCategory);
+            event.setCategory(timeline.defaultCategory);
         }
         return toReturn;
     }
