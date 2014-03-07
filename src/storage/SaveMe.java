@@ -33,6 +33,7 @@ public class SaveMe implements SaveMeAPI{
 		ArrayList<Timeline> timelines = new ArrayList<Timeline>();
 		String path = System.getProperty("user.dir") + "/Timelines";
 		File dir = new File(path);
+		dir.mkdir();
 
 		File[] files = dir.listFiles();
 		for(File f : files){
@@ -100,14 +101,14 @@ public class SaveMe implements SaveMeAPI{
 		b.axisLabel(loadAxisLabel(timeline));
 	
 
-		return b.build();
+		return b.build(true);
 	}
 
 	@Override
 	public void saveCategory(Category category, String timeline) {
 		XStream xstream = new XStream(); 
 		String name = category.getName();
-		String path = "Timelines\\" + timeline + "\\categories\\" + name + ".xml";
+		String path = "Timelines/" + timeline + "/categories/" + name + ".xml";
 
 		xstream.alias(name, Category.class);
 		String xml = xstream.toXML(category);
@@ -129,7 +130,7 @@ public class SaveMe implements SaveMeAPI{
 		XStream xstream = new XStream();
 		Category category = null;
 		String path = System.getProperty("user.dir"); //Grab the working directory
-		path = path + "\\Timelines\\" + timeline + "\\categories\\" + filename;
+		path = path + "/Timelines/" + timeline + "/categories/" + filename;
 
 		try{
 			File xmlFile = new File(path);
@@ -146,7 +147,7 @@ public class SaveMe implements SaveMeAPI{
 	public void saveEvent(Event event, String timeline){
 		XStream xstream = new XStream(); 
 		String name = event.getName();
-		String path = "Timelines\\" + timeline + "\\events\\" + name + ".xml";
+		String path = "Timelines/" + timeline + "/events/" + name + ".xml";
 
 		xstream.alias(name, Event.class);
 		String xml = xstream.toXML(event);
@@ -167,7 +168,7 @@ public class SaveMe implements SaveMeAPI{
 		XStream xstream = new XStream();
 		Event event = null;
 		String path = System.getProperty("user.dir"); //Grab the working dir
-		path = path + "\\Timelines\\" + timeline + "\\events\\" + filename;
+		path = path + "/Timelines/" + timeline + "/events/" + filename;
 		
 		try{
 			File xmlFile = new File(path);
@@ -182,10 +183,11 @@ public class SaveMe implements SaveMeAPI{
 	@Override
 	public void saveAxisLabel(int axisLabel, String timeline){
 		XStream xstream = new XStream(); 
-		String path = "Timelines\\" + timeline + "\\axisLabel.xml";
+		String path = "Timelines/" + timeline + "/axisLabel.xml";
 
-		xstream.alias("Axis Label", int.class);
-		String xml = xstream.toXML(axisLabel);
+		Integer aL = (Integer)axisLabel;
+		xstream.alias(aL.toString(), Integer.class);
+		String xml = xstream.toXML(aL);
 		try{
 			FileOutputStream out = new FileOutputStream(path);
 			byte[] bytes = xml.getBytes("UTF-8");
@@ -202,12 +204,13 @@ public class SaveMe implements SaveMeAPI{
 	public int loadAxisLabel(String timeline){
 		XStream xstream = new XStream();
 		int axisLabel = 0;
+		//Integer aL = new Integer(0);
 		String path = System.getProperty("user.dir"); //Grab the working dir
-		path = path + "\\Timelines\\" + timeline + "\\axisLabel.xml";
+		path = path + "/Timelines/" + timeline + "/axisLabel.xml";
 		
 		try{
 			File xmlFile = new File(path);
-			axisLabel = (int)xstream.fromXML(xmlFile);       
+			axisLabel = (Integer)xstream.fromXML(xmlFile);       
 		}catch(Exception e){
 			System.err.println("Error in XML Read: " + e.getMessage());
 		}

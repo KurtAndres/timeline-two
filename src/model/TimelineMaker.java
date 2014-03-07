@@ -66,6 +66,8 @@ public class TimelineMaker {
 		graphics = new TimelineGraphics(this);
 		SaveMe loader = new SaveMe();
 		timelines = new ArrayList<Timeline>();
+		timelines = loader.loadAll();
+
 		//timelines = loader.loadAll();
 		// TODO Load timelines from storage helper object. Add them to the timelines ArrayList.
 
@@ -220,7 +222,7 @@ public class TimelineMaker {
 			if(cat.getName().equals(name))
 				return cat;
 		}
-		return Category.defaultCategory;
+		return selectedTimeline.defaultCategory;
 	}
 
 	/**
@@ -255,7 +257,7 @@ public class TimelineMaker {
 	 * Delete the currently-selected category.
 	 */
 	public void deleteCategory() {
-		if (selectedCategory != null && !selectedCategory.equals(Category.defaultCategory)) {
+		if (selectedCategory != null && !selectedCategory.equals(selectedTimeline.defaultCategory)) {
 			selectedTimeline.removeCategory(selectedCategory);
 			selectedCategory = null;
 			gui.updateCategories(selectedTimeline);
