@@ -175,7 +175,6 @@ public class TimelineMaker {
 			selectedEvent = null;			
 			gui.updateTimelines();
 			updateGraphics();
-			graphics.clearScreen();
 		}
 	}
 

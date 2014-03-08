@@ -4,6 +4,8 @@ import model.TimelineMaker;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import entities.Category;
 import entities.Timeline;
 
@@ -79,6 +81,9 @@ public class TimelineGraphics{
 		Platform.runLater(new Runnable() {
 			public void run() {
 				root.getChildren().clear();
+				root = new Group();
+				Scene toShow = new Scene(root, 0, 0, Color.GHOSTWHITE);
+				fxPanel.setScene(toShow);
 			}
 		});
 	}
