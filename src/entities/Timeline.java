@@ -51,7 +51,8 @@ public class Timeline implements TimelineAPI, Renderable {
 	/**
 	 * Array of the AxisLabels, for getting the value based on an index.
 	 */
-	private static final AxisLabel[] AXIS_LABELS = { AxisLabel.DAYS, AxisLabel.WEEKS, AxisLabel.MONTHS, AxisLabel.YEARS, AxisLabel.DECADES, AxisLabel.CENTURIES, AxisLabel.MILLENNIA};
+	private static final AxisLabel[] AXIS_LABELS = { AxisLabel.MONTHS, AxisLabel.YEARS };
+//	private static final AxisLabel[] AXIS_LABELS = { AxisLabel.DAYS, AxisLabel.WEEKS, AxisLabel.MONTHS, AxisLabel.YEARS, AxisLabel.DECADES, AxisLabel.CENTURIES, AxisLabel.MILLENNIA};
 
 	/**
 	 * The units to render the timeline in.
@@ -97,8 +98,8 @@ public class Timeline implements TimelineAPI, Renderable {
 		// Optional Fields
 		private HashSet<Category> categories = new HashSet<Category>(); 
 		private ArrayList<Event> events = new ArrayList<Event>();
-		private static final AxisLabel[] AXIS_LABELS = { AxisLabel.DAYS, AxisLabel.WEEKS, AxisLabel.MONTHS, AxisLabel.YEARS, AxisLabel.DECADES, AxisLabel.CENTURIES, AxisLabel.MILLENNIA};
-		private Timeline.AxisLabel axisLabel = AXIS_LABELS[4];
+		private static final AxisLabel[] AXIS_LABELS = { AxisLabel.MONTHS, AxisLabel.YEARS };
+		private Timeline.AxisLabel axisLabel = AXIS_LABELS[1];
 
 		/**
 		 * Constructor for the Timeline.Builder class.

@@ -164,11 +164,13 @@ public class TimelinePropertiesWindow extends JFrame {
 		titleLabel.setText("Title");
 
 		axisLabelLabel.setText("Axis Label");
-		axisLabel.setModel(new DefaultComboBoxModel<String>(new String[] { "Days", "Weeks", "Months", "Years", "Decades", "Centuries", "Millennia" }));
+//		axisLabel.setModel(new DefaultComboBoxModel<String>(new String[] { "Days", "Weeks", "Months", "Years", "Decades", "Centuries", "Millennia" }));
+		axisLabel.setModel(new DefaultComboBoxModel<String>(new String[] { "Months", "Years"}));
 		axisLabel.setSelectedItem("Years");
 
 		axisPositionLabel.setText("Axis Position");
-		axisPosition.setModel(new DefaultComboBoxModel<String>(new String[] { "Top", "Center", "Bottom" }));
+//		axisPosition.setModel(new DefaultComboBoxModel<String>(new String[] { "Top", "Center", "Bottom" }));
+		axisPosition.setModel(new DefaultComboBoxModel<String>(new String[] { "Center" }));
 
 		okButton.setText("Ok");
 
