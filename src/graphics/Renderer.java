@@ -103,6 +103,12 @@ public class Renderer implements Runnable {
 	private AxisLabel axisLabel;
 
 	/**
+	 * The Final pushdown location of the last durration event that this TimelineRenderer will use when rendering the timeline.
+	 * Essentially the unit by which the axis will be rendered.
+	 */
+	private int finalPushdown;
+	
+	/**
 	 * ArrayList of all the atomic event x positions
 	 */
 	private ArrayList<Integer> atomicXPositions = new ArrayList<Integer>();
@@ -285,6 +291,7 @@ public class Renderer implements Runnable {
 		renderTime();
 		renderDurations();
 		renderConnections();
+		renderFinalTimeAxis();
 	}
 
 
@@ -355,6 +362,53 @@ public class Renderer implements Runnable {
 
 		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.GHOSTWHITE);
 		fxPanel.setScene(toShow);
+	}
+	
+	/**
+	 * Renders each 'Unit' on the bottom axis as a label with width unitWidth (uses unitLabel method). 
+	 * Adds the label to the group, and when finished puts the group in a scene.
+	 * 
+	 * currently uses a second label to make each hash mark on the timeline simply a |
+	 * 
+	 * then lineBuilder draws a black constant line for the timeline depending on length
+	 */
+
+	private void renderFinalTimeAxis() {
+		int diffUnit = getUnitLength();
+		int xPos2 = 0;
+	
+		for(int i = 0; i <= diffUnit ; i++){
+			//no need for year
+			Label label = unitLabel(i,xPos2+90);
+			label.setTextAlignment(TextAlignment.LEFT);
+			label.setAlignment(Pos.BASELINE_LEFT);
+			label.setLayoutY(finalPushdown+32);
+			group.getChildren().add(label);
+
+			//adds the dashes (|) on the timeline
+			Label lineLabel;
+			lineLabel = new Label("    |");
+			lineLabel.setLayoutX(xPos2+90);
+			lineLabel.setLayoutY(finalPushdown + 26);
+			lineLabel.setPrefWidth(unitWidth);
+			lineLabel.setTextAlignment(TextAlignment.LEFT);
+			lineLabel.setAlignment(Pos.TOP_LEFT);
+
+			group.getChildren().add(lineLabel);
+			xPos2+=unitWidth;
+		}
+		//adds the actual black timeline
+		Line blackLine = LineBuilder.create()
+				.startX(75)
+				.startY(finalPushdown +20)
+				.endX(xPos2-5)
+				.endY(finalPushdown +20)
+				.fill(Color.BLACK)
+				.strokeWidth(3.5f)
+				.translateY(20)
+				.build();
+
+		group.getChildren().add(blackLine);
 	}
 
 	/**
@@ -497,6 +551,7 @@ public class Renderer implements Runnable {
 			group.getChildren().add(label);
 			durationXPositions.add(xStart);
 			durationYPositions.add(pushDown);
+			finalPushdown = pushDown + 45 + counter;
 			
 			//add connecting lines for start duration events
 			Line blackdashedConnector = LineBuilder.create()
