@@ -8,6 +8,8 @@ import javax.swing.*;
 
 import java.util.*;
 import java.util.logging.*;
+
+import storage.DeleteMe;
 import storage.SaveMe;
 
 /**
@@ -59,9 +61,9 @@ public class TimelineMaker {
 	public TimelineMaker() {
 		displayAll = true;
 		graphics = new TimelineGraphics(this);
-		SaveMe loader = new SaveMe();
 		timelines = new ArrayList<Timeline>();
-		timelines = loader.loadAll();
+		timelines = SaveMe.loadAll();
+
 		initGUI();
 	}
 
@@ -168,6 +170,7 @@ public class TimelineMaker {
 	public void deleteTimeline() {
 		if (selectedTimeline != null) {
 			timelines.remove(selectedTimeline);
+			DeleteMe.deleteTimeline(selectedTimeline);
 			selectedTimeline = null;
 			selectedEvent = null;
 			graphics.clearScreen();
@@ -244,9 +247,10 @@ public class TimelineMaker {
 	public void deleteCategory() {
 		if (selectedCategory != null && !selectedCategory.equals(selectedTimeline.defaultCategory)) {
 			selectedTimeline.removeCategory(selectedCategory);
+			DeleteMe.deleteCategory(selectedCategory, selectedTimeline.getName());
 			selectedCategory = null;
 			gui.updateCategories(selectedTimeline);
-			updateGraphics();
+			updateGraphics();			
 		}
 	}
 
@@ -288,6 +292,7 @@ public class TimelineMaker {
 			selectedEvent = e;
 
 			updateGraphics();
+			
 		}
 	}
 
@@ -298,9 +303,10 @@ public class TimelineMaker {
 	public void deleteEvent() {
 		if (selectedEvent != null && selectedTimeline != null && selectedTimeline.contains(selectedEvent)) {
 			selectedTimeline.removeEvent(selectedEvent);
+			DeleteMe.deleteEvent(selectedEvent, selectedTimeline.getName());
 			selectedEvent = null;
 
-			updateGraphics();
+			updateGraphics();		
 		}
 	}
 
@@ -316,7 +322,7 @@ public class TimelineMaker {
 			selectedEvent = e;
 			selectedTimeline.addEvent(selectedEvent);
 
-			updateGraphics();
+			updateGraphics();			
 		}
 	}
 	
