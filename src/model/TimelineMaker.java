@@ -172,9 +172,10 @@ public class TimelineMaker {
 			timelines.remove(selectedTimeline);
 			DeleteMe.deleteTimeline(selectedTimeline);
 			selectedTimeline = null;
-			selectedEvent = null;
-			graphics.clearScreen();
+			selectedEvent = null;			
 			gui.updateTimelines();
+			updateGraphics();
+			graphics.clearScreen();
 		}
 	}
 
@@ -242,7 +243,7 @@ public class TimelineMaker {
 	}
 
 	/**
-	 * Delete the currently-selected category.
+	 * Delete the currently-selected category. All events belonging to that category will be assigned to the default category.
 	 */
 	public void deleteCategory() {
 		if (selectedCategory != null && !selectedCategory.equals(selectedTimeline.defaultCategory)) {

@@ -4,6 +4,9 @@
 package storage;
 
 import java.io.File;
+import java.util.ArrayList;
+
+import model.TimelineMaker;
 
 import entities.Category;
 import entities.Event;
@@ -12,6 +15,7 @@ import entities.Timeline;
 
 /**
  * A class which can delete Timelines, Categories and Events.
+ * Deleting a category will delete all events in that category as well.
  * 
  * @author leanne.miller
  *
@@ -25,13 +29,14 @@ public class DeleteMe {
 	 * 
 	 */
 	public static void deleteTimeline(Timeline tl){
-		String path = System.getProperty("user.dir") + "Timelines/" + tl.getName();
-		
-		deleteDir(new File(path));		
-		
+		String path = System.getProperty("user.dir") + "/Timelines/" + tl.getName() + "/";
+
+		File dir = new File(path);
+		deleteDir(dir);	
+
 	}
-	
-	
+
+
 	/**
 	 * Deletes all files and all sub-directories in a given directory.
 	 * 
@@ -39,25 +44,27 @@ public class DeleteMe {
 	 */
 	private static void deleteDir(File dir){
 		File[] files = dir.listFiles();
-		for(File f : files){
-			if(f.isDirectory()){
-				deleteDir(f);
+		if(files != null){
+			for(File f : files){
+				if(f.isDirectory()){
+					deleteDir(f);
+				}
+				f.delete();
 			}
-			f.delete();
 		}
 		dir.delete();
 	}
 
 	/**
-	 * Deletes a category from within a given category.
+	 * Deletes a category from within a given timeline. The category should have no associated events.
 	 * 
 	 * @param category The category to delete.
 	 * @param timeline The timeline to which the category belongs.
 	 */
 	public static void deleteCategory(Category category, String timeline){
 		String path = System.getProperty("user.dir"); //Grab the working dir
-		path = path + "/Timelines/" + timeline + "/events/" + category.getName() + ".xml";
-		
+		path = path + "/Timelines/" + timeline + "/categories/" + category.getName() + ".xml";
+
 		deleteFile(path);
 	}
 
@@ -70,10 +77,10 @@ public class DeleteMe {
 	public static void deleteEvent(Event event, String timeline){
 		String path = System.getProperty("user.dir"); //Grab the working dir
 		path = path + "/Timelines/" + timeline + "/events/" + event.getName() + ".xml";
-		
+
 		deleteFile(path);
 	}
-	
+
 	/**
 	 * Deletes a file found at the given path.
 	 * 
@@ -83,10 +90,10 @@ public class DeleteMe {
 		try{
 			File toDelete = new File(path);
 			toDelete.delete();
-					
+
 		}catch(Exception e){
 			System.err.println("Could not delete.");
 		}
 	}
-	
+
 }
