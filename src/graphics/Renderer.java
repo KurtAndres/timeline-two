@@ -107,7 +107,7 @@ public class Renderer implements Runnable {
 	 * Essentially the unit by which the axis will be rendered.
 	 */
 	private int finalPushdown;
-	
+
 	/**
 	 * ArrayList of all the atomic event x positions
 	 */
@@ -128,11 +128,17 @@ public class Renderer implements Runnable {
 	 */
 	private ArrayList<Integer> durationYPositions = new ArrayList<Integer>();
 
-	
+
 	/**
 	 * Int value of timeline loaction after drawing timeline before making atomic connections
 	 */
 	private int timelineYLocation = 0;
+	
+	/**
+	 * Int value of  final timeline location after drawing events and connections
+	 */
+	private int finalTimelineYLocation = 0;
+
 
 	/**
 	 * Use in rendering with an AxisLabel of months
@@ -186,7 +192,7 @@ public class Renderer implements Runnable {
 
 		eventLabels = new ArrayList<TLEventLabel>();
 	}
-	
+
 	/**
 	 * The constructor for CategoryRenderer. Takes an fxPanel for putting the 
 	 * scene (graphics), a TimelineMake object for updating the program state, a Timeline
@@ -308,7 +314,7 @@ public class Renderer implements Runnable {
 	private void renderTime() {
 		int diffUnit = getUnitLength();
 		int xPos2 = 0;
-	
+
 		for(int i = 0; i <= diffUnit ; i++){
 			//System.out.println(xPos2);
 			Label label = unitLabel(i,xPos2+90);
@@ -342,28 +348,28 @@ public class Renderer implements Runnable {
 		group.getChildren().add(blackLine);
 
 		timelineYLocation = pushDown+10;
-		
+
 		//adding the title label
-				Label titleLabel = new Label(item.getName());
-				titleLabel.setRotate(270);
-				titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
-				
-				if (item instanceof Timeline) {
-					titleLabel.setLayoutY(timelineYLocation);
-				} else if (item instanceof Category) {
-					titleLabel.setLayoutY(timelineYLocation-30);
-				}
-				titleLabel.setLayoutX(0);
-				titleLabel.setLayoutY(timelineYLocation);
-				//titleLabel.setStyle("-fx-border-color: black");
-				titleLabel.setTextAlignment(TextAlignment.CENTER);
-				titleLabel.setAlignment(Pos.TOP_LEFT);
-				group.getChildren().add(titleLabel);
+		Label titleLabel = new Label(item.getName());
+		titleLabel.setRotate(270);
+		titleLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
+
+		if (item instanceof Timeline) {
+			titleLabel.setLayoutY(timelineYLocation);
+		} else if (item instanceof Category) {
+			titleLabel.setLayoutY(timelineYLocation-30);
+		}
+		titleLabel.setLayoutX(0);
+		titleLabel.setLayoutY(timelineYLocation);
+		//titleLabel.setStyle("-fx-border-color: black");
+		titleLabel.setTextAlignment(TextAlignment.CENTER);
+		titleLabel.setAlignment(Pos.TOP_LEFT);
+		group.getChildren().add(titleLabel);
 
 		Scene toShow = new Scene(group, xPos2+5, pushDown, Color.GHOSTWHITE);
 		fxPanel.setScene(toShow);
 	}
-	
+
 	/**
 	 * Renders each 'Unit' on the bottom axis as a label with width unitWidth (uses unitLabel method). 
 	 * Adds the label to the group, and when finished puts the group in a scene.
@@ -375,40 +381,43 @@ public class Renderer implements Runnable {
 
 	private void renderFinalTimeAxis() {
 		int diffUnit = getUnitLength();
-		int xPos2 = 0;
-	
-		for(int i = 0; i <= diffUnit ; i++){
-			//no need for year
-			Label label = unitLabel(i,xPos2+90);
-			label.setTextAlignment(TextAlignment.LEFT);
-			label.setAlignment(Pos.BASELINE_LEFT);
-			label.setLayoutY(finalPushdown+32);
-			group.getChildren().add(label);
+		int xPos3 = 0;
+		finalTimelineYLocation =  finalPushdown +20;
 
-			//adds the dashes (|) on the timeline
-			Label lineLabel;
-			lineLabel = new Label("    |");
-			lineLabel.setLayoutX(xPos2+90);
-			lineLabel.setLayoutY(finalPushdown + 26);
-			lineLabel.setPrefWidth(unitWidth);
-			lineLabel.setTextAlignment(TextAlignment.LEFT);
-			lineLabel.setAlignment(Pos.TOP_LEFT);
+		if(finalTimelineYLocation > timelineYLocation ){
+			for(int i = 0; i <= diffUnit ; i++){
+				//no need for year
+				Label label = unitLabel(i,xPos3+90);
+				label.setTextAlignment(TextAlignment.LEFT);
+				label.setAlignment(Pos.BASELINE_LEFT);
+				label.setLayoutY(finalPushdown+32);
+				group.getChildren().add(label);
 
-			group.getChildren().add(lineLabel);
-			xPos2+=unitWidth;
+				//adds the dashes (|) on the timeline
+				Label lineLabel;
+				lineLabel = new Label("    |");
+				lineLabel.setLayoutX(xPos3+90);
+				lineLabel.setLayoutY(finalPushdown + 26);
+				lineLabel.setPrefWidth(unitWidth);
+				lineLabel.setTextAlignment(TextAlignment.LEFT);
+				lineLabel.setAlignment(Pos.TOP_LEFT);
+
+				group.getChildren().add(lineLabel);
+				xPos3+=unitWidth;
+			}
+			//adds the actual black timeline
+			Line blackLine = LineBuilder.create()
+					.startX(75)
+					.startY(finalTimelineYLocation)
+					.endX(xPos3 - 5)
+					.endY(finalTimelineYLocation)
+					.fill(Color.BLACK)
+					.strokeWidth(3.5f)
+					.translateY(20)
+					.build();
+
+			group.getChildren().add(blackLine);
 		}
-		//adds the actual black timeline
-		Line blackLine = LineBuilder.create()
-				.startX(75)
-				.startY(finalPushdown +20)
-				.endX(xPos2-5)
-				.endY(finalPushdown +20)
-				.fill(Color.BLACK)
-				.strokeWidth(3.5f)
-				.translateY(20)
-				.build();
-
-		group.getChildren().add(blackLine);
 	}
 
 	/**
@@ -552,7 +561,7 @@ public class Renderer implements Runnable {
 			durationXPositions.add(xStart);
 			durationYPositions.add(pushDown);
 			finalPushdown = pushDown + 45 + counter;
-			
+
 			//add connecting lines for start duration events
 			Line blackdashedConnector = LineBuilder.create()
 					.startX(xStart)
@@ -565,7 +574,7 @@ public class Renderer implements Runnable {
 					.build();
 
 			group.getChildren().add(blackdashedConnector);
-			
+
 			//add connecting line for end duration events
 			Line endDurrationConnector = LineBuilder.create()
 					.startX(xEnd)
