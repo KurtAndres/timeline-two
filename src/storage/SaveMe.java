@@ -16,18 +16,17 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * @author leanne.miller
- * 
- * A class which can save Timelines, Events and Categories. 
+ * A class which can save Timelines, Events and Categories to disk. 
  * 
  * A directory called "Timelines" is created in the working directory, within which are directories for each individual timeline.
  * In each timeline's directory are two other directories and one file. 
  * The first directory holds all of the timeline's events and the other holds all of its categories and the file keeps track of the axis label.
- * Currently saving to disk. Eventually will try to save to Google Drive.
+ * 
+ * @author leanne.miller
  *
  */
 public class SaveMe{
-	
+
 	/**
 	 * Loads all timelines found in the working directory under the folder "Timelines".
 	 * If no timelines are found, it will return an empty arraylist.
@@ -45,9 +44,9 @@ public class SaveMe{
 		for(File f : files){
 			timelines.add(loadTimeline(f.getName()));
 		}
-		
+
 		return timelines;	
-		
+
 	}
 
 	/**
@@ -60,26 +59,26 @@ public class SaveMe{
 		ArrayList<Event> events = tl.getEvents();	
 		HashSet<Category> categories = tl.getCategories();
 		String tlName = tl.getName();
-		
+
 		//Make dirs for the timeline's events and categories	
 		new File("Timelines/" + tlName + "/events").mkdirs();
 		new File("Timelines/" +tlName + "/categories").mkdirs();
-		
+
 		//Save events
 		for(Event e : events){
 			saveEvent(e, tlName);
 		}
-		
+
 		//Save categories
 		for(Category c : categories){
 			saveCategory(c, tlName);
 		}
-		
+
 		//Save axis label
 		saveAxisLabel(tl.getAxisLabelIndex(), tlName);
-		
+
 	}
-	
+
 
 	/**
 	 * Loads an instance of class Timeline.
@@ -114,15 +113,15 @@ public class SaveMe{
 			}
 		}
 		b.categories(categories);
-		
+
 		//Load Axis Label
 		b.axisLabel(loadAxisLabel(timeline));
-	
+
 
 		return b.build(true);
 	}
-	
-	
+
+
 	/**
 	 * Saves an instance of class Category.
 	 * 
@@ -150,7 +149,7 @@ public class SaveMe{
 
 	}
 
-	
+
 	/**
 	 * Loads an instance of class Category.
 	 * 
@@ -174,8 +173,8 @@ public class SaveMe{
 
 		return category;
 	}
-	
-	
+
+
 	//Ref: http://stackoverflow.com/questions/13063815/save-xml-file-with-xstream
 	/**
 	 * Saves an event of type Event.
@@ -203,7 +202,7 @@ public class SaveMe{
 		}
 	}
 
-	
+
 	/**
 	 * Loads an event of type Event.
 	 * 
@@ -217,7 +216,7 @@ public class SaveMe{
 		Event event = null;
 		String path = System.getProperty("user.dir"); //Grab the working dir
 		path = path + "/Timelines/" + timeline + "/events/" + filename;
-		
+
 		try{
 			File xmlFile = new File(path);
 			event = (Event)xstream.fromXML(xmlFile);       
@@ -227,8 +226,8 @@ public class SaveMe{
 
 		return event;
 	}
-	
-	
+
+
 	/**
 	 * Saves a timeline's current AxisLabel.
 	 * 
@@ -254,7 +253,7 @@ public class SaveMe{
 			System.out.println("Could not save.");
 		}
 	}
-	
+
 	/**
 	 * Loads a timeline's AxisLabel
 	 * 
@@ -268,7 +267,7 @@ public class SaveMe{
 		//Integer aL = new Integer(0);
 		String path = System.getProperty("user.dir"); //Grab the working dir
 		path = path + "/Timelines/" + timeline + "/axisLabel.xml";
-		
+
 		try{
 			File xmlFile = new File(path);
 			axisLabel = (Integer)xstream.fromXML(xmlFile);       

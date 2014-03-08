@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import storage.SaveMe;
+
 /**
  * Timeline.java
  * 
@@ -39,34 +41,33 @@ public class Timeline implements TimelineAPI, Renderable {
 	private String name;
 
 	/**
-	 * enum for keeping track of the potential units to render the timeline in
-	 * currently only DAYS, MONTHS, and YEARS work, but implementing the others would be very simple
+	 * Enum for keeping track of the potential units to render the timeline in.
+	 * Currently only DAYS, MONTHS, and YEARS work, but implementing the others would be very simple.
 	 */
 	public static enum AxisLabel {
 		DAYS, WEEKS, MONTHS, YEARS, DECADES, CENTURIES, MILLENNIA;
 	}
 
 	/**
-	 * Array of the AxisLabels, for getting the value based on an index
+	 * Array of the AxisLabels, for getting the value based on an index.
 	 */
 	private static final AxisLabel[] AXIS_LABELS = { AxisLabel.DAYS, AxisLabel.WEEKS, AxisLabel.MONTHS, AxisLabel.YEARS, AxisLabel.DECADES, AxisLabel.CENTURIES, AxisLabel.MILLENNIA};
 
 	/**
-	 * The units to render the timeline in
+	 * The units to render the timeline in.
 	 */
 	private AxisLabel axisLabel;
 
 	/**
-	 * the object by which to save
+	 * The default category. A timeline will always have a default category.
 	 */
-	private storage.SaveMe saver;
-
 	public Category defaultCategory; 
 
 	/**
-	 * Constructor
+	 * Constructor for a timeline.
 	 * 
-	 * @param builder the builder required to build the timeline.
+	 * @param builder The builder required to build the timeline.
+	 * @param loading Whether or not the timeline is currently in the process of being loaded.
 	 */
 	private Timeline(Builder builder, boolean loading){
 		this.name = builder.name;
@@ -78,12 +79,11 @@ public class Timeline implements TimelineAPI, Renderable {
 		if(defaultCategory == null){
 			defaultCategory = new Category.Builder("Default").build();
 		}
-		
+
 		this.events = builder.events;
 		this.axisLabel = builder.axisLabel;
 		if (!this.categories.contains(defaultCategory))
 			this.categories.add(defaultCategory);
-		this.saver = new storage.SaveMe();
 		if(!loading) 
 			save();
 	}
@@ -110,7 +110,7 @@ public class Timeline implements TimelineAPI, Renderable {
 		}
 
 		/**
-		 * Add categories to the Timeline.
+		 * Adds categories to the Timeline.
 		 * 
 		 * @param categories The categories to be added.
 		 * @return The Builder building the Timeline.
@@ -123,7 +123,7 @@ public class Timeline implements TimelineAPI, Renderable {
 		}
 
 		/**
-		 * Add events to the Timeline.
+		 * Adds events to the Timeline.
 		 * 
 		 * @param events The events to be added.
 		 * @return The Builder building the Timeline.
@@ -133,10 +133,10 @@ public class Timeline implements TimelineAPI, Renderable {
 		}
 
 		/**
-		 * Add events to the Timeline
+		 * Adds events to the Timeline.
 		 * 
-		 * @param events The events to be added
-		 * @return The Builder building the Timeline
+		 * @param events The events to be added.
+		 * @return The Builder building the Timeline.
 		 */
 		public Builder events(Event[] events){
 			if(events != null)
@@ -145,34 +145,37 @@ public class Timeline implements TimelineAPI, Renderable {
 		}
 
 		/**
-		 * Add an axis label to the Timeline
+		 * Adds an axis label to the Timeline.
 		 * 
-		 * @param axisLabel The axisLabel to be added
-		 * @return The Builder building the Timeline
+		 * @param axisLabel The axisLabel to be added.
+		 * @return The Builder building the Timeline.
 		 */
 		public Builder axisLabel(int axisLabel){
 			this.axisLabel = AXIS_LABELS[axisLabel]; return this;
 		}
 
 		/**
-		 * Build the completed Timeline
+		 * Builds the completed Timeline.
 		 * 
-		 * @return The built Timeline
+		 * @return The built Timeline.
 		 */
 		public Timeline build(boolean loading){
 			return new Timeline(this, loading);
 		}
 	}
-        
-        private void save(){
-            saver.saveTimeline(this);
-        }
+
+	/**
+	 * Saves the timeline.
+	 */
+	private void save(){
+		SaveMe.saveTimeline(this);
+	}
 
 
 	/**
-	 * add a Category to the timeline
+	 * Adds a Category to the timeline.
 	 * 
-	 * @param category 
+	 * @param category The category to add.
 	 */
 	@Override
 	public void addCategory(Category category){
@@ -181,10 +184,10 @@ public class Timeline implements TimelineAPI, Renderable {
 	}
 
 	/**
-	 * see if a Category is in the timeline's list of categories
+	 * Checks if a Category is in the timeline's list of categories.
 	 * 
-	 * @param category the category for which to search
-	 * @return true if found, else false
+	 * @param category The category for which to search.
+	 * @return true if found, else false.
 	 */
 	@Override
 	public boolean contains(Category category){
@@ -192,9 +195,9 @@ public class Timeline implements TimelineAPI, Renderable {
 	}
 
 	/**
-	 * remove a Category from the timeline. Assigns the category of all associated events to null.
+	 * Removes a Category from the timeline. Assigns the category of all associated events to the default category.
 	 * 
-	 * @param category The category to remove
+	 * @param category The category to remove.
 	 */
 	@Override
 	public void removeCategory(Category category){
@@ -207,6 +210,13 @@ public class Timeline implements TimelineAPI, Renderable {
 		save();
 	}
 
+	/**
+	 * Replaces the initial category with a replacement category. 
+	 * All of the initial category's events are reassigned to the replacement category.
+	 * 
+	 * @param initial The initial category.
+	 * @param replacement The category to replace it with.
+	 */
 	public void replaceCategory(Category initial, Category replacement) {
 		categories.add(replacement);
 		for(Event event : events){
@@ -219,7 +229,7 @@ public class Timeline implements TimelineAPI, Renderable {
 	}
 
 	/**
-	 * return the HashSet of categories belonging to this timeline
+	 * Returns the HashSet of categories belonging to this timeline.
 	 * 
 	 * @return The HashSet of categories
 	 */
@@ -229,9 +239,9 @@ public class Timeline implements TimelineAPI, Renderable {
 	}
 
 	/**
-	 * return an ArrayList of the category names.
+	 * Returns an ArrayList of the category names.
 	 * 
-	 * @return The arraylist of names
+	 * @return The arraylist of category names.
 	 */
 	@Override
 	public ArrayList<String> getCategoryNames(){

@@ -4,9 +4,6 @@
 package storage;
 
 import java.io.File;
-import java.util.ArrayList;
-
-import model.TimelineMaker;
 
 import entities.Category;
 import entities.Event;
@@ -14,8 +11,7 @@ import entities.Timeline;
 
 
 /**
- * A class which can delete Timelines, Categories and Events.
- * Deleting a category will delete all events in that category as well.
+ * A class which can delete the storage files for Timelines, Categories and Events.
  * 
  * @author leanne.miller
  *

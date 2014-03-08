@@ -17,13 +17,13 @@ import entities.Timeline;
  *
  */
 public class TimelineGraphics{
-	
+
 	/**
 	 * the JFXPanel to put the graphics in. JFXPanel provides a link between the 
 	 * graphics (javafx) and the gui (swing).
 	 */
 	private JFXPanel fxPanel;
-	
+
 	/**
 	 * The Group that the timeline items are put in. This is then put on a Scene
 	 * which displays the graphics to the screen.
@@ -33,13 +33,13 @@ public class TimelineGraphics{
 	 * 
 	 */
 	private Group root;
-	
+
 	/**
 	 * The state of the program, only in this class to pass it to the 
 	 * CategoryRender objects.
 	 */
 	private TimelineMaker model;
-	
+
 	/**
 	 * Constructor that instantiates group and sets the model
 	 * 
@@ -49,7 +49,7 @@ public class TimelineGraphics{
 		this.model = model;
 		root = new Group();
 	}
-	
+
 	/**
 	 * Runs a CategoryRender object to draw the timeline on the javafx thread. 
 	 * reinstantiates group since each group can only be in one scene (if this did not
@@ -61,7 +61,7 @@ public class TimelineGraphics{
 		root = new Group();
 		Platform.runLater(new Renderer(fxPanel, model, timeline, root));
 	}
-	
+
 	public void renderCategory(Timeline timeline, Category category) {
 		root = new Group();
 		Platform.runLater(new Renderer(fxPanel, model, timeline, category, root));
